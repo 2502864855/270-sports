@@ -1,254 +1,145 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
-  Clock,
-  Users,
-  Star,
-  MapPin,
-  ChevronRight,
-  Filter,
-  Calendar,
-  CheckCircle2,
-  X,
-} from 'lucide-react';
+  Clock, Users, Star, MapPin, ChevronRight, Filter,
+  X, Calendar, Check, ChevronDown
+} from "lucide-react";
 
-const categories = ['全部', '普拉提', '瑜伽', '女性力量', '孕产修复', '体态管理'];
+const categories = ["全部", "普拉提", "瑜伽", "女性力量", "孕产修复", "体态管理"];
+const difficulties = ["全部难度", "入门", "初级", "中级", "高级"];
+const timeSlots = ["全部时间", "上午", "下午", "晚上"];
 
-const courses = [
-  {
-    id: 1,
-    title: '普拉提核心塑形',
-    instructor: '陈雨萱',
-    avatar: '👩‍🦰',
-    time: '周三 10:00-11:00',
-    location: '万象城店 · 2F教室A',
-    price: 128,
-    memberPrice: 98,
-    spots: 3,
-    total: 8,
-    level: '全级别',
-    category: '普拉提',
-    rating: 4.9,
-    students: 256,
-    emoji: '🌸',
-    gradient: 'from-[#D4859B]/20 to-[#E8A0B5]/20',
-    desc: '使用瑞士进口普拉提器械，针对核心肌群进行精准训练，改善体态，塑造优雅身姿。',
-    suitable: '久坐办公族、体态不良、想增强核心力量',
-  },
-  {
-    id: 2,
-    title: '流瑜伽 · 晨光序列',
-    instructor: '张诗涵',
-    avatar: '🧘‍♀️',
-    time: '周一/五 07:30-08:30',
-    location: '万象城店 · 3F瑜伽房',
-    price: 98,
-    memberPrice: 78,
-    spots: 5,
-    total: 12,
-    level: '初级',
-    category: '瑜伽',
-    rating: 4.9,
-    students: 312,
-    emoji: '🌅',
-    gradient: 'from-[#7EC8B7]/20 to-[#A8DFD0]/20',
-    desc: '以呼吸引领动作，在晨光中唤醒身体能量，开启美好的一天。',
-    suitable: '所有女性，尤其适合初学者',
-  },
-  {
-    id: 3,
-    title: '女性力量 · 蜜桃臀',
-    instructor: '林小雅',
-    avatar: '👩',
-    time: '周二/四 14:00-15:00',
-    location: '万象城店 · 1F力量区',
-    price: 138,
-    memberPrice: 108,
-    spots: 4,
-    total: 10,
-    level: '中级',
-    category: '女性力量',
-    rating: 4.8,
-    students: 189,
-    emoji: '💪',
-    gradient: 'from-[#F08080]/20 to-[#E8A0B5]/20',
-    desc: '专为女性设计的臀腿力量训练，科学发力，打造理想曲线。',
-    suitable: '有一定运动基础，想塑形提臀',
-  },
-  {
-    id: 4,
-    title: '孕产修复 · 温柔恢复',
-    instructor: '张诗涵',
-    avatar: '🧘‍♀️',
-    time: '周三/五 09:30-10:30',
-    location: '万象城店 · 2F私教室',
-    price: 168,
-    memberPrice: 138,
-    spots: 2,
-    total: 6,
-    level: '专属',
-    category: '孕产修复',
-    rating: 5.0,
-    students: 87,
-    emoji: '🤰',
-    gradient: 'from-[#B8A9C9]/20 to-[#D4C5E0]/20',
-    desc: '针对产后妈妈的温和修复课程，恢复腹直肌、盆底肌功能。',
-    suitable: '产后3个月以上，经医生确认可以运动',
-  },
-  {
-    id: 5,
-    title: '体态管理 · 天鹅颈',
-    instructor: '陈雨萱',
-    avatar: '👩‍🦰',
-    time: '周六 10:00-11:00',
-    location: '万象城店 · 2F教室A',
-    price: 118,
-    memberPrice: 88,
-    spots: 6,
-    total: 8,
-    level: '全级别',
-    category: '体态管理',
-    rating: 4.8,
-    students: 145,
-    emoji: '🦢',
-    gradient: 'from-[#E8A0B5]/20 to-[#F5D5DE]/20',
-    desc: '改善含胸驼背、头前伸等不良体态，塑造优雅天鹅颈和直角肩。',
-    suitable: '长期伏案、手机族、希望改善体态',
-  },
-  {
-    id: 6,
-    title: '阴瑜伽 · 深度放松',
-    instructor: '张诗涵',
-    avatar: '🧘‍♀️',
-    time: '周日 19:00-20:00',
-    location: '万象城店 · 3F瑜伽房',
-    price: 98,
-    memberPrice: 78,
-    spots: 8,
-    total: 12,
-    level: '全级别',
-    category: '瑜伽',
-    rating: 4.9,
-    students: 203,
-    emoji: '🌙',
-    gradient: 'from-[#B8A9C9]/20 to-[#D4C5E0]/20',
-    desc: '长时间保持体式，深入拉伸筋膜，释放身心压力，改善睡眠质量。',
-    suitable: '压力大、失眠、需要深度放松',
-  },
+const allCourses = [
+  { id: 1, name: "普拉提核心床入门", coach: "林悦", time: "周一 10:00", duration: "50min", location: "2F 普拉提室", price: 199, memberPrice: 159, spots: 3, total: 8, category: "普拉提", difficulty: "入门", rating: 4.9, reviews: 128, image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&q=80", desc: "使用普拉提核心床进行基础训练，精准激活深层肌肉，改善体态，适合零基础学员。", suitable: "零基础、久坐办公、想改善体态的女性" },
+  { id: 2, name: "流瑜伽 · 晨间唤醒", coach: "苏晴", time: "周二 09:00", duration: "60min", location: "2F 瑜伽室", price: 149, memberPrice: 119, spots: 5, total: 12, category: "瑜伽", difficulty: "初级", rating: 4.8, reviews: 96, image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80", desc: "通过流畅的瑜伽体式串联，唤醒身体能量，开启充满活力的一天。", suitable: "有一定瑜伽基础、希望提升活力的女性" },
+  { id: 3, name: "女性力量塑形", coach: "张诗涵", time: "周三 19:00", duration: "55min", location: "1F 训练区", price: 179, memberPrice: 139, spots: 6, total: 10, category: "女性力量", difficulty: "中级", rating: 4.9, reviews: 87, image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&q=80", desc: "专为女性设计的力量训练课程，使用轻器械和自重训练，塑造优美线条。", suitable: "有一定运动基础、想塑形增肌的女性" },
+  { id: 4, name: "孕产修复瑜伽", coach: "陈雨桐", time: "周四 10:30", duration: "45min", location: "2F 瑜伽室", price: 229, memberPrice: 183, spots: 2, total: 6, category: "孕产修复", difficulty: "入门", rating: 5.0, reviews: 64, image: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400&q=80", desc: "针对孕期和产后女性的专业修复课程，安全温和，帮助恢复身体状态。", suitable: "孕期16周以上或产后3个月以上的女性" },
+  { id: 5, name: "体态管理 · 肩颈专项", coach: "林悦", time: "周五 14:00", duration: "50min", location: "2F 普拉提室", price: 199, memberPrice: 159, spots: 4, total: 8, category: "体态管理", difficulty: "入门", rating: 4.8, reviews: 112, image: "https://images.unsplash.com/photo-1574680096145-d05b4564568e?w=400&q=80", desc: "针对圆肩、驼背、颈前伸等常见体态问题，通过精准训练改善姿态。", suitable: "长期伏案办公、有体态困扰的女性" },
+  { id: 6, name: "阴瑜伽 · 深度放松", coach: "苏晴", time: "周六 20:00", duration: "70min", location: "2F 瑜伽室", price: 149, memberPrice: 119, spots: 8, total: 12, category: "瑜伽", difficulty: "入门", rating: 4.9, reviews: 143, image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&q=80", desc: "缓慢深入的阴瑜伽练习，每个体式保持3-5分钟，深度拉伸筋膜，放松身心。", suitable: "所有女性，特别适合压力大、睡眠不佳者" },
 ];
 
 export default function CoursesPage() {
-  const [activeCategory, setActiveCategory] = useState('全部');
+  const [activeCategory, setActiveCategory] = useState("全部");
+  const [selectedDifficulty, setSelectedDifficulty] = useState("全部难度");
+  const [selectedTime, setSelectedTime] = useState("全部时间");
+  const [showDetail, setShowDetail] = useState<number | null>(null);
   const [showFilter, setShowFilter] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState<typeof courses[0] | null>(null);
-  const [booked, setBooked] = useState<Set<number>>(new Set());
+  const [booked, setBooked] = useState<number[]>([]);
 
-  const filteredCourses = activeCategory === '全部'
-    ? courses
-    : courses.filter(c => c.category === activeCategory);
+  const filtered = allCourses.filter((c) => {
+    if (activeCategory !== "全部" && c.category !== activeCategory) return false;
+    if (selectedDifficulty !== "全部难度" && c.difficulty !== selectedDifficulty) return false;
+    return true;
+  });
+
+  const detail = showDetail !== null ? allCourses.find((c) => c.id === showDetail) : null;
 
   const handleBook = (id: number) => {
-    setBooked(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+    if (booked.includes(id)) {
+      setBooked(booked.filter((b) => b !== id));
+    } else {
+      setBooked([...booked, id]);
+    }
   };
 
   return (
-    <div className="px-4 pt-6 animate-float-up">
+    <div className="min-h-screen bg-[#FDF5F0] pb-20">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-xl font-bold text-[#3A2E2A]">课程预约</h1>
-          <p className="text-xs text-[#8A7A74] mt-0.5">为她量身定制的运动课程</p>
-        </div>
-        <button
-          onClick={() => setShowFilter(!showFilter)}
-          className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center"
-        >
-          <Filter size={15} className="text-[#8A7A74]" />
-        </button>
-      </div>
-
-      {/* Filter Panel */}
-      {showFilter && (
-        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4 animate-float-up">
-          <p className="text-xs font-medium text-[#3A2E2A] mb-2">按难度筛选</p>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {['全级别', '初级', '中级', '高级'].map(level => (
-              <button key={level} className="text-[11px] px-3 py-1 rounded-full bg-[#FDF0F0] text-[#8A7A74] hover:bg-[#D4859B]/10 hover:text-[#D4859B] transition-colors">
-                {level}
-              </button>
-            ))}
-          </div>
-          <p className="text-xs font-medium text-[#3A2E2A] mb-2">按教练筛选</p>
-          <div className="flex flex-wrap gap-2">
-            {['陈雨萱', '林小雅', '张诗涵'].map(name => (
-              <button key={name} className="text-[11px] px-3 py-1 rounded-full bg-[#FDF0F0] text-[#8A7A74] hover:bg-[#D4859B]/10 hover:text-[#D4859B] transition-colors">
-                {name}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Categories */}
-      <div className="flex gap-2 mb-5 overflow-x-auto pb-1 scrollbar-hide">
-        {categories.map((cat) => (
+      <div className="sticky top-0 z-30 bg-[#FDF5F0]/90 backdrop-blur-md px-6 pt-4 pb-3">
+        <div className="flex items-center justify-between mb-3">
+          <h1 className="text-xl font-serif text-[#3A2E2A]">课程预约</h1>
           <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-4 py-2 rounded-full text-xs whitespace-nowrap transition-all ${
-              activeCategory === cat
-                ? 'brand-gradient text-white shadow-sm'
-                : 'bg-white text-[#8A7A74] hover:bg-[#FDF0F0]'
-            }`}
+            onClick={() => setShowFilter(!showFilter)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white shadow-sm text-xs text-[#7A6B66]"
           >
-            {cat}
+            <Filter className="w-3.5 h-3.5" />
+            筛选
           </button>
-        ))}
-      </div>
+        </div>
 
-      {/* Course List */}
-      <div className="space-y-3">
-        {filteredCourses.map((course) => (
-          <div
-            key={course.id}
-            className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all overflow-hidden"
-          >
-            <div className="p-4">
-              <div className="flex items-start gap-3">
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${course.gradient} flex items-center justify-center text-2xl flex-shrink-0`}>
-                  {course.emoji}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-semibold text-[#3A2E2A]">{course.title}</h3>
-                  <p className="text-[11px] text-[#8A7A74] mt-0.5 flex items-center gap-1">
-                    {course.avatar} {course.instructor}
-                  </p>
-                  <div className="flex items-center gap-3 mt-1.5 text-[11px] text-[#8A7A74]">
-                    <span className="flex items-center gap-0.5"><Clock size={11} /> {course.time}</span>
-                    <span className="flex items-center gap-0.5"><MapPin size={11} /> {course.location.split('·')[0].trim()}</span>
-                  </div>
+        {/* Category tabs */}
+        <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-hide">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
+                activeCategory === cat
+                  ? "bg-[#D4859B] text-white shadow-sm shadow-[#D4859B]/20"
+                  : "bg-white text-[#7A6B66] hover:bg-[#FDF0F0]"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Filter panel */}
+        {showFilter && (
+          <div className="mt-3 p-4 bg-white rounded-[16px] shadow-sm animate-float-up">
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <p className="text-[10px] text-[#7A6B66] mb-1.5">难度</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {difficulties.map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setSelectedDifficulty(d)}
+                      className={`px-2.5 py-1 rounded-full text-[10px] transition-all ${
+                        selectedDifficulty === d
+                          ? "bg-[#D4859B] text-white"
+                          : "bg-[#FDF0F0] text-[#7A6B66]"
+                      }`}
+                    >
+                      {d}
+                    </button>
+                  ))}
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+      </div>
 
-              <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#F0E6E0]">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-[#D4859B]">¥{course.memberPrice}</span>
-                  <span className="text-[10px] text-[#B8A8A4] line-through">¥{course.price}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-[#D4859B]/10 text-[#D4859B]">{course.level}</span>
+      {/* Course list */}
+      <div className="px-6 pt-3 space-y-3">
+        {filtered.map((course) => (
+          <div
+            key={course.id}
+            className="bg-white rounded-[20px] overflow-hidden shadow-sm shadow-[#D4859B]/5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+          >
+            <div className="flex gap-3 p-4">
+              <div className="w-20 h-20 rounded-[14px] overflow-hidden flex-shrink-0">
+                <img src={course.image} alt={course.name} className="w-full h-full object-cover" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="text-[#3A2E2A] text-sm font-medium truncate">{course.name}</h3>
+                  <span className={`flex-shrink-0 text-[10px] px-2 py-0.5 rounded-full ${
+                    course.spots <= 3 ? "bg-red-50 text-red-400" : "bg-[#F0FAF5] text-[#A8D5BA]"
+                  }`}>
+                    余{course.spots}位
+                  </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] text-[#F08080]">余{course.spots}位</span>
+                <p className="text-[#7A6B66] text-xs mt-1">{course.coach} · {course.duration}</p>
+                <div className="flex items-center gap-2 mt-1.5">
+                  <div className="flex items-center gap-0.5">
+                    <Star className="w-3 h-3 fill-[#C9A96E] text-[#C9A96E]" />
+                    <span className="text-[10px] text-[#C9A96E]">{course.rating}</span>
+                  </div>
+                  <span className="text-[10px] text-[#B8A8A4]">({course.reviews}条评价)</span>
+                </div>
+                <div className="flex items-center justify-between mt-2">
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-[#D4859B] text-base font-serif">¥{course.memberPrice}</span>
+                    <span className="text-[#B8A8A4] text-[10px] line-through">¥{course.price}</span>
+                  </div>
                   <button
-                    onClick={() => setSelectedCourse(course)}
-                    className="text-[11px] px-3 py-1.5 rounded-full brand-gradient text-white shadow-sm"
+                    onClick={() => setShowDetail(course.id)}
+                    className="text-[10px] text-[#D4859B] font-medium flex items-center gap-0.5"
                   >
-                    预约
+                    详情 <ChevronRight className="w-3 h-3" />
                   </button>
                 </div>
               </div>
@@ -257,69 +148,84 @@ export default function CoursesPage() {
         ))}
       </div>
 
-      {/* Course Detail Modal */}
-      {selectedCourse && (
-        <div className="fixed inset-0 z-[200] flex items-end justify-center">
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setSelectedCourse(null)} />
-          <div className="relative bg-white rounded-t-3xl w-full max-w-[480px] max-h-[80vh] overflow-y-auto animate-float-up">
-            <div className="sticky top-0 bg-white/95 backdrop-blur-sm p-4 border-b border-[#F0E6E0] flex items-center justify-between z-10">
-              <h3 className="font-semibold text-[#3A2E2A]">课程详情</h3>
-              <button onClick={() => setSelectedCourse(null)} className="w-8 h-8 rounded-full bg-[#FDF0F0] flex items-center justify-center">
-                <X size={16} className="text-[#8A7A74]" />
+      {/* Course detail modal */}
+      {detail && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center">
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setShowDetail(null)} />
+          <div className="relative w-full max-w-[480px] bg-white rounded-t-[24px] max-h-[85vh] overflow-y-auto animate-float-up">
+            <div className="relative h-48">
+              <img src={detail.image} alt={detail.name} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <button
+                onClick={() => setShowDetail(null)}
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"
+              >
+                <X className="w-4 h-4 text-white" />
               </button>
+              <div className="absolute bottom-4 left-4 right-4">
+                <h2 className="text-white text-lg font-serif">{detail.name}</h2>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-white/80 text-xs">{detail.coach}</span>
+                  <span className="text-white/60 text-xs">·</span>
+                  <span className="text-white/80 text-xs">{detail.duration}</span>
+                </div>
+              </div>
             </div>
-            <div className="p-4">
-              <div className={`w-full h-32 rounded-2xl bg-gradient-to-br ${selectedCourse.gradient} flex items-center justify-center text-5xl mb-4`}>
-                {selectedCourse.emoji}
-              </div>
-              <h2 className="text-lg font-bold text-[#3A2E2A]">{selectedCourse.title}</h2>
-              <div className="flex items-center gap-2 mt-2">
-                <span className="text-xs text-[#8A7A74]">{selectedCourse.avatar} {selectedCourse.instructor}</span>
-                <span className="flex items-center gap-0.5 text-xs text-[#FFB800]"><Star size={11} className="fill-[#FFB800]" /> {selectedCourse.rating}</span>
-                <span className="text-xs text-[#8A7A74]">{selectedCourse.students}人已学</span>
+
+            <div className="p-5 space-y-4">
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2">
+                <span className="px-2.5 py-1 rounded-full bg-[#FDF0F0] text-[#D4859B] text-[10px]">{detail.category}</span>
+                <span className="px-2.5 py-1 rounded-full bg-[#F0FAF5] text-[#6BB89A] text-[10px]">{detail.difficulty}</span>
+                <span className="px-2.5 py-1 rounded-full bg-[#FDF0F0] text-[#7A6B66] text-[10px]">{detail.duration}</span>
               </div>
 
-              <div className="mt-4 space-y-3">
-                <div className="flex items-center gap-2 text-xs text-[#4A4A4A]">
-                  <Clock size={14} className="text-[#D4859B]" />
-                  <span>{selectedCourse.time}</span>
+              {/* Info */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-center gap-2 p-3 rounded-[12px] bg-[#FDF5F0]">
+                  <Clock className="w-4 h-4 text-[#D4859B]" />
+                  <div>
+                    <p className="text-[10px] text-[#7A6B66]">时间</p>
+                    <p className="text-xs text-[#3A2E2A]">{detail.time}</p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-[#4A4A4A]">
-                  <MapPin size={14} className="text-[#D4859B]" />
-                  <span>{selectedCourse.location}</span>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-[#4A4A4A]">
-                  <Users size={14} className="text-[#D4859B]" />
-                  <span>剩余 {selectedCourse.spots}/{selectedCourse.total} 名额</span>
+                <div className="flex items-center gap-2 p-3 rounded-[12px] bg-[#FDF5F0]">
+                  <MapPin className="w-4 h-4 text-[#D4859B]" />
+                  <div>
+                    <p className="text-[10px] text-[#7A6B66]">地点</p>
+                    <p className="text-xs text-[#3A2E2A]">{detail.location}</p>
+                  </div>
                 </div>
               </div>
 
-              <div className="mt-4 p-3 rounded-xl bg-[#FDF8F5]">
-                <p className="text-xs font-medium text-[#3A2E2A] mb-1">课程介绍</p>
-                <p className="text-xs text-[#4A4A4A] leading-relaxed">{selectedCourse.desc}</p>
+              {/* Description */}
+              <div>
+                <h3 className="text-sm font-medium text-[#3A2E2A] mb-2">课程介绍</h3>
+                <p className="text-xs text-[#7A6B66] leading-relaxed">{detail.desc}</p>
               </div>
 
-              <div className="mt-3 p-3 rounded-xl bg-[#FDF8F5]">
-                <p className="text-xs font-medium text-[#3A2E2A] mb-1">适合人群</p>
-                <p className="text-xs text-[#4A4A4A]">{selectedCourse.suitable}</p>
+              {/* Suitable */}
+              <div>
+                <h3 className="text-sm font-medium text-[#3A2E2A] mb-2">适合人群</h3>
+                <p className="text-xs text-[#7A6B66]">{detail.suitable}</p>
               </div>
 
-              <div className="mt-5 flex items-center gap-3">
-                <div>
-                  <span className="text-xl font-bold text-[#D4859B]">¥{selectedCourse.memberPrice}</span>
-                  <span className="text-xs text-[#B8A8A4] line-through ml-1">¥{selectedCourse.price}</span>
-                  <p className="text-[10px] text-[#8A7A74]">会员价</p>
+              {/* Price & Book */}
+              <div className="flex items-center justify-between pt-3 border-t border-[#F0E6E0]">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-[#D4859B] text-xl font-serif">¥{detail.memberPrice}</span>
+                  <span className="text-[#B8A8A4] text-xs line-through">¥{detail.price}</span>
+                  <span className="text-[10px] text-[#C9A96E] ml-1">会员价</span>
                 </div>
-                <div className="flex-1" />
                 <button
-                  onClick={() => { handleBook(selectedCourse.id); setSelectedCourse(null); }}
-                  className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${
-                    booked.has(selectedCourse.id)
-                      ? 'bg-[#7EC8B7] text-white'
-                      : 'brand-gradient text-white shadow-md'
+                  onClick={() => handleBook(detail.id)}
+                  className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                    booked.includes(detail.id)
+                      ? "bg-[#A8D5BA] text-white"
+                      : "bg-[#D4859B] text-white shadow-md shadow-[#D4859B]/20 hover:shadow-lg"
                   }`}
                 >
-                  {booked.has(selectedCourse.id) ? '已预约' : '立即预约'}
+                  {booked.includes(detail.id) ? "已预约" : "立即预约"}
                 </button>
               </div>
             </div>

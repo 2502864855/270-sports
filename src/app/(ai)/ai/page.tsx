@@ -19,23 +19,23 @@ import {
 } from 'lucide-react';
 
 const aiInsights = [
-  { type: 'warning', icon: AlertCircle, title: '会员活跃度下降预警', desc: '过去7天银卡会员运动频率下降18%，建议推送专属激励方案', color: '#F08080' },
-  { type: 'success', icon: CheckCircle2, title: '普拉提课程完成率创新高', desc: '普拉提系列课程完成率达89%，用户满意度4.9分', color: '#7EC8B7' },
-  { type: 'info', icon: Target, title: '孕产修复课程需求增长', desc: '孕产修复类课程搜索量增长45%，建议增加排课', color: '#B8A9C9' },
+  { type: 'warning', icon: AlertCircle, title: '会员活跃度下降预警', desc: '过去7天银卡会员运动频率下降18%，建议推送专属激励方案', color: '#F5A89A' },
+  { type: 'success', icon: CheckCircle2, title: '普拉提课程完成率创新高', desc: '普拉提系列课程完成率达89%，用户满意度4.9分', color: '#A8D5BA' },
+  { type: 'info', icon: Target, title: '孕产修复课程需求增长', desc: '孕产修复类课程搜索量增长45%，建议增加排课', color: '#C9A96E' },
 ];
 
 const userSegments = [
-  { label: '高活跃会员', count: 456, percent: 45, color: '#7EC8B7' },
+  { label: '高活跃会员', count: 456, percent: 45, color: '#A8D5BA' },
   { label: '中等活跃', count: 328, percent: 33, color: '#D4859B' },
-  { label: '低活跃会员', count: 152, percent: 15, color: '#F08080' },
-  { label: '沉默会员', count: 64, percent: 7, color: '#B8A9C9' },
+  { label: '低活跃会员', count: 152, percent: 15, color: '#F5A89A' },
+  { label: '沉默会员', count: 64, percent: 7, color: '#C9A96E' },
 ];
 
 const memberDistribution = [
-  { level: '普通会员', count: 3200, color: '#7EC8B7', percent: 32 },
-  { level: '银卡会员', count: 2800, color: '#B8A9C9', percent: 28 },
+  { level: '普通会员', count: 3200, color: '#A8D5BA', percent: 32 },
+  { level: '银卡会员', count: 2800, color: '#C9A96E', percent: 28 },
   { level: '金卡会员', count: 2500, color: '#D4859B', percent: 25 },
-  { level: '钻石会员', count: 1500, color: '#F08080', percent: 15 },
+  { level: '钻石会员', count: 1500, color: '#E8A0B5', percent: 15 },
 ];
 
 const recentAlerts = [
@@ -74,7 +74,7 @@ export default function AIDashboardPage() {
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#362A3E] border border-[#4A3E52]">
-              <div className="w-2 h-2 rounded-full bg-[#7EC8B7] animate-pulse" />
+              <div className="w-2 h-2 rounded-full bg-[#A8D5BA] animate-pulse" />
               <span className="text-xs text-[#B8A8A4]">AI 运行中</span>
             </div>
             <div className="text-xs text-[#B8A8A4]">
@@ -122,16 +122,16 @@ export default function AIDashboardPage() {
           <div className="grid grid-cols-4 gap-4 mb-6">
             {[
               { label: '总会员数', value: '10,043', change: '+12.5%', icon: Users, color: '#D4859B' },
-              { label: '今日活跃', value: '3,267', change: '+8.3%', icon: Activity, color: '#7EC8B7' },
-              { label: '本月续费率', value: '68%', change: '+3.2%', icon: Crown, color: '#F08080' },
-              { label: 'AI建议数', value: '856', change: '+22.1%', icon: Brain, color: '#B8A9C9' },
+              { label: '今日活跃', value: '3,267', change: '+8.3%', icon: Activity, color: '#A8D5BA' },
+              { label: '本月续费率', value: '68%', change: '+3.2%', icon: Crown, color: '#F5A89A' },
+              { label: 'AI建议数', value: '856', change: '+22.1%', icon: Brain, color: '#C9A96E' },
             ].map((stat) => {
               const Icon = stat.icon;
               return (
                 <div key={stat.label} className="dark-card rounded-2xl p-4">
                   <div className="flex items-center justify-between mb-3">
                     <Icon size={18} style={{ color: stat.color }} />
-                    <span className="text-[11px] text-[#7EC8B7] flex items-center gap-0.5">
+                    <span className="text-[11px] text-[#A8D5BA] flex items-center gap-0.5">
                       <TrendingUp size={11} /> {stat.change}
                     </span>
                   </div>

@@ -24,7 +24,7 @@ export default function FrontendLayout({
   const isLoginPage = pathname === '/login';
 
   return (
-    <div className="min-h-screen bg-[#FDF8F5] flex flex-col">
+    <div className="min-h-screen bg-[#FDF5F0] flex flex-col">
       {/* Portal Switcher - hidden on login page */}
       {!isLoginPage && (
         <>

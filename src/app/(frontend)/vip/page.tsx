@@ -1,208 +1,251 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Crown, Check, Star, Sparkles, ChevronRight, Gift, Zap } from 'lucide-react';
+import { useState } from "react";
+import { Crown, Check, Star, Sparkles, ChevronRight, Gift, Zap, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 const memberLevels = [
   {
-    level: '普通会员',
-    icon: '🌱',
-    color: '#7EC8B7',
-    price: { month: 0, quarter: 0, year: 0 },
-    benefits: ['预约公开课程', '商城购物', '积分累计', '基础营养建议'],
+    level: "普通会员",
+    icon: "🌱",
+    color: "#A8D5BA",
+    price: "免费",
+    benefits: ["预约全部课程", "基础体测服务", "更衣室使用", "积分累积"],
   },
   {
-    level: '银卡会员',
-    icon: '🥈',
-    color: '#B8A9C9',
-    price: { month: 299, quarter: 799, year: 2799 },
-    benefits: ['银卡会员价', '优先预约', '每月1节体验课', '专属营养方案', '生日礼遇'],
+    level: "银卡会员",
+    icon: "🥈",
+    color: "#B8C9D4",
+    price: "599/月",
+    benefits: ["全部普通权益", "商城9.5折", "月度体测", "生日礼遇", "优先预约"],
   },
   {
-    level: '金卡会员',
-    icon: '🥇',
-    color: '#D4859B',
-    price: { month: 499, quarter: 1299, year: 4799 },
-    benefits: ['金卡专享价', '优先预约+留位', '每月2节体验课', 'AI定制营养方案', '专属课程', '私教9折', '生日大礼包'],
-    popular: true,
+    level: "金卡会员",
+    icon: "🥇",
+    color: "#C9A96E",
+    price: "1,499/季",
+    benefits: ["全部银卡权益", "商城9折", "专属课程", "1次私教/月", "积分双倍", "会员活动"],
   },
   {
-    level: '钻石会员',
-    icon: '💎',
-    color: '#F08080',
-    price: { month: 899, quarter: 2399, year: 8999 },
-    benefits: ['最低专享价', '无限预约+优先留位', '每月4节体验课', '1对1 AI顾问', '全部专属课程', '私教8折', '季度体测', '专属社群', '年度大礼包'],
+    level: "钻石会员",
+    icon: "💎",
+    color: "#D4859B",
+    price: "4,999/年",
+    benefits: ["全部金卡权益", "商城8.5折", "专属储物柜", "4次私教/月", "积分三倍", "年度派对", "新品优先体验"],
   },
+];
+
+const purchasePlans = [
+  { name: "月卡", price: "599", original: "599", unit: "元/月", save: "", popular: false },
+  { name: "季卡", price: "1,499", original: "1,797", unit: "元/季", save: "省298元", popular: true },
+  { name: "年卡", price: "4,999", original: "7,188", unit: "元/年", save: "省2,189元", popular: false },
 ];
 
 const pointsRules = [
-  { action: '每日签到', points: '+5' },
-  { action: '完成课程', points: '+20' },
-  { action: '消费满100元', points: '+10' },
-  { action: '邀请好友注册', points: '+50' },
-  { action: '完善身体数据', points: '+30' },
+  { action: "每日签到", points: "+5" },
+  { action: "完成课程", points: "+20" },
+  { action: "商城消费", points: "1元=1分" },
+  { action: "邀请好友", points: "+200" },
 ];
 
-export default function VIPPage() {
-  const [selectedLevel, setSelectedLevel] = useState(2);
-  const [pricePeriod, setPricePeriod] = useState<'month' | 'quarter' | 'year'>('year');
+const pointsExchange = [
+  { name: "体验课1节", points: "500", icon: "🩰" },
+  { name: "运动毛巾", points: "800", icon: "🧣" },
+  { name: "蛋白棒", points: "300", icon: "🍫" },
+  { name: "私教课1节", points: "2000", icon: "💪" },
+];
+
+export default function VipPage() {
+  const [activeTab, setActiveTab] = useState<"levels" | "purchase" | "points">("levels");
 
   return (
-    <div className="px-4 pt-6 pb-8 animate-float-up">
+    <div className="min-h-screen bg-[#FDF5F0] pb-20">
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#D4859B] to-[#E8A0B5] rounded-3xl p-5 text-white mb-5 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-10 translate-x-10" />
-        <div className="relative z-10">
-          <div className="flex items-center gap-2 mb-2">
-            <Crown size={20} />
-            <span className="text-sm">会员中心</span>
+      <div className="relative px-6 pt-6 pb-8 bg-gradient-to-b from-[#3A2E2A] to-[#4A3E52] rounded-b-[28px]">
+        <div className="flex items-center gap-3 mb-6">
+          <Link href="/profile">
+            <ArrowLeft className="w-5 h-5 text-white/80" />
+          </Link>
+          <h1 className="text-lg font-serif text-white">会员中心</h1>
+        </div>
+
+        {/* Current member info */}
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#C9A96E]/50">
+            <img
+              src="https://images.unsplash.com/photo-1438761681033-64697f97b067?w=150&q=80"
+              alt="avatar"
+              className="w-full h-full object-cover"
+            />
           </div>
-          <h1 className="text-xl font-bold">金卡会员</h1>
-          <p className="text-xs text-white/70 mt-1">到期时间：2026-08-15（剩余 117 天）</p>
-          <div className="flex items-center gap-3 mt-3">
-            <div className="bg-white/20 rounded-xl px-3 py-1.5">
-              <p className="text-[10px] text-white/70">当前积分</p>
-              <p className="text-lg font-bold">2,680</p>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <span className="text-white font-medium">小美</span>
+              <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-gradient-to-r from-[#C9A96E] to-[#E0C992] text-white text-[10px]">
+                <Crown className="w-2.5 h-2.5" />
+                银卡会员
+              </span>
             </div>
-            <div className="bg-white/20 rounded-xl px-3 py-1.5">
-              <p className="text-[10px] text-white/70">本月消费</p>
-              <p className="text-lg font-bold">¥1,299</p>
-            </div>
+            <p className="text-white/60 text-xs mt-1">到期时间：2025-03-15</p>
+          </div>
+        </div>
+
+        {/* Quick stats */}
+        <div className="flex items-center justify-around mt-5 pt-4 border-t border-white/10">
+          <div className="text-center">
+            <p className="text-lg font-serif text-[#E0C992]">2,680</p>
+            <p className="text-[10px] text-white/50">可用积分</p>
+          </div>
+          <div className="text-center">
+            <p className="text-lg font-serif text-[#E0C992]">3</p>
+            <p className="text-[10px] text-white/50">可兑换</p>
+          </div>
+          <div className="text-center">
+            <p className="text-lg font-serif text-[#E0C992]">68</p>
+            <p className="text-[10px] text-white/50">距升级差</p>
           </div>
         </div>
       </div>
 
-      {/* Points Rules */}
-      <div className="bg-white rounded-2xl p-4 shadow-sm mb-5">
-        <div className="flex items-center gap-2 mb-3">
-          <Zap size={14} className="text-[#D4859B]" />
-          <h2 className="font-semibold text-[#3A2E2A] text-sm">积分规则</h2>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          {pointsRules.map((rule) => (
-            <div key={rule.action} className="flex items-center justify-between p-2 rounded-xl bg-[#FDF8F5]">
-              <span className="text-xs text-[#4A4A4A]">{rule.action}</span>
-              <span className="text-xs font-medium text-[#D4859B]">{rule.points}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Level Comparison */}
-      <div className="mb-5">
-        <h2 className="font-semibold text-[#3A2E2A] mb-3">会员等级对比</h2>
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-          {memberLevels.map((level, i) => (
+      {/* Tabs */}
+      <div className="px-6 -mt-4">
+        <div className="bg-white rounded-[16px] p-1 flex shadow-sm shadow-[#D4859B]/5">
+          {[
+            { key: "levels", label: "等级权益" },
+            { key: "purchase", label: "开通会员" },
+            { key: "points", label: "积分商城" },
+          ].map((tab) => (
             <button
-              key={level.level}
-              onClick={() => setSelectedLevel(i)}
-              className={`min-w-[100px] p-3 rounded-2xl text-center transition-all flex-shrink-0 ${
-                selectedLevel === i
-                  ? 'bg-white shadow-md ring-2'
-                  : 'bg-white/60 shadow-sm'
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key as typeof activeTab)}
+              className={`flex-1 py-2.5 rounded-[12px] text-xs font-medium transition-all duration-300 ${
+                activeTab === tab.key
+                  ? "bg-[#D4859B] text-white shadow-sm"
+                  : "text-[#7A6B66]"
               }`}
-              style={selectedLevel === i ? { outlineColor: level.color } as React.CSSProperties : undefined}
             >
-              <div className="text-xl mb-1">{level.icon}</div>
-              <p className="text-[11px] font-medium text-[#3A2E2A]">{level.level}</p>
-              <p className="text-[10px] mt-0.5" style={{ color: level.color }}>
-                {level.price.year > 0 ? `¥${level.price.year}/年` : '免费'}
-              </p>
+              {tab.label}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Selected Level Benefits */}
-      <div className="bg-white rounded-2xl p-4 shadow-sm mb-5">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-lg">{memberLevels[selectedLevel].icon}</span>
-          <h2 className="font-semibold text-[#3A2E2A] text-sm">{memberLevels[selectedLevel].level}权益</h2>
-        </div>
-        <div className="space-y-2">
-          {memberLevels[selectedLevel].benefits.map((benefit) => (
-            <div key={benefit} className="flex items-center gap-2">
-              <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: `${memberLevels[selectedLevel].color}15` }}>
-                <Check size={11} style={{ color: memberLevels[selectedLevel].color }} />
-              </div>
-              <span className="text-xs text-[#4A4A4A]">{benefit}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Purchase Options */}
-      {selectedLevel > 0 && (
-        <div className="bg-white rounded-2xl p-4 shadow-sm mb-5">
-          <h2 className="font-semibold text-[#3A2E2A] text-sm mb-3">开通 / 续费</h2>
-
-          {/* Period Selector */}
-          <div className="flex gap-2 mb-4">
-            {([
-              { key: 'month', label: '月卡' },
-              { key: 'quarter', label: '季卡', tag: '省13%' },
-              { key: 'year', label: '年卡', tag: '最划算' },
-            ] as const).map((period) => (
-              <button
-                key={period.key}
-                onClick={() => setPricePeriod(period.key)}
-                className={`flex-1 py-2 rounded-xl text-xs font-medium transition-all relative ${
-                  pricePeriod === period.key
-                    ? 'brand-gradient text-white shadow-sm'
-                    : 'bg-[#FDF0F0] text-[#8A7A74]'
-                }`}
+      {/* Content */}
+      <div className="px-6 pt-4">
+        {activeTab === "levels" && (
+          <div className="space-y-3">
+            {memberLevels.map((level, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-[20px] p-4 shadow-sm shadow-[#D4859B]/5"
               >
-                {period.label}
-                {'tag' in period && period.tag && (
-                  <span className="absolute -top-1.5 -right-1 text-[8px] bg-[#F08080] text-white px-1 rounded-full">
-                    {period.tag}
-                  </span>
-                )}
-              </button>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl">{level.icon}</span>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium text-[#3A2E2A]">{level.level}</h3>
+                    <p className="text-xs" style={{ color: level.color }}>{level.price}</p>
+                  </div>
+                  {index === 1 && (
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#FDF0F0] text-[#D4859B]">当前</span>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {level.benefits.map((benefit, bi) => (
+                    <span key={bi} className="flex items-center gap-1 text-[10px] text-[#7A6B66]">
+                      <Check className="w-2.5 h-2.5" style={{ color: level.color }} />
+                      {benefit}
+                    </span>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
+        )}
 
-          {/* Price */}
-          <div className="text-center mb-4">
-            <p className="text-xs text-[#8A7A74]">
-              {pricePeriod === 'month' ? '月卡' : pricePeriod === 'quarter' ? '季卡' : '年卡'}价格
-            </p>
-            <p className="text-3xl font-bold text-[#D4859B] mt-1">
-              ¥{memberLevels[selectedLevel].price[pricePeriod]}
-            </p>
-            <p className="text-[10px] text-[#8A7A74]">
-              约 ¥{Math.round(memberLevels[selectedLevel].price[pricePeriod] / (pricePeriod === 'month' ? 1 : pricePeriod === 'quarter' ? 3 : 12))}/月
-            </p>
+        {activeTab === "purchase" && (
+          <div className="space-y-3">
+            {purchasePlans.map((plan, index) => (
+              <div
+                key={index}
+                className={`relative rounded-[20px] p-5 transition-all ${
+                  plan.popular
+                    ? "bg-gradient-to-br from-[#3A2E2A] to-[#4A3E52] text-white shadow-lg shadow-[#C9A96E]/15"
+                    : "bg-white shadow-sm shadow-[#D4859B]/5"
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute top-3 right-3 px-2 py-0.5 bg-[#C9A96E] text-white text-[10px] rounded-full">
+                    推荐
+                  </div>
+                )}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className={`text-base font-medium ${plan.popular ? "text-white" : "text-[#3A2E2A]"}`}>
+                      {plan.name}
+                    </h3>
+                    {plan.save && (
+                      <span className="text-[10px] text-[#F5A89A]">{plan.save}</span>
+                    )}
+                  </div>
+                  <div className="text-right">
+                    <span className={`text-2xl font-serif ${plan.popular ? "text-[#E0C992]" : "text-[#D4859B]"}`}>
+                      ¥{plan.price}
+                    </span>
+                    <span className={`text-xs ml-1 ${plan.popular ? "text-white/50" : "text-[#7A6B66]"}`}>
+                      /{plan.unit.replace("元/", "")}
+                    </span>
+                  </div>
+                </div>
+                {plan.original !== plan.price && (
+                  <p className={`text-[10px] mt-1 ${plan.popular ? "text-white/40" : "text-[#B8A8A4]"}`}>
+                    原价 ¥{plan.original}
+                  </p>
+                )}
+              </div>
+            ))}
+
+            <button className="w-full mt-4 py-3.5 bg-gradient-to-r from-[#C9A96E] to-[#E0C992] text-white rounded-full text-sm font-medium shadow-lg shadow-[#C9A96E]/20 hover:shadow-xl transition-all duration-300">
+              立即开通会员
+            </button>
           </div>
+        )}
 
-          <button className="w-full py-3 rounded-2xl brand-gradient text-white text-sm font-medium shadow-lg shadow-[#D4859B]/30 active:scale-[0.98] transition-transform">
-            {selectedLevel === 2 ? '立即续费' : '立即升级'}
-          </button>
-        </div>
-      )}
-
-      {/* Points Exchange */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="font-semibold text-[#3A2E2A]">积分兑换</h2>
-          <a href="/mall" className="text-xs text-[#D4859B] flex items-center gap-0.5">
-            更多 <ChevronRight size={14} />
-          </a>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          {[
-            { name: '体验课1节', points: 200, emoji: '🎫' },
-            { name: '运动毛巾', points: 500, emoji: '🧣' },
-            { name: '蛋白棒1支', points: 300, emoji: '🍫' },
-            { name: '瑜伽辅具券', points: 1000, emoji: '🎁' },
-          ].map((item) => (
-            <div key={item.name} className="bg-white rounded-2xl p-3 shadow-sm text-center">
-              <div className="text-2xl mb-1">{item.emoji}</div>
-              <p className="text-xs font-medium text-[#3A2E2A]">{item.name}</p>
-              <p className="text-[10px] text-[#D4859B] font-medium mt-0.5">{item.points} 积分</p>
+        {activeTab === "points" && (
+          <div className="space-y-4">
+            {/* Points rules */}
+            <div className="bg-white rounded-[20px] p-4 shadow-sm shadow-[#D4859B]/5">
+              <h3 className="text-sm font-medium text-[#3A2E2A] mb-3 flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#C9A96E]" />
+                积分规则
+              </h3>
+              <div className="grid grid-cols-2 gap-2">
+                {pointsRules.map((rule, index) => (
+                  <div key={index} className="flex items-center justify-between p-2.5 bg-[#FDF5F0] rounded-[12px]">
+                    <span className="text-xs text-[#7A6B66]">{rule.action}</span>
+                    <span className="text-xs text-[#D4859B] font-medium">{rule.points}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
+
+            {/* Points exchange */}
+            <div className="bg-white rounded-[20px] p-4 shadow-sm shadow-[#D4859B]/5">
+              <h3 className="text-sm font-medium text-[#3A2E2A] mb-3 flex items-center gap-2">
+                <Gift className="w-4 h-4 text-[#D4859B]" />
+                积分兑换
+              </h3>
+              <div className="grid grid-cols-2 gap-2">
+                {pointsExchange.map((item, index) => (
+                  <div key={index} className="p-3 bg-[#FDF5F0] rounded-[14px] text-center hover:bg-[#FDF0F0] transition-colors cursor-pointer">
+                    <span className="text-2xl">{item.icon}</span>
+                    <p className="text-xs text-[#3A2E2A] mt-1.5">{item.name}</p>
+                    <p className="text-[10px] text-[#D4859B] mt-0.5">{item.points} 积分</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

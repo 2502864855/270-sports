@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import {
-  ChevronRight, Crown, Flame, Calendar, Heart,
+  ChevronRight, Crown,
   Bell, Settings, HelpCircle, LogOut, Ruler,
-  Award, TrendingUp, ShoppingBag, Bookmark, Gift,
-  User, Shield, Info
+  Award, ShoppingBag, Bookmark, Gift,
+  User, Shield, Info, Calendar
 } from "lucide-react";
 import Link from "next/link";
 
@@ -34,38 +33,37 @@ const bodyData = [
 const menuSections = [
   {
     items: [
-      { icon: Calendar, label: "我的课程", desc: "已预约 3 节", href: "/courses", color: "#D4859B" },
-      { icon: ShoppingBag, label: "我的订单", desc: "2 件待收货", href: "/mall", color: "#F5A89A" },
-      { icon: Bookmark, label: "我的收藏", desc: "12 项", href: "#", color: "#A8D5BA" },
-      { icon: Crown, label: "会员中心", desc: "银卡会员", href: "/vip", color: "#C9A96E" },
+      { icon: Calendar, label: "我的课程", desc: "已预约 3 节", href: "/courses" },
+      { icon: ShoppingBag, label: "我的订单", desc: "2 件待收货", href: "/mall" },
+      { icon: Bookmark, label: "我的收藏", desc: "12 项", href: "#" },
+      { icon: Crown, label: "会员中心", desc: "银卡会员", href: "/vip" },
     ],
   },
   {
     items: [
-      { icon: Gift, label: "我的积分", desc: "2,680 分", href: "#", color: "#D4859B" },
-      { icon: Ruler, label: "身体数据", desc: "上次测量 11/10", href: "#", color: "#F5A89A" },
-      { icon: Bell, label: "消息通知", desc: "3 条未读", href: "#", color: "#A8D5BA" },
+      { icon: Gift, label: "我的积分", desc: "2,680 分", href: "#" },
+      { icon: Ruler, label: "身体数据", desc: "上次测量 11/10", href: "#" },
+      { icon: Bell, label: "消息通知", desc: "3 条未读", href: "#" },
     ],
   },
   {
     items: [
-      { icon: User, label: "个人信息", href: "#", color: "#7A6B66" },
-      { icon: Shield, label: "账号安全", href: "#", color: "#7A6B66" },
-      { icon: Settings, label: "设置", href: "#", color: "#7A6B66" },
-      { icon: HelpCircle, label: "帮助与反馈", href: "#", color: "#7A6B66" },
-      { icon: Info, label: "关于我们", href: "#", color: "#7A6B66" },
+      { icon: User, label: "个人信息", href: "#" },
+      { icon: Shield, label: "账号安全", href: "#" },
+      { icon: Settings, label: "设置", href: "#" },
+      { icon: HelpCircle, label: "帮助与反馈", href: "#" },
+      { icon: Info, label: "关于我们", href: "#" },
     ],
   },
 ];
 
 export default function ProfilePage() {
   return (
-    <div className="min-h-screen bg-[#FDF5F0] pb-20">
+    <div className="min-h-screen bg-white pb-20">
       {/* Profile header */}
-      <div className="relative px-6 pt-8 pb-6">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#D4859B]/10 to-transparent" />
-        <div className="relative flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-white shadow-md">
+      <div className="px-6 pt-8 pb-6">
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 rounded-full overflow-hidden">
             <img
               src="https://images.unsplash.com/photo-1438761681033-64697f97b067?w=150&q=80"
               alt="avatar"
@@ -74,51 +72,51 @@ export default function ProfilePage() {
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-medium text-[#3A2E2A]">小美</h2>
-              <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-gradient-to-r from-[#C9A96E] to-[#E0C992] text-white text-[10px]">
+              <h2 className="text-lg font-semibold text-[#1D1D1F]">小美</h2>
+              <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-[#1D1D1F] text-white text-[10px]">
                 <Crown className="w-2.5 h-2.5" />
-                银卡会员
+                银卡
               </span>
             </div>
-            <p className="text-xs text-[#7A6B66] mt-0.5">ID: 270001 · 加入 286 天</p>
-            <p className="text-[10px] text-[#C9A96E] mt-0.5">会员到期：2025-03-15</p>
+            <p className="text-xs text-[#86868B] mt-0.5">ID: 270001 · 加入 286 天</p>
+            <p className="text-[10px] text-[#C45A2C] mt-0.5">会员到期：2025-03-15</p>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="relative flex items-center justify-around mt-6 bg-white rounded-[20px] p-4 shadow-sm shadow-[#D4859B]/5">
+        <div className="flex items-center justify-around mt-6 rounded-xl border border-[#D2D2D7] p-4">
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
               <div className="flex items-baseline justify-center gap-0.5">
-                <span className="text-xl font-serif text-[#D4859B]">{stat.value}</span>
-                <span className="text-[10px] text-[#7A6B66]">{stat.unit}</span>
+                <span className="text-xl font-bold text-[#1D1D1F]">{stat.value}</span>
+                <span className="text-[10px] text-[#86868B]">{stat.unit}</span>
               </div>
-              <p className="text-[10px] text-[#7A6B66] mt-0.5">{stat.label}</p>
+              <p className="text-[10px] text-[#86868B] mt-0.5">{stat.label}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Achievements */}
-      <div className="px-6 mb-5">
-        <div className="bg-white rounded-[20px] p-4 shadow-sm shadow-[#D4859B]/5">
+      <div className="px-6 mb-6">
+        <div className="rounded-xl border border-[#D2D2D7] p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <Award className="w-4 h-4 text-[#C9A96E]" />
-              <h3 className="text-sm font-medium text-[#3A2E2A]">我的成就</h3>
+              <Award className="w-4 h-4 text-[#FF9500]" />
+              <h3 className="text-sm font-semibold text-[#1D1D1F]">我的成就</h3>
             </div>
-            <span className="text-[10px] text-[#7A6B66]">3/6 已解锁</span>
+            <span className="text-[10px] text-[#86868B]">3/6 已解锁</span>
           </div>
           <div className="grid grid-cols-3 gap-2">
             {achievements.map((ach, index) => (
               <div
                 key={index}
-                className={`text-center p-2.5 rounded-[12px] transition-all ${
-                  ach.done ? "bg-[#FDF0F0]" : "bg-[#FDF5F0] opacity-50"
+                className={`text-center p-2.5 rounded-lg transition-all ${
+                  ach.done ? "bg-[#F5F5F7]" : "bg-[#F5F5F7] opacity-40"
                 }`}
               >
                 <span className="text-xl">{ach.icon}</span>
-                <p className="text-[10px] text-[#3A2E2A] mt-1 leading-tight">{ach.name}</p>
+                <p className="text-[10px] text-[#1D1D1F] mt-1 leading-tight">{ach.name}</p>
               </div>
             ))}
           </div>
@@ -126,18 +124,18 @@ export default function ProfilePage() {
       </div>
 
       {/* Body data */}
-      <div className="px-6 mb-5">
-        <div className="bg-white rounded-[20px] p-4 shadow-sm shadow-[#D4859B]/5">
+      <div className="px-6 mb-6">
+        <div className="rounded-xl border border-[#D2D2D7] p-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-[#3A2E2A]">身体数据</h3>
-            <button className="text-[10px] text-[#D4859B]">编辑</button>
+            <h3 className="text-sm font-semibold text-[#1D1D1F]">身体数据</h3>
+            <button className="text-[10px] text-[#C45A2C]">编辑</button>
           </div>
           <div className="grid grid-cols-4 gap-2">
             {bodyData.map((data, index) => (
-              <div key={index} className="text-center p-2 bg-[#FDF5F0] rounded-[12px]">
-                <p className="text-sm font-serif text-[#3A2E2A]">{data.value}</p>
-                <p className="text-[9px] text-[#7A6B66]">{data.unit}</p>
-                <p className="text-[10px] text-[#7A6B66] mt-0.5">{data.label}</p>
+              <div key={index} className="text-center p-2 bg-[#F5F5F7] rounded-lg">
+                <p className="text-sm font-bold text-[#1D1D1F]">{data.value}</p>
+                <p className="text-[9px] text-[#86868B]">{data.unit}</p>
+                <p className="text-[10px] text-[#86868B] mt-0.5">{data.label}</p>
               </div>
             ))}
           </div>
@@ -147,21 +145,21 @@ export default function ProfilePage() {
       {/* Menu sections */}
       {menuSections.map((section, si) => (
         <div key={si} className="px-6 mb-4">
-          <div className="bg-white rounded-[20px] overflow-hidden shadow-sm shadow-[#D4859B]/5">
+          <div className="rounded-xl border border-[#D2D2D7] overflow-hidden">
             {section.items.map((item, index) => (
               <Link
                 key={index}
                 href={item.href}
-                className="flex items-center gap-3 px-4 py-3.5 hover:bg-[#FDF0F0]/50 transition-colors border-b border-[#F0E6E0]/50 last:border-b-0"
+                className="flex items-center gap-3 px-4 py-3.5 hover:bg-[#F5F5F7] transition-colors border-b border-[#F5F5F7] last:border-b-0"
               >
-                <div className="w-8 h-8 rounded-[10px] flex items-center justify-center" style={{ backgroundColor: `${item.color}12` }}>
-                  <item.icon className="w-4 h-4" style={{ color: item.color }} />
+                <div className="w-8 h-8 rounded-lg bg-[#F5F5F7] flex items-center justify-center">
+                  <item.icon className="w-4 h-4 text-[#1D1D1F]" />
                 </div>
-                <span className="flex-1 text-sm text-[#3A2E2A]">{item.label}</span>
+                <span className="flex-1 text-sm text-[#1D1D1F]">{item.label}</span>
                 {"desc" in item && item.desc && (
-                  <span className="text-[10px] text-[#7A6B66]">{item.desc}</span>
+                  <span className="text-[10px] text-[#86868B]">{item.desc}</span>
                 )}
-                <ChevronRight className="w-4 h-4 text-[#B8A8A4]" />
+                <ChevronRight className="w-4 h-4 text-[#D2D2D7]" />
               </Link>
             ))}
           </div>
@@ -170,7 +168,7 @@ export default function ProfilePage() {
 
       {/* Logout */}
       <div className="px-6 mt-2">
-        <button className="w-full py-3 bg-white rounded-[16px] text-sm text-[#7A6B66] shadow-sm hover:bg-[#FDF0F0] transition-colors flex items-center justify-center gap-2">
+        <button className="w-full py-3 rounded-xl border border-[#D2D2D7] text-sm text-[#86868B] hover:bg-[#F5F5F7] transition-colors flex items-center justify-center gap-2">
           <LogOut className="w-4 h-4" />
           退出登录
         </button>

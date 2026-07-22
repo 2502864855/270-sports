@@ -43,96 +43,89 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
   --font-sans:
-    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', ui-sans-serif,
-    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, sans-serif;
+    'SF Pro Display', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     'Courier New', monospace;
-  --font-serif:
-    'Noto Serif SC', 'Songti SC', 'SimSun', ui-serif, Georgia, Cambria,
-    'Times New Roman', Times, serif;
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: #FDF5F0;
-  --foreground: #3A2E2A;
-  --card: #ffffff;
-  --card-foreground: #3A2E2A;
-  --popover: #ffffff;
-  --popover-foreground: #3A2E2A;
-  --primary: #D4859B;
-  --primary-foreground: #ffffff;
-  --secondary: #FDF0F0;
-  --secondary-foreground: #3A2E2A;
-  --muted: #FDF0F0;
-  --muted-foreground: #7A6B66;
-  --accent: #FDF0F0;
-  --accent-foreground: #3A2E2A;
-  --destructive: #ef4444;
-  --border: #F0E6E0;
-  --input: #F0E6E0;
-  --ring: #D4859B;
-  --chart-1: #D4859B;
-  --chart-2: #A8D5BA;
-  --chart-3: #F5A89A;
-  --chart-4: #E8A0B5;
-  --chart-5: #C9A96E;
-  --sidebar: #FDF5F0;
-  --sidebar-foreground: #3A2E2A;
-  --sidebar-primary: #D4859B;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #FDF0F0;
-  --sidebar-accent-foreground: #3A2E2A;
-  --sidebar-border: #F0E6E0;
-  --sidebar-ring: #D4859B;
+  --radius: 0.625rem;
+  --background: #FFFFFF;
+  --foreground: #1D1D1F;
+  --card: #FFFFFF;
+  --card-foreground: #1D1D1F;
+  --popover: #FFFFFF;
+  --popover-foreground: #1D1D1F;
+  --primary: #C45A2C;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F5F5F7;
+  --secondary-foreground: #1D1D1F;
+  --muted: #F5F5F7;
+  --muted-foreground: #86868B;
+  --accent: #F5F5F7;
+  --accent-foreground: #1D1D1F;
+  --destructive: #FF3B30;
+  --border: #D2D2D7;
+  --input: #E5E5EA;
+  --ring: #C45A2C;
+  --chart-1: #C45A2C;
+  --chart-2: #34C759;
+  --chart-3: #FF9500;
+  --chart-4: #5856D6;
+  --chart-5: #AF52DE;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #1D1D1F;
+  --sidebar-primary: #C45A2C;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F5F5F7;
+  --sidebar-accent-foreground: #1D1D1F;
+  --sidebar-border: #D2D2D7;
+  --sidebar-ring: #C45A2C;
 
-  /* Brand tokens */
-  --brand-rose: #D4859B;
-  --brand-rose-light: #E8A0B5;
-  --brand-rose-pale: #F5D5DE;
-  --brand-cream: #FDF5F0;
-  --brand-cream-warm: #FAF0EB;
-  --brand-brown: #3A2E2A;
-  --brand-brown-light: #7A6B66;
-  --brand-coral: #F5A89A;
-  --brand-mint: #A8D5BA;
-  --brand-gold: #C9A96E;
-  --brand-lavender: #B8A9C9;
-  --brand-border: #F0E6E0;
-  --brand-dark-bg: #2A2030;
-  --brand-dark-card: #362A3E;
-  --brand-dark-border: #4A3E52;
+  /* Brand tokens - Apple style */
+  --brand-orange: #C45A2C;
+  --brand-orange-light: #D4612F;
+  --brand-orange-pale: #FFF3ED;
+  --brand-black: #1D1D1F;
+  --brand-gray: #86868B;
+  --brand-gray-light: #F5F5F7;
+  --brand-border: #D2D2D7;
+  --brand-border-light: #E5E5EA;
+  --brand-dark-bg: #1D1D1F;
+  --brand-dark-card: #2C2C2E;
+  --brand-dark-border: #3A3A3C;
 }
 
 .dark {
-  --background: #2A2030;
-  --foreground: #FDF5F0;
-  --card: #362A3E;
-  --card-foreground: #FDF5F0;
-  --popover: #362A3E;
-  --popover-foreground: #FDF5F0;
-  --primary: #E8A0B5;
-  --primary-foreground: #2A2030;
-  --secondary: #362A3E;
-  --secondary-foreground: #FDF5F0;
-  --muted: #362A3E;
-  --muted-foreground: #B8A8A4;
-  --accent: #362A3E;
-  --accent-foreground: #FDF5F0;
-  --destructive: #ef4444;
-  --border: #4A3E52;
-  --input: #4A3E52;
-  --ring: #E8A0B5;
-  --sidebar: #2A2030;
-  --sidebar-foreground: #FDF5F0;
-  --sidebar-primary: #E8A0B5;
-  --sidebar-primary-foreground: #2A2030;
-  --sidebar-accent: #362A3E;
-  --sidebar-accent-foreground: #FDF5F0;
-  --sidebar-border: #4A3E52;
-  --sidebar-ring: #E8A0B5;
+  --background: #1D1D1F;
+  --foreground: #F5F5F7;
+  --card: #2C2C2E;
+  --card-foreground: #F5F5F7;
+  --popover: #2C2C2E;
+  --popover-foreground: #F5F5F7;
+  --primary: #D4612F;
+  --primary-foreground: #FFFFFF;
+  --secondary: #2C2C2E;
+  --secondary-foreground: #F5F5F7;
+  --muted: #2C2C2E;
+  --muted-foreground: #98989D;
+  --accent: #2C2C2E;
+  --accent-foreground: #F5F5F7;
+  --destructive: #FF453A;
+  --border: #3A3A3C;
+  --input: #3A3A3C;
+  --ring: #D4612F;
+  --sidebar: #1D1D1F;
+  --sidebar-foreground: #F5F5F7;
+  --sidebar-primary: #D4612F;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #2C2C2E;
+  --sidebar-accent-foreground: #F5F5F7;
+  --sidebar-border: #3A3A3C;
+  --sidebar-ring: #D4612F;
 }
 
 @layer base {
@@ -142,93 +135,19 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Brand gradients */
-.brand-gradient {
-  background: linear-gradient(135deg, #D4859B, #E8A0B5);
-}
-
-.brand-gradient-coral {
-  background: linear-gradient(135deg, #F5A89A, #E8A0B5);
-}
-
-.brand-gradient-text {
-  background: linear-gradient(135deg, #D4859B, #E8A0B5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.brand-gradient-gold {
-  background: linear-gradient(135deg, #C9A96E, #E0C992);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.brand-gradient-mint {
-  background: linear-gradient(135deg, #A8D5BA, #C5E8D5);
-}
-
-/* Glass morphism */
-.glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.glass-dark {
-  background: rgba(42, 32, 48, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(74, 62, 82, 0.5);
-}
-
-/* Dark card for admin/AI */
-.dark-card {
-  background: #362A3E;
-  border: 1px solid #4A3E52;
-}
-
-/* Glow effects */
-.glow-rose {
-  box-shadow: 0 0 24px rgba(212, 133, 155, 0.25);
-}
-
-.glow-mint {
-  box-shadow: 0 0 24px rgba(168, 213, 186, 0.25);
-}
-
-.glow-gold {
-  box-shadow: 0 0 24px rgba(201, 169, 110, 0.25);
-}
-
-/* Wave divider */
-.wave-divider {
-  position: relative;
-}
-.wave-divider::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 24px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 24'%3E%3Cpath d='M0 24C200 8 400 0 600 8C800 16 1000 24 1200 12L1200 24L0 24Z' fill='%23FDF5F0'/%3E%3C/svg%3E") no-repeat center bottom;
-  background-size: 100% 100%;
-}
-
-/* Animations */
+/* Apple-style subtle animations */
 @keyframes float-up {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-float-up {
-  animation: float-up 0.5s ease-out forwards;
+  animation: float-up 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
 @keyframes fade-in {
@@ -237,7 +156,7 @@
 }
 
 .animate-fade-in {
-  animation: fade-in 0.4s ease-out forwards;
+  animation: fade-in 0.5s ease-out forwards;
 }
 
 @keyframes shimmer {
@@ -245,36 +164,15 @@
   100% { background-position: 200% 0; }
 }
 
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(212,133,155,0.08) 50%, transparent 100%);
-  background-size: 200% 100%;
-  animation: shimmer 2s ease-in-out infinite;
+/* Scroll-triggered reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-@keyframes pulse-soft {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-.animate-pulse-soft {
-  animation: pulse-soft 2s ease-in-out infinite;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #E8A0B5;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #D4859B;
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }

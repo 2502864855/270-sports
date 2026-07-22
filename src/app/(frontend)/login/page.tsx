@@ -34,68 +34,68 @@ export default function LoginPage() {
       {/* Background */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80"
+          src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1200&q=80"
           alt="background"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70" />
       </div>
 
       {/* Content */}
       <div className="relative flex-1 flex flex-col max-w-[480px] mx-auto w-full">
-        <div className="px-6 pt-12">
-          <Link href="/" className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center">
+        <div className="px-8 pt-14">
+          <Link href="/" className="w-10 h-10 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center hover:bg-white/25 transition-colors">
             <ArrowLeft className="w-4 h-4 text-white" />
           </Link>
         </div>
 
         <div className="flex-1" />
 
-        {/* Login card */}
-        <div className="px-6 pb-12">
-          <div className="bg-white rounded-2xl p-6">
+        {/* Login card - Apple style */}
+        <div className="px-8 pb-12">
+          <div className="bg-white rounded-3xl p-8">
             {/* Brand */}
-            <div className="text-center mb-6">
-              <h1 className="text-3xl font-bold text-[#1D1D1F] tracking-tight">270</h1>
-              <p className="text-[10px] text-[#86868B] tracking-[0.2em] mt-0.5">BEAUTY CYCLE 270</p>
-              <p className="text-sm text-[#1D1D1F] mt-4 font-semibold">
+            <div className="text-center mb-8">
+              <h1 className="text-4xl font-bold text-[#1D1D1F] tracking-tight">270</h1>
+              <p className="text-xs text-[#86868B] tracking-[0.2em] mt-1">BEAUTY CYCLE 270</p>
+              <p className="text-xl text-[#1D1D1F] mt-6 font-semibold">
                 {isLogin ? "欢迎回来" : "加入 270"}
               </p>
-              <p className="text-xs text-[#86868B] mt-1">
+              <p className="text-sm text-[#86868B] mt-2">
                 {isLogin ? "登录你的账户" : "注册成为会员"}
               </p>
             </div>
 
             {/* Form */}
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div>
-                <label className="text-xs text-[#86868B] mb-1 block">手机号</label>
+                <label className="text-sm text-[#86868B] mb-2 block">手机号</label>
                 <input
                   type="tel"
                   maxLength={11}
                   placeholder="请输入手机号"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-                  className="w-full px-4 py-3 bg-[#F5F5F7] rounded-lg text-sm text-[#1D1D1F] placeholder:text-[#D2D2D7] outline-none focus:ring-2 focus:ring-[#C45A2C]/30 transition-all"
+                  className="w-full px-5 py-4 bg-[#F5F5F7] rounded-xl text-base text-[#1D1D1F] placeholder:text-[#D2D2D7] outline-none focus:ring-2 focus:ring-[#C45A2C]/30 transition-all"
                 />
               </div>
 
               {isLogin ? (
                 <div>
-                  <label className="text-xs text-[#86868B] mb-1 block">验证码</label>
-                  <div className="flex gap-2">
+                  <label className="text-sm text-[#86868B] mb-2 block">验证码</label>
+                  <div className="flex gap-3">
                     <input
                       type="text"
                       maxLength={6}
                       placeholder="请输入验证码"
                       value={code}
                       onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
-                      className="flex-1 px-4 py-3 bg-[#F5F5F7] rounded-lg text-sm text-[#1D1D1F] placeholder:text-[#D2D2D7] outline-none focus:ring-2 focus:ring-[#C45A2C]/30 transition-all"
+                      className="flex-1 px-5 py-4 bg-[#F5F5F7] rounded-xl text-base text-[#1D1D1F] placeholder:text-[#D2D2D7] outline-none focus:ring-2 focus:ring-[#C45A2C]/30 transition-all"
                     />
                     <button
                       onClick={sendCode}
                       disabled={phone.length !== 11 || countdown > 0}
-                      className={`px-4 py-3 rounded-lg text-xs font-medium flex-shrink-0 transition-colors ${
+                      className={`px-5 py-4 rounded-xl text-sm font-medium flex-shrink-0 transition-colors ${
                         phone.length === 11 && countdown === 0
                           ? "bg-[#1D1D1F] text-white"
                           : "bg-[#F5F5F7] text-[#D2D2D7]"
@@ -107,7 +107,7 @@ export default function LoginPage() {
                 </div>
               ) : (
                 <div>
-                  <label className="text-xs text-[#86868B] mb-1 block">密码</label>
+                  <label className="text-sm text-[#86868B] mb-2 block">密码</label>
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
@@ -115,16 +115,16 @@ export default function LoginPage() {
                       placeholder="请设置密码（6-20位）"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#F5F5F7] rounded-lg text-sm text-[#1D1D1F] placeholder:text-[#D2D2D7] outline-none focus:ring-2 focus:ring-[#C45A2C]/30 transition-all pr-10"
+                      className="w-full px-5 py-4 bg-[#F5F5F7] rounded-xl text-base text-[#1D1D1F] placeholder:text-[#D2D2D7] outline-none focus:ring-2 focus:ring-[#C45A2C]/30 transition-all pr-12"
                     />
                     <button
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2"
+                      className="absolute right-4 top-1/2 -translate-y-1/2"
                     >
                       {showPassword ? (
-                        <EyeOff className="w-4 h-4 text-[#D2D2D7]" />
+                        <EyeOff className="w-5 h-5 text-[#D2D2D7]" />
                       ) : (
-                        <Eye className="w-4 h-4 text-[#D2D2D7]" />
+                        <Eye className="w-5 h-5 text-[#D2D2D7]" />
                       )}
                     </button>
                   </div>
@@ -133,22 +133,22 @@ export default function LoginPage() {
             </div>
 
             {isLogin && (
-              <div className="text-right mt-2">
-                <button className="text-xs text-[#C45A2C]">忘记密码？</button>
+              <div className="text-right mt-3">
+                <button className="text-sm text-[#C45A2C] font-medium">忘记密码？</button>
               </div>
             )}
 
             {/* Agreement */}
-            <div className="flex items-start gap-2 mt-4">
+            <div className="flex items-start gap-2.5 mt-6">
               <button
                 onClick={() => setAgreed(!agreed)}
-                className={`w-4 h-4 rounded border flex-shrink-0 mt-0.5 flex items-center justify-center transition-colors ${
+                className={`w-5 h-5 rounded border flex-shrink-0 mt-0.5 flex items-center justify-center transition-colors ${
                   agreed ? "bg-[#C45A2C] border-[#C45A2C]" : "border-[#D2D2D7]"
                 }`}
               >
-                {agreed && <span className="text-white text-[10px]">✓</span>}
+                {agreed && <span className="text-white text-xs">✓</span>}
               </button>
-              <p className="text-[10px] text-[#86868B] leading-relaxed">
+              <p className="text-xs text-[#86868B] leading-relaxed">
                 我已阅读并同意
                 <button className="text-[#C45A2C]">《用户协议》</button>
                 和
@@ -160,7 +160,7 @@ export default function LoginPage() {
             <button
               onClick={handleSubmit}
               disabled={!agreed}
-              className={`w-full py-3.5 rounded-full text-sm font-medium mt-4 transition-colors ${
+              className={`w-full py-4 rounded-full text-base font-medium mt-6 transition-all duration-300 btn-scale ${
                 agreed
                   ? "bg-[#C45A2C] text-white hover:bg-[#D4612F]"
                   : "bg-[#F5F5F7] text-[#D2D2D7]"
@@ -170,10 +170,10 @@ export default function LoginPage() {
             </button>
 
             {/* Switch mode */}
-            <div className="text-center mt-4">
+            <div className="text-center mt-5">
               <button
                 onClick={() => setIsLogin(!isLogin)}
-                className="text-xs text-[#86868B]"
+                className="text-sm text-[#86868B]"
               >
                 {isLogin ? "没有账号？" : "已有账号？"}
                 <span className="text-[#C45A2C] font-medium ml-1">
@@ -183,15 +183,15 @@ export default function LoginPage() {
             </div>
 
             {/* Divider */}
-            <div className="flex items-center gap-3 my-5">
+            <div className="flex items-center gap-4 my-6">
               <div className="flex-1 h-px bg-[#D2D2D7]" />
-              <span className="text-[10px] text-[#86868B]">其他登录方式</span>
+              <span className="text-xs text-[#86868B]">其他登录方式</span>
               <div className="flex-1 h-px bg-[#D2D2D7]" />
             </div>
 
             {/* WeChat login */}
-            <button className="w-full py-3 rounded-full bg-[#07C160] text-white text-sm font-medium flex items-center justify-center gap-2 hover:bg-[#06ae56] transition-colors">
-              <MessageSquare className="w-4 h-4" />
+            <button className="w-full py-4 rounded-full bg-[#07C160] text-white text-base font-medium flex items-center justify-center gap-2.5 hover:bg-[#06ae56] transition-colors duration-300 btn-scale">
+              <MessageSquare className="w-5 h-5" />
               微信登录
             </button>
           </div>

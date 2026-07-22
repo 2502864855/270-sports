@@ -143,7 +143,7 @@ export default function VipPage() {
             {purchasePlans.map((plan, index) => (
               <div
                 key={index}
-                className={`relative rounded-2xl p-5 ${
+                className={`card-hover relative rounded-2xl p-5 ${
                   plan.popular
                     ? "bg-[#1D1D1F] text-white"
                     : "border border-[#D2D2D7]"

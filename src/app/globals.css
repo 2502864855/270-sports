@@ -140,39 +140,229 @@
   }
 }
 
-/* Apple-style subtle animations */
+/* ========================================
+   Apple × HyperOS 动效系统
+   ======================================== */
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---- Apple 弹簧动画 ----
+   cubic-bezier:
+   0.25, 0.1, 0.25, 1 → 标准 Apple 缓出
+   0.16, 1, 0.3, 1    → Apple 弹簧效果（HyperOS 弹性感）
+   0.22, 1, 0.36, 1    → 强调弹簧（弹出感）
+*/
 @keyframes float-up {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-.animate-float-up {
-  animation: float-up 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+@keyframes float-up-spring {
+  0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+  60% { transform: translateY(-4px) scale(1.01); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
-
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
 
+/* 使用类 */
+.animate-float-up {
+  animation: float-up 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+.animate-float-up-spring {
+  animation: float-up-spring 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-scale-in {
+  animation: scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 .animate-fade-in {
   animation: fade-in 0.5s ease-out forwards;
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
+/* 入场延迟辅助 */
+.delay-1  { animation-delay: 0.1s; }
+.delay-2  { animation-delay: 0.2s; }
+.delay-3  { animation-delay: 0.3s; }
+.delay-4  { animation-delay: 0.4s; }
+.delay-5  { animation-delay: 0.5s; }
+.delay-6  { animation-delay: 0.6s; }
+.delay-7  { animation-delay: 0.7s; }
+.delay-8  { animation-delay: 0.8s; }
 
-/* Scroll-triggered reveal */
-.reveal {
+/* ---- 滚动触发 Reveal ----
+   IntersectionObserver 配合 .reveal 类
+   多种方向：默认向上、向左、向右、缩放
+*/
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-scale {
   opacity: 0;
-  transform: translateY(20px);
   transition: opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1),
               transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
+.reveal { transform: translateY(30px); }
+.reveal-left { transform: translateX(-30px); }
+.reveal-right { transform: translateX(30px); }
+.reveal-scale { transform: scale(0.92); }
 
-.reveal.visible {
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible,
+.reveal-scale.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+/* 弹簧风格 reveal（带弹性） */
+.reveal-spring {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-spring.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ---- 卡片悬停动效 ----
+   Apple 风格的微妙上浮 + 阴影加深
+*/
+.card-hover {
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1),
+              box-shadow 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+/* 图片悬停缩放 */
+.img-zoom {
+  overflow: hidden;
+}
+.img-zoom img {
+  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.img-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* 按钮悬停 */
+.btn-scale {
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+              box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.btn-scale:hover {
+  transform: scale(1.02);
+}
+.btn-scale:active {
+  transform: scale(0.98);
+}
+
+/* 链接悬停下划线动效 */
+.link-underline {
+  position: relative;
+  transition: color 0.3s ease;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: currentColor;
+  transition: width 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* 数字滚动计数（用于数据展示大数字） */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.count-up {
+  animation: count-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 逐项弹入（Stagger） */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: float-up 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+.stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger > *:nth-child(8) { animation-delay: 0.4s; }
+
+/* 底部导航栏 iOS 风格切换动画 */
+.tab-active {
+  position: relative;
+  transition: color 0.3s ease;
+}
+.tab-active::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 20px;
+  height: 2px;
+  background: #C45A2C;
+  border-radius: 1px;
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.tab-active.active::before {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* 加载骨架屏闪烁 */
+@keyframes skeleton-pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+.skeleton-pulse {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* 菜单展开/收起 */
+@keyframes menu-expand {
+  from { opacity: 0; max-height: 0; transform: translateY(-8px); }
+  to { opacity: 1; max-height: 500px; transform: translateY(0); }
+}
+.menu-expand {
+  animation: menu-expand 0.35s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  overflow: hidden;
+}
+
+/* 图片懒加载渐显 */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+img[loading="lazy"].loaded,
+img[loading="lazy"]:not([src=""]) {
+  opacity: 1;
 }

@@ -126,7 +126,7 @@ export default function MallPage() {
           {filtered.map((product) => (
             <div
               key={product.id}
-              className="group rounded-xl border border-[#D2D2D7] overflow-hidden hover:border-[#C45A2C]/30 transition-colors"
+              className="card-hover group rounded-xl border border-[#D2D2D7] overflow-hidden hover:border-[#C45A2C]/30 transition-colors"
             >
               <div className="relative aspect-square overflow-hidden">
                 <img

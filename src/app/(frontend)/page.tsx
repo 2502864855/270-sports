@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ArrowRight } from 'lucide-react';
+import Reveal from '@/components/Reveal';
 
 const banners = [
   { title: 'BEAUTY CYCLE', subtitle: '270', tagline: '她的运动美学', cta: '预约体验课' },
@@ -88,155 +89,167 @@ export default function HomePage() {
       </section>
 
       {/* Brand Statement */}
-      <section className="px-6 py-32 sm:py-40">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="mb-8 text-3xl font-bold tracking-tight text-[#1D1D1F] sm:text-5xl">
-            关于270运动馆
-          </h2>
-          <p className="text-lg leading-relaxed text-[#86868B] sm:text-xl">
-            270运动馆由徐宁于2022年在福州创立，是一个专为女性打造的运动空间。
-            我们相信，每一位女性都值得拥有一个安全、私密、无评判的运动环境。
-            在这里，运动不是惩罚身体，而是与自己对话的方式。
-          </p>
-        </div>
-      </section>
+      <Reveal>
+        <section className="px-6 py-32 sm:py-40">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="mb-8 text-3xl font-bold tracking-tight text-[#1D1D1F] sm:text-5xl">
+              关于270运动馆
+            </h2>
+            <p className="text-lg leading-relaxed text-[#86868B] sm:text-xl">
+              270运动馆由徐宁于2022年在福州创立，是一个专为女性打造的运动空间。
+              我们相信，每一位女性都值得拥有一个安全、私密、无评判的运动环境。
+              在这里，运动不是惩罚身体，而是与自己对话的方式。
+            </p>
+          </div>
+        </section>
+      </Reveal>
 
       {/* Courses */}
-      <section className="bg-[#F5F5F7] px-6 py-24 sm:py-32">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="mb-4 text-center text-3xl font-bold tracking-tight text-[#1D1D1F] sm:text-5xl">
-            我们的课程
-          </h2>
-          <p className="mb-16 text-center text-[#86868B]">
-            专为女性设计的课程体系，科学、安全、高效
-          </p>
-          <div className="grid gap-6 sm:grid-cols-3">
-            {courses.map((c) => (
-              <Link
-                key={c.name}
-                href="/courses"
-                className="group cursor-pointer overflow-hidden rounded-2xl bg-white"
-              >
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
-                    src={c.img}
-                    alt={c.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="mb-2 text-xl font-semibold text-[#1D1D1F]">{c.name}</h3>
-                  <p className="mb-4 text-sm text-[#86868B]">{c.desc}</p>
-                  <span className="inline-flex items-center text-sm font-medium text-[#C45A2C]">
-                    查看详情 <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
-            ))}
+      <Reveal>
+        <section className="bg-[#F5F5F7] px-6 py-24 sm:py-32">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="mb-4 text-center text-3xl font-bold tracking-tight text-[#1D1D1F] sm:text-5xl">
+              我们的课程
+            </h2>
+            <p className="mb-16 text-center text-[#86868B]">
+              专为女性设计的课程体系，科学、安全、高效
+            </p>
+            <div className="grid gap-6 sm:grid-cols-3">
+              {courses.map((c) => (
+                <Link
+                  key={c.name}
+                  href="/courses"
+                  className="card-hover group cursor-pointer overflow-hidden rounded-2xl bg-white"
+                >
+                  <div className="img-zoom aspect-[4/3] overflow-hidden">
+                    <img
+                      src={c.img}
+                      alt={c.name}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="mb-2 text-xl font-semibold text-[#1D1D1F]">{c.name}</h3>
+                    <p className="mb-4 text-sm text-[#86868B]">{c.desc}</p>
+                    <span className="inline-flex items-center text-sm font-medium text-[#C45A2C]">
+                      查看详情 <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </Reveal>
 
       {/* Stats */}
-      <section className="px-6 py-24 sm:py-32">
-        <div className="mx-auto grid max-w-4xl grid-cols-2 gap-8 sm:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label} className="text-center">
-              <div className="mb-2 text-4xl font-bold tracking-tight text-[#1D1D1F] sm:text-5xl">
-                {s.num}
+      <Reveal>
+        <section className="px-6 py-24 sm:py-32">
+          <div className="mx-auto grid max-w-4xl grid-cols-2 gap-8 sm:grid-cols-4">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="mb-2 text-4xl font-bold tracking-tight text-[#1D1D1F] sm:text-5xl">
+                  {s.num}
+                </div>
+                <div className="text-sm text-[#86868B]">{s.label}</div>
               </div>
-              <div className="text-sm text-[#86868B]">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      </Reveal>
 
       {/* Coaches */}
-      <section className="bg-[#F5F5F7] px-6 py-24 sm:py-32">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="mb-4 text-center text-3xl font-bold tracking-tight text-[#1D1D1F] sm:text-5xl">
-            专业教练团队
-          </h2>
-          <p className="mb-16 text-center text-[#86868B]">
-            每一位教练都经过严格筛选与专业培训
-          </p>
-          <div className="grid gap-8 sm:grid-cols-3">
-            {coaches.map((c) => (
-              <div key={c.name} className="text-center">
-                <div className="mx-auto mb-6 h-48 w-48 overflow-hidden rounded-full">
-                  <img src={c.img} alt={c.name} className="h-full w-full object-cover" />
+      <Reveal>
+        <section className="bg-[#F5F5F7] px-6 py-24 sm:py-32">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="mb-4 text-center text-3xl font-bold tracking-tight text-[#1D1D1F] sm:text-5xl">
+              专业教练团队
+            </h2>
+            <p className="mb-16 text-center text-[#86868B]">
+              每一位教练都经过严格筛选与专业培训
+            </p>
+            <div className="grid gap-8 sm:grid-cols-3">
+              {coaches.map((c) => (
+                <div key={c.name} className="card-hover text-center">
+                  <div className="mx-auto mb-6 h-48 w-48 overflow-hidden rounded-full">
+                    <img src={c.img} alt={c.name} className="h-full w-full object-cover" />
+                  </div>
+                  <h3 className="mb-1 text-lg font-semibold text-[#1D1D1F]">{c.name}</h3>
+                  <p className="mb-1 text-sm text-[#C45A2C]">{c.title}</p>
+                  <p className="text-sm text-[#86868B]">{c.exp}</p>
                 </div>
-                <h3 className="mb-1 text-lg font-semibold text-[#1D1D1F]">{c.name}</h3>
-                <p className="mb-1 text-sm text-[#C45A2C]">{c.title}</p>
-                <p className="text-sm text-[#86868B]">{c.exp}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </Reveal>
 
       {/* VIP Section */}
-      <section className="bg-[#1D1D1F] px-6 py-24 text-white sm:py-32">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-5xl">
-            加入270会员
-          </h2>
-          <p className="mb-12 text-lg text-white/60">
-            专属课程、优先预约、会员折扣、积分兑换——更多权益，为你而来
-          </p>
-          <div className="mb-12 grid gap-4 sm:grid-cols-3">
-            {[
-              { plan: '月卡', price: '¥699', unit: '/月' },
-              { plan: '季卡', price: '¥1,799', unit: '/季', badge: true },
-              { plan: '年卡', price: '¥5,999', unit: '/年' },
-            ].map((m) => (
-              <div
-                key={m.plan}
-                className={`rounded-2xl border p-6 transition-colors ${
-                  m.badge
-                    ? 'border-[#C45A2C] bg-[#C45A2C]/10'
-                    : 'border-white/10 bg-white/5'
-                }`}
-              >
-                {m.badge && (
-                  <span className="mb-2 inline-block rounded-full bg-[#C45A2C] px-3 py-0.5 text-xs text-white">
-                    推荐
-                  </span>
-                )}
-                <div className="mb-1 text-sm text-white/60">{m.plan}</div>
-                <div className="text-3xl font-bold">
-                  {m.price}
-                  <span className="text-sm font-normal text-white/40">{m.unit}</span>
+      <Reveal>
+        <section className="bg-[#1D1D1F] px-6 py-24 text-white sm:py-32">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-5xl">
+              加入270会员
+            </h2>
+            <p className="mb-12 text-lg text-white/60">
+              专属课程、优先预约、会员折扣、积分兑换——更多权益，为你而来
+            </p>
+            <div className="mb-12 grid gap-4 sm:grid-cols-3">
+              {[
+                { plan: '月卡', price: '¥699', unit: '/月' },
+                { plan: '季卡', price: '¥1,799', unit: '/季', badge: true },
+                { plan: '年卡', price: '¥5,999', unit: '/年' },
+              ].map((m) => (
+                <div
+                  key={m.plan}
+                  className={`card-hover rounded-2xl border p-6 transition-colors ${
+                    m.badge
+                      ? 'border-[#C45A2C] bg-[#C45A2C]/10'
+                      : 'border-white/10 bg-white/5'
+                  }`}
+                >
+                  {m.badge && (
+                    <span className="mb-2 inline-block rounded-full bg-[#C45A2C] px-3 py-0.5 text-xs text-white">
+                      推荐
+                    </span>
+                  )}
+                  <div className="mb-1 text-sm text-white/60">{m.plan}</div>
+                  <div className="text-3xl font-bold">
+                    {m.price}
+                    <span className="text-sm font-normal text-white/40">{m.unit}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <Link
+              href="/vip"
+              className="btn-scale inline-block rounded-full bg-[#C45A2C] px-10 py-4 text-sm font-medium text-white transition-colors hover:bg-[#D4612F]"
+            >
+              立即开通会员
+            </Link>
           </div>
-          <Link
-            href="/vip"
-            className="inline-block rounded-full bg-[#C45A2C] px-10 py-4 text-sm font-medium text-white transition-colors hover:bg-[#D4612F]"
-          >
-            立即开通会员
-          </Link>
-        </div>
-      </section>
+        </section>
+      </Reveal>
 
       {/* CTA */}
-      <section className="px-6 py-32 sm:py-40">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="mb-6 text-3xl font-bold tracking-tight text-[#1D1D1F] sm:text-5xl">
-            开始你的运动旅程
-          </h2>
-          <p className="mb-10 text-[#86868B]">
-            预约一节免费体验课，感受270的不同
-          </p>
-          <Link
-            href="/courses"
-            className="inline-block rounded-full bg-[#C45A2C] px-10 py-4 text-sm font-medium text-white transition-colors hover:bg-[#D4612F]"
-          >
-            预约体验课
-          </Link>
-        </div>
-      </section>
+      <Reveal>
+        <section className="px-6 py-32 sm:py-40">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="mb-6 text-3xl font-bold tracking-tight text-[#1D1D1F] sm:text-5xl">
+              开始你的运动旅程
+            </h2>
+            <p className="mb-10 text-[#86868B]">
+              预约一节免费体验课，感受270的不同
+            </p>
+            <Link
+              href="/courses"
+              className="btn-scale inline-block rounded-full bg-[#C45A2C] px-10 py-4 text-sm font-medium text-white transition-colors hover:bg-[#D4612F]"
+            >
+              预约体验课
+            </Link>
+          </div>
+        </section>
+      </Reveal>
 
       {/* Footer */}
       <footer className="border-t border-[#D2D2D7] bg-[#F5F5F7] px-6 py-16">

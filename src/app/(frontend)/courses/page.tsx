@@ -98,7 +98,7 @@ export default function CoursesPage() {
           <div
             key={course.id}
             onClick={() => setShowDetail(course.id)}
-            className="group cursor-pointer rounded-xl border border-[#D2D2D7] overflow-hidden hover:border-[#C45A2C]/30 transition-colors"
+            className="card-hover group cursor-pointer rounded-xl border border-[#D2D2D7] overflow-hidden hover:border-[#C45A2C]/30 transition-colors"
           >
             <div className="flex gap-4 p-4">
               <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">

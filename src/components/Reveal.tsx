@@ -6,33 +6,20 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 interface RevealProps {
   children: ReactNode;
   className?: string;
-  variant?: 'default' | 'left' | 'right' | 'scale' | 'spring';
   delay?: number;
-  threshold?: number;
+  variant?: 'up' | 'scale';
 }
 
-export default function Reveal({
-  children,
-  className = '',
-  variant = 'default',
-  delay = 0,
-  threshold,
-}: RevealProps) {
-  const { ref, isVisible } = useScrollReveal({ threshold });
+export function Reveal({ children, className = '', delay = 0, variant = 'up' }: RevealProps) {
+  const { ref, isVisible } = useScrollReveal();
 
-  const variantClass = {
-    default: 'reveal',
-    left: 'reveal-left',
-    right: 'reveal-right',
-    scale: 'reveal-scale',
-    spring: 'reveal-spring',
-  }[variant];
+  const baseClass = variant === 'scale' ? 'reveal-scale' : 'reveal';
+  const delayClass = delay > 0 ? `stagger-${Math.min(delay, 6)}` : '';
 
   return (
     <div
       ref={ref}
-      className={`${variantClass} ${isVisible ? 'visible' : ''} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={`${baseClass} ${isVisible ? 'visible' : ''} ${delayClass} ${className}`}
     >
       {children}
     </div>

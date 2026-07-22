@@ -1,368 +1,307 @@
+@import url('https://fonts.googleapis.cn/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================
+   270运动馆 Design System v2.0
+   Apple + iOS 26 质感 — 极简高级、克制通透
+   ============================================ */
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-cream: #FAF8F5;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
-  --font-sans:
-    'SF Pro Display', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
-    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-    'Courier New', monospace;
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-secondary: var(--sidebar-secondary);
+  --color-sidebar-secondary-foreground: var(--sidebar-secondary-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-muted-foreground: var(--sidebar-muted-foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: #FFFFFF;
-  --foreground: #1D1D1F;
+  --background: #FAF8F5;
+  --foreground: #403E3B;
   --card: #FFFFFF;
-  --card-foreground: #1D1D1F;
+  --card-foreground: #403E3B;
   --popover: #FFFFFF;
-  --popover-foreground: #1D1D1F;
+  --popover-foreground: #403E3B;
   --primary: #C45A2C;
   --primary-foreground: #FFFFFF;
-  --secondary: #F5F5F7;
-  --secondary-foreground: #1D1D1F;
-  --muted: #F5F5F7;
-  --muted-foreground: #86868B;
-  --accent: #F5F5F7;
-  --accent-foreground: #1D1D1F;
-  --destructive: #FF3B30;
-  --border: #D2D2D7;
-  --input: #E5E5EA;
+  --secondary: #F5F4F2;
+  --secondary-foreground: #272624;
+  --muted: #F5F4F2;
+  --muted-foreground: #73716D;
+  --accent: #EDE6DE;
+  --accent-foreground: #272624;
+  --destructive: #EF4444;
+  --border: #E7E5E1;
+  --input: #E7E5E1;
   --ring: #C45A2C;
-  --chart-1: #C45A2C;
-  --chart-2: #34C759;
-  --chart-3: #FF9500;
-  --chart-4: #5856D6;
-  --chart-5: #AF52DE;
-  --sidebar: #FFFFFF;
-  --sidebar-foreground: #1D1D1F;
+  --radius: 0.75rem;
+  --sidebar-background: #FAF8F5;
+  --sidebar-foreground: #403E3B;
   --sidebar-primary: #C45A2C;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F5F5F7;
-  --sidebar-accent-foreground: #1D1D1F;
-  --sidebar-border: #D2D2D7;
+  --sidebar-accent: #F5F4F2;
+  --sidebar-accent-foreground: #272624;
+  --sidebar-border: #E7E5E1;
   --sidebar-ring: #C45A2C;
-
-  /* Brand tokens - Apple style */
-  --brand-orange: #C45A2C;
-  --brand-orange-light: #D4612F;
-  --brand-orange-pale: #FFF3ED;
-  --brand-black: #1D1D1F;
-  --brand-gray: #86868B;
-  --brand-gray-light: #F5F5F7;
-  --brand-border: #D2D2D7;
-  --brand-border-light: #E5E5EA;
-  --brand-dark-bg: #1D1D1F;
-  --brand-dark-card: #2C2C2E;
-  --brand-dark-border: #3A3A3C;
 }
 
 .dark {
-  --background: #1D1D1F;
-  --foreground: #F5F5F7;
-  --card: #2C2C2E;
-  --card-foreground: #F5F5F7;
-  --popover: #2C2C2E;
-  --popover-foreground: #F5F5F7;
-  --primary: #D4612F;
+  --background: #181817;
+  --foreground: #E7E5E1;
+  --card: #272624;
+  --card-foreground: #E7E5E1;
+  --popover: #272624;
+  --popover-foreground: #E7E5E1;
+  --primary: #C45A2C;
   --primary-foreground: #FFFFFF;
-  --secondary: #2C2C2E;
-  --secondary-foreground: #F5F5F7;
-  --muted: #2C2C2E;
-  --muted-foreground: #98989D;
-  --accent: #2C2C2E;
-  --accent-foreground: #F5F5F7;
-  --destructive: #FF453A;
-  --border: #3A3A3C;
-  --input: #3A3A3C;
-  --ring: #D4612F;
-  --sidebar: #1D1D1F;
-  --sidebar-foreground: #F5F5F7;
-  --sidebar-primary: #D4612F;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #2C2C2E;
-  --sidebar-accent-foreground: #F5F5F7;
-  --sidebar-border: #3A3A3C;
-  --sidebar-ring: #D4612F;
+  --secondary: #272624;
+  --secondary-foreground: #E7E5E1;
+  --muted: #272624;
+  --muted-foreground: #A19E98;
+  --accent: #272624;
+  --accent-foreground: #E7E5E1;
+  --destructive: #EF4444;
+  --border: #272624;
+  --input: #272624;
+  --ring: #C45A2C;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: #E7E5E1; /* Gray-200 */
   }
-  body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-sans);
+
+  html {
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  body {
+    @apply bg-cream text-gray-700;
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+  }
 }
 
-/* ========================================
-   Apple × HyperOS 动效系统
-   ======================================== */
-
-/* 平滑滚动 */
-html {
-  scroll-behavior: smooth;
+/* ============================================
+   Glass Morphism (iOS 26 Lightweight)
+   ============================================ */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-/* ---- Apple 弹簧动画 ----
-   cubic-bezier:
-   0.25, 0.1, 0.25, 1 → 标准 Apple 缓出
-   0.16, 1, 0.3, 1    → Apple 弹簧效果（HyperOS 弹性感）
-   0.22, 1, 0.36, 1    → 强调弹簧（弹出感）
-*/
-@keyframes float-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes float-up-spring {
-  0% { opacity: 0; transform: translateY(40px) scale(0.96); }
-  60% { transform: translateY(-4px) scale(1.01); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-@keyframes scale-in {
-  from { opacity: 0; transform: scale(0.92); }
-  to { opacity: 1; transform: scale(1); }
-}
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes slide-up {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+.glass-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-/* 使用类 */
-.animate-float-up {
-  animation: float-up 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-}
-.animate-float-up-spring {
-  animation: float-up-spring 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-.animate-scale-in {
-  animation: scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out forwards;
+.glass-modal {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-/* 入场延迟辅助 */
-.delay-1  { animation-delay: 0.1s; }
-.delay-2  { animation-delay: 0.2s; }
-.delay-3  { animation-delay: 0.3s; }
-.delay-4  { animation-delay: 0.4s; }
-.delay-5  { animation-delay: 0.5s; }
-.delay-6  { animation-delay: 0.6s; }
-.delay-7  { animation-delay: 0.7s; }
-.delay-8  { animation-delay: 0.8s; }
+.glass-dark {
+  background: rgba(24, 24, 23, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
 
-/* ---- 滚动触发 Reveal ----
-   IntersectionObserver 配合 .reveal 类
-   多种方向：默认向上、向左、向右、缩放
-*/
-.reveal,
-.reveal-left,
-.reveal-right,
+/* ============================================
+   Noise Texture
+   ============================================ */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  mix-blend-mode: overlay;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+.btn-primary {
+  background: linear-gradient(180deg, #D97A4A 0%, #C45A2C 55%, #A84A22 100%);
+  color: #FFFFFF;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+  transition: all 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  border-radius: 8px;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 8px 24px -4px rgba(196, 90, 44, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+  background: #8C3B1B;
+  transition: all 100ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.btn-secondary {
+  background: #FFFFFF;
+  color: #272624;
+  border: 1px solid #E7E5E1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 200ms ease;
+  border-radius: 8px;
+}
+
+.btn-secondary:hover {
+  border-color: #D1CFCA;
+  background: #FAFAF9;
+  transform: scale(1.01);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
+  background: #F5F4F2;
+}
+
+/* ============================================
+   Cards
+   ============================================ */
+.card {
+  background: #FFFFFF;
+  border: 1px solid #E7E5E1;
+  border-radius: 12px;
+  transition: all 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.card:hover {
+  border-color: #D1CFCA;
+  transform: scale(1.01);
+}
+
+/* ============================================
+   Scroll Animations
+   ============================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .reveal-scale {
   opacity: 0;
-  transition: opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1),
-              transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transform: scale(0.95);
+  transition: opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
-.reveal { transform: translateY(30px); }
-.reveal-left { transform: translateX(-30px); }
-.reveal-right { transform: translateX(30px); }
-.reveal-scale { transform: scale(0.92); }
 
-.reveal.visible,
-.reveal-left.visible,
-.reveal-right.visible,
 .reveal-scale.visible {
   opacity: 1;
-  transform: translateY(0) translateX(0) scale(1);
+  transform: scale(1);
 }
 
-/* 弹簧风格 reveal（带弹性） */
-.reveal-spring {
-  opacity: 0;
-  transform: translateY(40px) scale(0.96);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal-spring.visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+.stagger-5 { transition-delay: 0.5s; }
+.stagger-6 { transition-delay: 0.6s; }
+
+/* ============================================
+   Scroll Snap
+   ============================================ */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* ---- 卡片悬停动效 ----
-   Apple 风格的微妙上浮 + 阴影加深
-*/
-.card-hover {
-  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1),
-              box-shadow 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+.scroll-snap-item {
+  scroll-snap-align: start;
 }
 
-/* 图片悬停缩放 */
-.img-zoom {
-  overflow: hidden;
-}
-.img-zoom img {
-  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-.img-zoom:hover img {
-  transform: scale(1.05);
-}
-
-/* 按钮悬停 */
-.btn-scale {
-  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
-              box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-.btn-scale:hover {
-  transform: scale(1.02);
-}
-.btn-scale:active {
-  transform: scale(0.98);
-}
-
-/* 链接悬停下划线动效 */
-.link-underline {
+/* ============================================
+   Tab Underline (Apple Style)
+   ============================================ */
+.tab-underline {
   position: relative;
-  transition: color 0.3s ease;
+  padding-bottom: 8px;
+  color: #73716D;
+  transition: color 200ms ease;
 }
-.link-underline::after {
+
+.tab-underline::after {
   content: '';
   position: absolute;
-  bottom: -2px;
+  bottom: 0;
   left: 0;
-  width: 0;
-  height: 1.5px;
-  background: currentColor;
-  transition: width 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-.link-underline:hover::after {
   width: 100%;
+  height: 1.5px;
+  background: #272624;
+  transform: scaleX(0);
+  transition: transform 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-/* 数字滚动计数（用于数据展示大数字） */
-@keyframes count-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.count-up {
-  animation: count-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.tab-underline.active {
+  color: #272624;
+  font-weight: 500;
 }
 
-/* 逐项弹入（Stagger） */
-.stagger > * {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: float-up 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-}
-.stagger > *:nth-child(1) { animation-delay: 0.05s; }
-.stagger > *:nth-child(2) { animation-delay: 0.1s; }
-.stagger > *:nth-child(3) { animation-delay: 0.15s; }
-.stagger > *:nth-child(4) { animation-delay: 0.2s; }
-.stagger > *:nth-child(5) { animation-delay: 0.25s; }
-.stagger > *:nth-child(6) { animation-delay: 0.3s; }
-.stagger > *:nth-child(7) { animation-delay: 0.35s; }
-.stagger > *:nth-child(8) { animation-delay: 0.4s; }
-
-/* 底部导航栏 iOS 风格切换动画 */
-.tab-active {
-  position: relative;
-  transition: color 0.3s ease;
-}
-.tab-active::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: 50%;
-  transform: translateX(-50%) scaleX(0);
-  width: 20px;
-  height: 2px;
-  background: #C45A2C;
-  border-radius: 1px;
-  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-.tab-active.active::before {
-  transform: translateX(-50%) scaleX(1);
+.tab-underline.active::after {
+  transform: scaleX(1);
 }
 
-/* 加载骨架屏闪烁 */
-@keyframes skeleton-pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
-}
-.skeleton-pulse {
-  animation: skeleton-pulse 1.5s ease-in-out infinite;
+/* ============================================
+   Scrollbar & Selection
+   ============================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D1CFCA; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #A19E98; }
+
+::selection {
+  background: rgba(196, 90, 44, 0.15);
+  color: #181817;
 }
 
-/* 菜单展开/收起 */
-@keyframes menu-expand {
-  from { opacity: 0; max-height: 0; transform: translateY(-8px); }
-  to { opacity: 1; max-height: 500px; transform: translateY(0); }
-}
-.menu-expand {
-  animation: menu-expand 0.35s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  overflow: hidden;
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #272624 !important;
+  box-shadow: 0 0 0 3px rgba(39, 38, 36, 0.08);
 }
 
-/* 图片懒加载渐显 */
-img[loading="lazy"] {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-img[loading="lazy"].loaded,
-img[loading="lazy"]:not([src=""]) {
-  opacity: 1;
+/* ============================================
+   Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal, .reveal-scale { opacity: 1; transform: none; }
 }

@@ -1,228 +1,104 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ArrowLeft, Check, Crown, Gift, Sparkles } from "lucide-react";
-import Link from "next/link";
+import { useState } from 'react';
+import { Check, Crown, Star, Gem } from 'lucide-react';
+import { Reveal } from '@/components/Reveal';
 
-const memberLevels = [
-  { level: "普通会员", icon: "🤍", price: "免费", color: "#86868B", benefits: ["预约课程", "积分累计", "会员价商品"] },
-  { level: "银卡会员", icon: "🥈", price: "¥1,980/年", color: "#86868B", benefits: ["8折课程", "生日礼遇", "专属活动", "优先预约"] },
-  { level: "金卡会员", icon: "🥇", price: "¥3,980/年", color: "#C45A2C", benefits: ["6.5折课程", "专属私教", "免费商城配送", "专属课程", "VIP活动"] },
-  { level: "钻石会员", icon: "💎", price: "¥6,980/年", color: "#1D1D1F", benefits: ["5折课程", "1对1私教", "免费商城", "全部课程", "年度派对", "专属顾问"] },
+const plans = [
+  { name: '月卡', price: 399, original: 499, period: '月', features: ['全课程预约', '基础会员权益', '商城95折'] },
+  { name: '季卡', price: 999, original: 1497, period: '季', popular: true, features: ['全课程预约', '银卡会员权益', '商城9折', '私教体验课1次'] },
+  { name: '年卡', price: 3299, original: 5988, period: '年', features: ['全课程预约', '金卡会员权益', '商城85折', '私教课4次', '专属储物柜'] },
 ];
 
-const purchasePlans = [
-  { name: "月卡", price: "299", original: "299", unit: "元/月", save: null, popular: false },
-  { name: "季卡", price: "699", original: "897", unit: "元/季", save: "省198元", popular: true },
-  { name: "年卡", price: "1,999", original: "3,588", unit: "元/年", save: "省1,589元", popular: false },
-];
-
-const pointsRules = [
-  { action: "每日签到", points: "+5" },
-  { action: "完成课程", points: "+20" },
-  { action: "消费1元", points: "+1" },
-  { action: "邀请好友", points: "+100" },
-];
-
-const pointsExchange = [
-  { name: "体验课1节", points: "500", icon: "🩰" },
-  { name: "运动毛巾", points: "800", icon: "🧣" },
-  { name: "蛋白棒", points: "300", icon: "🍫" },
-  { name: "私教课1节", points: "2000", icon: "💪" },
+const levels = [
+  { name: '普通会员', icon: Star, color: '#73716D', benefits: ['课程预约', '基础积分'] },
+  { name: '银卡会员', icon: Crown, color: '#A19E98', benefits: ['课程预约', '1.5倍积分', '商城9折', '生日礼遇'] },
+  { name: '金卡会员', icon: Gem, color: '#C45A2C', benefits: ['课程预约', '2倍积分', '商城85折', '专属课程', '私教优惠'] },
+  { name: '钻石会员', icon: Crown, color: '#272624', benefits: ['课程优先预约', '3倍积分', '商城8折', '全部专属课程', '私教8折', '年度体检'] },
 ];
 
 export default function VipPage() {
-  const [activeTab, setActiveTab] = useState<"levels" | "purchase" | "points">("levels");
-
   return (
-    <div className="min-h-screen bg-white pb-24">
-      {/* Header - Dark premium */}
-      <div className="relative px-8 pt-14 pb-10 bg-[#1D1D1F]">
-        <div className="flex items-center gap-3 mb-8">
-          <Link href="/profile">
-            <ArrowLeft className="w-5 h-5 text-white/80" />
-          </Link>
-          <h1 className="text-xl font-semibold text-white">会员中心</h1>
+    <div className="pt-24 pb-20">
+      {/* Hero */}
+      <section className="relative noise-overlay overflow-hidden px-5 md:px-10 py-20 md:py-28"
+        style={{ background: 'linear-gradient(180deg, #1F1E1C 0%, #181817 100%)' }}
+      >
+        <div className="absolute top-0 right-[10%] w-[400px] h-[300px] opacity-20 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at center, rgba(196,90,44,0.3), transparent 60%)' }}
+        />
+        <div className="relative z-10 mx-auto max-w-[1240px]">
+          <Reveal>
+            <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4">Membership</p>
+            <h1 className="text-[36px] md:text-[56px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-4">会员中心</h1>
+            <p className="text-[17px] text-gray-400 max-w-lg">加入270会员，解锁专属权益与尊享服务。</p>
+          </Reveal>
         </div>
+      </section>
 
-        {/* Current member info */}
-        <div className="flex items-center gap-5">
-          <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-[#C45A2C]/50 ring-offset-2 ring-offset-[#1D1D1F]">
-            <img
-              src="https://images.unsplash.com/photo-1438761681033-64697f97b067?w=200&q=80"
-              alt="avatar"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <span className="text-white text-lg font-medium">小美</span>
-              <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#C45A2C] text-white text-xs">
-                <Crown className="w-3 h-3" />
-                银卡会员
-              </span>
-            </div>
-            <p className="text-white/50 text-sm mt-1.5">到期时间：2025-03-15</p>
-          </div>
-        </div>
-
-        {/* Quick stats */}
-        <div className="flex items-center justify-around mt-8 pt-6 border-t border-white/10">
-          <div className="text-center">
-            <p className="text-2xl font-bold text-white">2,680</p>
-            <p className="text-sm text-white/50 mt-1">可用积分</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-white">3</p>
-            <p className="text-sm text-white/50 mt-1">可兑换</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-white">68</p>
-            <p className="text-sm text-white/50 mt-1">距升级差</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="px-8 pt-6">
-        <div className="bg-[#F5F5F7] rounded-xl p-1 flex">
-          {[
-            { key: "levels", label: "等级权益" },
-            { key: "purchase", label: "开通会员" },
-            { key: "points", label: "积分商城" },
-          ].map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key as typeof activeTab)}
-              className={`flex-1 py-3 rounded-lg text-sm font-medium transition-colors ${
-                activeTab === tab.key
-                  ? "bg-white text-[#1D1D1F] shadow-sm"
-                  : "text-[#86868B]"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="px-8 pt-6">
-        {activeTab === "levels" && (
-          <div className="space-y-4">
-            {memberLevels.map((level, index) => (
-              <div
-                key={index}
-                className="border border-[#D2D2D7]/50 rounded-2xl p-5"
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="text-3xl">{level.icon}</span>
-                  <div className="flex-1">
-                    <h3 className="text-base font-semibold text-[#1D1D1F]">{level.level}</h3>
-                    <p className="text-sm text-[#86868B] mt-0.5">{level.price}</p>
-                  </div>
-                  {index === 1 && (
-                    <span className="text-xs px-3 py-1 rounded-full bg-[#C45A2C] text-white">当前</span>
+      {/* Plans */}
+      <section className="px-5 md:px-10 py-20 md:py-28 bg-cream">
+        <div className="mx-auto max-w-[1240px]">
+          <Reveal>
+            <h2 className="text-[24px] md:text-[32px] font-bold text-gray-900 text-center mb-12">选择适合你的会员方案</h2>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            {plans.map((plan, i) => (
+              <Reveal key={plan.name} delay={i + 1}>
+                <div className={`card p-8 relative ${plan.popular ? 'border-gray-900 border-2' : ''}`}>
+                  {plan.popular && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[11px] font-semibold text-white px-3 py-1 rounded" style={{ backgroundColor: '#C45A2C' }}>
+                      推荐
+                    </span>
                   )}
+                  <h3 className="text-[18px] font-semibold text-gray-900 mb-2">{plan.name}</h3>
+                  <div className="flex items-baseline gap-2 mb-1">
+                    <span className="text-[36px] font-bold text-gray-900" style={{ fontFamily: 'Inter' }}>¥{plan.price}</span>
+                    <span className="text-[14px] text-gray-400">/{plan.period}</span>
+                  </div>
+                  <p className="text-[13px] text-gray-400 line-through mb-6">原价 ¥{plan.original}</p>
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map(f => (
+                      <li key={f} className="flex items-center gap-2 text-[14px] text-gray-700">
+                        <Check size={15} className="text-gray-400 flex-shrink-0" /> {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <button className={`w-full h-12 text-[15px] font-medium rounded-lg ${plan.popular ? 'btn-primary' : 'btn-secondary'}`}>
+                    立即开通
+                  </button>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {level.benefits.map((benefit, bi) => (
-                    <span key={bi} className="flex items-center gap-1 text-sm text-[#86868B]">
-                      <Check className="w-3.5 h-3.5 text-[#C45A2C]" />
-                      {benefit}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              </Reveal>
             ))}
           </div>
-        )}
+        </div>
+      </section>
 
-        {activeTab === "purchase" && (
-          <div className="space-y-4">
-            {purchasePlans.map((plan, index) => (
-              <div
-                key={index}
-                className={`card-hover relative rounded-2xl p-6 ${
-                  plan.popular
-                    ? "bg-[#1D1D1F] text-white"
-                    : "border border-[#D2D2D7]/50"
-                }`}
-              >
-                {plan.popular && (
-                  <div className="absolute top-4 right-4 px-3 py-1 bg-[#C45A2C] text-white text-xs rounded-full">
-                    推荐
+      {/* Levels */}
+      <section className="px-5 md:px-10 py-20 md:py-28 bg-white">
+        <div className="mx-auto max-w-[1240px]">
+          <Reveal>
+            <h2 className="text-[24px] md:text-[32px] font-bold text-gray-900 text-center mb-12">会员等级体系</h2>
+          </Reveal>
+          <div className="grid md:grid-cols-4 gap-6">
+            {levels.map((level, i) => (
+              <Reveal key={level.name} delay={i + 1}>
+                <div className="card p-6 text-center">
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: `${level.color}10` }}>
+                    <level.icon size={24} style={{ color: level.color }} />
                   </div>
-                )}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className={`text-lg font-semibold ${plan.popular ? "text-white" : "text-[#1D1D1F]"}`}>
-                      {plan.name}
-                    </h3>
-                    {plan.save && (
-                      <span className="text-sm text-[#C45A2C] mt-1">{plan.save}</span>
-                    )}
-                  </div>
-                  <div className="text-right">
-                    <span className={`text-3xl font-bold ${plan.popular ? "text-white" : "text-[#C45A2C]"}`}>
-                      ¥{plan.price}
-                    </span>
-                    <span className={`text-sm ml-1 ${plan.popular ? "text-white/50" : "text-[#86868B]"}`}>
-                      /{plan.unit.replace("元/", "")}
-                    </span>
-                  </div>
+                  <h3 className="text-[16px] font-semibold text-gray-900 mb-3">{level.name}</h3>
+                  <ul className="space-y-2">
+                    {level.benefits.map(b => (
+                      <li key={b} className="text-[13px] text-gray-500">{b}</li>
+                    ))}
+                  </ul>
                 </div>
-                {plan.original !== plan.price && (
-                  <p className={`text-xs mt-2 ${plan.popular ? "text-white/40" : "text-[#86868B]"}`}>
-                    原价 ¥{plan.original}
-                  </p>
-                )}
-              </div>
+              </Reveal>
             ))}
-
-            <button className="w-full mt-6 py-4 bg-[#C45A2C] text-white rounded-full text-base font-medium hover:bg-[#D4612F] transition-colors duration-300 btn-scale">
-              立即开通会员
-            </button>
           </div>
-        )}
-
-        {activeTab === "points" && (
-          <div className="space-y-6">
-            {/* Points rules */}
-            <div className="border border-[#D2D2D7]/50 rounded-2xl p-6">
-              <h3 className="text-base font-semibold text-[#1D1D1F] mb-5 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-[#C45A2C]" />
-                积分规则
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {pointsRules.map((rule, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-[#F5F5F7] rounded-xl">
-                    <span className="text-sm text-[#86868B]">{rule.action}</span>
-                    <span className="text-sm text-[#C45A2C] font-medium">{rule.points}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Points exchange */}
-            <div className="border border-[#D2D2D7]/50 rounded-2xl p-6">
-              <h3 className="text-base font-semibold text-[#1D1D1F] mb-5 flex items-center gap-2">
-                <Gift className="w-5 h-5 text-[#C45A2C]" />
-                积分兑换
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {pointsExchange.map((item, index) => (
-                  <div key={index} className="p-5 bg-[#F5F5F7] rounded-xl text-center hover:bg-[#E8E8ED] transition-colors cursor-pointer">
-                    <span className="text-3xl">{item.icon}</span>
-                    <p className="text-sm text-[#1D1D1F] mt-2">{item.name}</p>
-                    <p className="text-xs text-[#C45A2C] mt-1 font-medium">{item.points} 积分</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

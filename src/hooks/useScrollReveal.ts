@@ -2,14 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-interface UseScrollRevealOptions {
-  threshold?: number;
-  rootMargin?: string;
-  triggerOnce?: boolean;
-}
-
-export function useScrollReveal(options: UseScrollRevealOptions = {}) {
-  const { threshold = 0.1, rootMargin = '0px 0px -60px 0px', triggerOnce = true } = options;
+export function useScrollReveal(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -21,17 +14,15 @@ export function useScrollReveal(options: UseScrollRevealOptions = {}) {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          if (triggerOnce) observer.unobserve(el);
-        } else if (!triggerOnce) {
-          setIsVisible(false);
+          observer.unobserve(el);
         }
       },
-      { threshold, rootMargin }
+      { threshold, rootMargin: '0px 0px -40px 0px' }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold, rootMargin, triggerOnce]);
+  }, [threshold]);
 
   return { ref, isVisible };
 }

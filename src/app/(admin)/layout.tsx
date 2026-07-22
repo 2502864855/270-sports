@@ -1,39 +1,47 @@
-'use client';
-
 import Link from 'next/link';
-import { Brain, Shield, Home } from 'lucide-react';
-import { useState } from 'react';
+import { LayoutGrid, Users, BookOpen, ShoppingBag, Receipt, ArrowLeft } from 'lucide-react';
+
+const navItems = [
+  { icon: LayoutGrid, label: '仪表盘', href: '/admin' },
+  { icon: Users, label: '用户管理', href: '/admin/users' },
+  { icon: BookOpen, label: '课程管理', href: '/admin/courses' },
+  { icon: ShoppingBag, label: '商品管理', href: '/admin/products' },
+  { icon: Receipt, label: '订单管理', href: '/admin/orders' },
+];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [showPortal, setShowPortal] = useState(false);
-
   return (
-    <div className="min-h-screen bg-[#1D1D1F]">
-      {/* Portal Switcher */}
-      <button
-        onClick={() => setShowPortal(!showPortal)}
-        className="fixed top-4 right-4 z-[100] w-9 h-9 rounded-full bg-[#C45A2C] text-white flex items-center justify-center shadow-lg hover:bg-[#D4612F] transition-colors"
-        title="切换界面"
-      >
-        <Home size={16} />
-      </button>
-
-      {showPortal && (
-        <div className="fixed top-14 right-4 z-[100] bg-white rounded-xl shadow-2xl border border-[#D2D2D7] p-2 w-44">
-          <p className="text-[10px] text-[#86868B] px-2 py-1">切换界面</p>
-          <Link href="/" onClick={() => setShowPortal(false)} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#1D1D1F] hover:bg-[#F5F5F7]">
-            <Home size={14} /> 客户端
+    <div className="flex min-h-screen" style={{ backgroundColor: '#181817' }}>
+      {/* Sidebar */}
+      <aside className="w-60 border-r border-white/[0.06] flex flex-col">
+        <div className="p-6">
+          <Link href="/" className="flex items-center gap-2 text-white/40 hover:text-white/60 text-[13px] mb-6 transition-colors">
+            <ArrowLeft size={14} /> 返回前台
           </Link>
-          <Link href="/ai" onClick={() => setShowPortal(false)} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#1D1D1F] hover:bg-[#F5F5F7]">
-            <Brain size={14} /> AI 中台
-          </Link>
-          <Link href="/admin" onClick={() => setShowPortal(false)} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#C45A2C] bg-[#F5F5F7] font-medium">
-            <Shield size={14} /> 管理后台
-          </Link>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(196,90,44,0.15)' }}>
+              <LayoutGrid size={16} style={{ color: '#C45A2C' }} />
+            </div>
+            <div>
+              <h1 className="text-[14px] font-semibold text-white">管理后台</h1>
+              <p className="text-[11px] text-white/30">270 运动馆</p>
+            </div>
+          </div>
         </div>
-      )}
-
-      {children}
+        <nav className="flex-1 px-3">
+          {navItems.map(item => (
+            <Link key={item.href} href={item.href}
+              className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[13px] text-white/50 hover:text-white/80 hover:bg-white/[0.04] transition-colors mb-0.5"
+            >
+              <item.icon size={16} /> {item.label}
+            </Link>
+          ))}
+        </nav>
+      </aside>
+      {/* Main */}
+      <main className="flex-1 overflow-auto">
+        {children}
+      </main>
     </div>
   );
 }

@@ -1,177 +1,104 @@
-"use client";
+'use client';
 
-import {
-  ChevronRight, Crown,
-  Bell, Settings, HelpCircle, LogOut, Ruler,
-  Award, ShoppingBag, Bookmark, Gift,
-  User, Shield, Info, Calendar
-} from "lucide-react";
-import Link from "next/link";
+import { useState } from 'react';
+import Link from 'next/link';
+import { ChevronRight, Crown, Calendar, ShoppingBag, Heart, Settings, LogOut, Award, TrendingUp } from 'lucide-react';
+import { Reveal } from '@/components/Reveal';
 
-const stats = [
-  { label: "累计运动", value: "128", unit: "次" },
-  { label: "消耗卡路里", value: "32,680", unit: "kcal" },
-  { label: "连续打卡", value: "15", unit: "天" },
-];
+const tabs = ['概览', '我的课程', '订单', '收藏'];
 
-const achievements = [
-  { icon: "🔥", name: "连续7天打卡", done: true },
-  { icon: "💪", name: "完成50次训练", done: true },
-  { icon: "⭐", name: "首次私教课", done: true },
-  { icon: "🏆", name: "月度全勤", done: false },
-  { icon: "💎", name: "累计100次", done: false },
-  { icon: "👑", name: "年度会员", done: false },
-];
-
-const bodyData = [
-  { label: "身高", value: "163", unit: "cm" },
-  { label: "体重", value: "52.5", unit: "kg" },
-  { label: "体脂率", value: "22.8", unit: "%" },
-  { label: "BMI", value: "19.7", unit: "" },
-];
-
-const menuSections = [
-  {
-    items: [
-      { icon: Calendar, label: "我的课程", desc: "已预约 3 节", href: "/courses" },
-      { icon: ShoppingBag, label: "我的订单", desc: "2 件待收货", href: "/mall" },
-      { icon: Bookmark, label: "我的收藏", desc: "12 项", href: "#" },
-      { icon: Crown, label: "会员中心", desc: "银卡会员", href: "/vip" },
-    ],
-  },
-  {
-    items: [
-      { icon: Gift, label: "我的积分", desc: "2,680 分", href: "#" },
-      { icon: Ruler, label: "身体数据", desc: "上次测量 11/10", href: "#" },
-      { icon: Bell, label: "消息通知", desc: "3 条未读", href: "#" },
-    ],
-  },
-  {
-    items: [
-      { icon: User, label: "个人信息", href: "#" },
-      { icon: Shield, label: "账号安全", href: "#" },
-      { icon: Settings, label: "设置", href: "#" },
-      { icon: HelpCircle, label: "帮助与反馈", href: "#" },
-      { icon: Info, label: "关于我们", href: "#" },
-    ],
-  },
+const menuItems = [
+  { icon: Calendar, label: '我的课程', href: '/courses' },
+  { icon: ShoppingBag, label: '我的订单', href: '#' },
+  { icon: Heart, label: '我的收藏', href: '#' },
+  { icon: Crown, label: '会员中心', href: '/vip' },
+  { icon: Award, label: '我的积分', href: '#' },
+  { icon: Settings, label: '设置', href: '#' },
 ];
 
 export default function ProfilePage() {
+  const [activeTab, setActiveTab] = useState('概览');
+
   return (
-    <div className="min-h-screen bg-white pb-24">
-      {/* Profile header - Apple style */}
-      <div className="px-8 pt-16 pb-8">
-        <div className="flex items-center gap-5 mb-8">
-          <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-[#D2D2D7] ring-offset-4">
-            <img
-              src="https://images.unsplash.com/photo-1438761681033-64697f97b067?w=200&q=80"
-              alt="avatar"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <h2 className="text-xl font-semibold text-[#1D1D1F]">小美</h2>
-              <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#1D1D1F] text-white text-xs">
-                <Crown className="w-3 h-3" />
-                银卡
-              </span>
+    <div className="pt-24 pb-20 px-5 md:px-10">
+      <div className="mx-auto max-w-[1240px]">
+        {/* Profile Header */}
+        <Reveal>
+          <div className="flex items-center gap-5 mb-8">
+            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-100">
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80" alt="avatar" className="w-full h-full object-cover" />
             </div>
-            <p className="text-sm text-[#86868B] mt-1">ID: 270001 · 加入 286 天</p>
-            <p className="text-sm text-[#C45A2C] mt-1">会员到期：2025-03-15</p>
-          </div>
-        </div>
-
-        {/* Stats - Larger */}
-        <div className="flex items-center justify-around rounded-2xl border border-[#D2D2D7]/50 p-6">
-          {stats.map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className="flex items-baseline justify-center gap-1">
-                <span className="text-2xl font-bold text-[#1D1D1F]">{stat.value}</span>
-                <span className="text-xs text-[#86868B]">{stat.unit}</span>
+            <div>
+              <h1 className="text-[24px] font-bold text-gray-900">张小美</h1>
+              <div className="flex items-center gap-2 mt-1">
+                <Crown size={14} style={{ color: '#C45A2C' }} />
+                <span className="text-[14px] font-medium" style={{ color: '#C45A2C' }}>金卡会员</span>
+                <span className="text-[13px] text-gray-400">· 2025.03.15 到期</span>
               </div>
-              <p className="text-sm text-[#86868B] mt-1">{stat.label}</p>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Achievements - Larger */}
-      <div className="px-8 pb-8">
-        <div className="rounded-2xl border border-[#D2D2D7]/50 p-6">
-          <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center gap-2">
-              <Award className="w-5 h-5 text-[#FF9500]" />
-              <h3 className="text-base font-semibold text-[#1D1D1F]">我的成就</h3>
-            </div>
-            <span className="text-sm text-[#86868B]">3/6 已解锁</span>
           </div>
-          <div className="grid grid-cols-3 gap-3">
-            {achievements.map((ach, index) => (
-              <div
-                key={index}
-                className={`text-center p-4 rounded-xl transition-all ${
-                  ach.done ? "bg-[#F5F5F7]" : "bg-[#F5F5F7] opacity-40"
+        </Reveal>
+
+        {/* Stats */}
+        <Reveal delay={1}>
+          <div className="grid grid-cols-3 gap-4 mb-10">
+            {[
+              { label: '累计运动', value: '128', unit: '次' },
+              { label: '消耗卡路里', value: '32,450', unit: 'kcal' },
+              { label: '连续打卡', value: '15', unit: '天' },
+            ].map(stat => (
+              <div key={stat.label} className="card p-5 text-center">
+                <p className="text-[28px] font-bold text-gray-900" style={{ fontFamily: 'Inter' }}>
+                  {stat.value}
+                </p>
+                <p className="text-[12px] text-gray-400 mt-1">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+
+        {/* Tabs */}
+        <Reveal delay={2}>
+          <div className="flex gap-6 border-b border-gray-200 mb-8">
+            {tabs.map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`tab-underline text-[15px] pb-3 ${activeTab === tab ? 'active' : ''}`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </Reveal>
+
+        {/* Menu */}
+        <Reveal delay={3}>
+          <div className="card overflow-hidden">
+            {menuItems.map((item, i) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors ${
+                  i < menuItems.length - 1 ? 'border-b border-gray-100' : ''
                 }`}
               >
-                <span className="text-2xl">{ach.icon}</span>
-                <p className="text-xs text-[#1D1D1F] mt-2 leading-tight">{ach.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Body data - Larger */}
-      <div className="px-8 pb-8">
-        <div className="rounded-2xl border border-[#D2D2D7]/50 p-6">
-          <div className="flex items-center justify-between mb-5">
-            <h3 className="text-base font-semibold text-[#1D1D1F]">身体数据</h3>
-            <button className="text-sm text-[#C45A2C] font-medium">编辑</button>
-          </div>
-          <div className="grid grid-cols-4 gap-3">
-            {bodyData.map((data, index) => (
-              <div key={index} className="text-center p-4 bg-[#F5F5F7] rounded-xl">
-                <p className="text-lg font-bold text-[#1D1D1F]">{data.value}</p>
-                <p className="text-xs text-[#86868B]">{data.unit}</p>
-                <p className="text-xs text-[#86868B] mt-1">{data.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Menu sections - Larger spacing */}
-      {menuSections.map((section, si) => (
-        <div key={si} className="px-8 pb-6">
-          <div className="rounded-2xl border border-[#D2D2D7]/50 overflow-hidden">
-            {section.items.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className="flex items-center gap-4 px-5 py-4 hover:bg-[#F5F5F7] transition-colors border-b border-[#F5F5F7] last:border-b-0"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#F5F5F7] flex items-center justify-center">
-                  <item.icon className="w-5 h-5 text-[#1D1D1F]" />
+                <div className="flex items-center gap-3">
+                  <item.icon size={18} className="text-gray-500" />
+                  <span className="text-[15px] text-gray-800">{item.label}</span>
                 </div>
-                <span className="flex-1 text-base text-[#1D1D1F]">{item.label}</span>
-                {"desc" in item && item.desc && (
-                  <span className="text-sm text-[#86868B]">{item.desc}</span>
-                )}
-                <ChevronRight className="w-5 h-5 text-[#D2D2D7]" />
+                <ChevronRight size={16} className="text-gray-300" />
               </Link>
             ))}
           </div>
-        </div>
-      ))}
+        </Reveal>
 
-      {/* Logout */}
-      <div className="px-8 mt-2">
-        <button className="w-full py-4 rounded-2xl border border-[#D2D2D7]/50 text-base text-[#86868B] hover:bg-[#F5F5F7] transition-colors flex items-center justify-center gap-2">
-          <LogOut className="w-5 h-5" />
-          退出登录
-        </button>
+        {/* Logout */}
+        <Reveal delay={4}>
+          <button className="mt-6 w-full flex items-center justify-center gap-2 py-3 text-[14px] text-gray-400 hover:text-gray-600 transition-colors">
+            <LogOut size={15} /> 退出登录
+          </button>
+        </Reveal>
       </div>
     </div>
   );

@@ -1,65 +1,75 @@
-# 项目上下文
+# AGENTS.md - 270运动
 
-### 版本技术栈
+## 项目概览
 
-- **Framework**: Next.js 16 (App Router)
-- **Core**: React 19
-- **Language**: TypeScript 5
-- **UI 组件**: shadcn/ui (基于 Radix UI)
-- **Styling**: Tailwind CSS 4
+270运动是一个三端分离的健身运动平台，包含：
+- **前端（客户端）**：面向用户的移动端优先界面，包含首页、饮食、课程、商城、我的 5 个页面
+- **中端（AI 中台）**：面向 AI 的数据分析与决策支持系统
+- **后端（管理后台）**：系统管理界面，包含用户管理、课程管理、商城管理等功能
+
+## 技术栈
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript 5
+- Tailwind CSS 4
+- shadcn/ui 组件库
+- lucide-react 图标库
 
 ## 目录结构
 
 ```
-├── public/                 # 静态资源
-├── scripts/                # 构建与启动脚本
-│   ├── build.sh            # 构建脚本
-│   ├── dev.sh              # 开发环境启动脚本
-│   ├── prepare.sh          # 预处理脚本
-│   └── start.sh            # 生产环境启动脚本
-├── src/
-│   ├── app/                # 页面路由与布局
-│   ├── components/ui/      # Shadcn UI 组件库
-│   ├── hooks/              # 自定义 Hooks
-│   ├── lib/                # 工具库
-│   │   └── utils.ts        # 通用工具函数 (cn)
-│   └── server.ts           # 自定义服务端入口
-├── next.config.ts          # Next.js 配置
-├── package.json            # 项目依赖管理
-└── tsconfig.json           # TypeScript 配置
+src/app/
+├── (frontend)/          # 客户端路由组
+│   ├── layout.tsx       # 客户端布局（底部 Tab 导航）
+│   ├── page.tsx         # 首页
+│   ├── diet/page.tsx    # 饮食管理
+│   ├── courses/page.tsx # 训练课程
+│   ├── mall/page.tsx    # 商城
+│   └── profile/page.tsx # 我的
+├── (ai)/                # AI 中台路由组
+│   ├── layout.tsx       # AI 中台布局
+│   └── ai/page.tsx      # AI 数据总览
+├── (admin)/             # 管理后台路由组
+│   ├── layout.tsx       # 管理后台布局
+│   └── admin/page.tsx   # 管理后台首页
+├── layout.tsx           # 根布局
+└── globals.css          # 全局样式（品牌色彩、动画）
 ```
 
-- 项目文件（如 app 目录、pages 目录、components 等）默认初始化到 `src/` 目录下。
+## 路由说明
 
-## 包管理规范
+| 路径 | 端 | 说明 |
+|------|-----|------|
+| `/` | 前端 | 首页 - 运动数据、今日计划、热门课程 |
+| `/diet` | 前端 | 饮食管理 - 营养摄入、餐食记录 |
+| `/courses` | 前端 | 训练课程 - 课程列表、分类筛选 |
+| `/mall` | 前端 | 商城 - 商品列表、购物车 |
+| `/profile` | 前端 | 我的 - 个人信息、运动数据、成就 |
+| `/ai` | AI中台 | AI 数据总览 - 智能洞察、用户分析 |
+| `/admin` | 后台 | 管理后台 - 用户管理、课程管理 |
 
-**仅允许使用 pnpm** 作为包管理器，**严禁使用 npm 或 yarn**。
-**常用命令**：
-- 安装依赖：`pnpm add <package>`
-- 安装开发依赖：`pnpm add -D <package>`
-- 安装所有依赖：`pnpm install`
-- 移除依赖：`pnpm remove <package>`
+## 设计规范
 
-## 开发规范
+- 品牌主色：#FF6B35（活力橙）
+- 暗色基底：#0F0F23（深空灰）
+- 强调色：#00F5A0（荧光绿）、#4ECDC4（电光蓝）
+- 客户端：移动端优先，最大宽度 480px，底部 Tab 导航
+- AI/后台：桌面端优先，深色主题，左侧导航
 
-### 编码规范
+## 构建命令
 
-- 默认按 TypeScript `strict` 心智写代码；优先复用当前作用域已声明的变量、函数、类型和导入，禁止引用未声明标识符或拼错变量名。
-- 禁止隐式 `any` 和 `as any`；函数参数、返回值、解构项、事件对象、`catch` 错误在使用前应有明确类型或先完成类型收窄，并清理未使用的变量和导入。
+```bash
+pnpm install       # 安装依赖
+pnpm dev           # 开发环境
+pnpm build         # 生产构建
+pnpm ts-check      # TypeScript 检查
+pnpm lint          # ESLint 检查
+```
 
-### next.config 配置规范
+## 注意事项
 
-- 配置的路径不要写死绝对路径，必须使用 path.resolve(__dirname, ...)、import.meta.dirname 或 process.cwd() 动态拼接。
-
-### Hydration 问题防范
-
-1. 严禁在 JSX 渲染逻辑中直接使用 typeof window、Date.now()、Math.random() 等动态数据。**必须使用 'use client' 并配合 useEffect + useState 确保动态内容仅在客户端挂载后渲染**；同时严禁非法 HTML 嵌套（如 <p> 嵌套 <div>）。
-2. **禁止使用 head 标签**，优先使用 metadata，详见文档：https://nextjs.org/docs/app/api-reference/functions/generate-metadata
-   1. 三方 CSS、字体等资源可在 `globals.css` 中顶部通过 `@import` 引入或使用 next/font
-   2. preload, preconnect, dns-prefetch 通过 ReactDOM 的 preload、preconnect、dns-prefetch 方法引入
-   3. json-ld 可阅读 https://nextjs.org/docs/app/guides/json-ld
-
-## UI 设计与组件规范 (UI & Styling Standards)
-
-- 模板默认预装核心组件库 `shadcn/ui`，位于`src/components/ui/`目录下
-- Next.js 项目**必须默认**采用 shadcn/ui 组件、风格和规范，**除非用户指定用其他的组件和规范。**
+- 三端通过右上角切换按钮互相跳转
+- 所有页面使用 `use client` 客户端渲染
+- 使用 CSS 变量和 Tailwind 实现品牌主题
+- 数据目前为 Mock 数据，后续可对接 API

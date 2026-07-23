@@ -5,15 +5,29 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronRight } from 'lucide-react';
 
-const navItems = [
+// v3.0: 公开状态导航
+const publicNavItems = [
   { href: '/', label: '首页' },
-  { href: '/courses', label: '课程' },
-  { href: '/mall', label: '商城' },
-  { href: '/lifestyle', label: '健康生活' },
-  { href: '/vip', label: '会员中心' },
-  { href: '/profile', label: '我的' },
   { href: '/about', label: '关于我们' },
+  { href: '/courses', label: '课程介绍' },
+  { href: '/about#stores', label: '门店信息' },
+  { href: '/about#contact', label: '联系我们' },
 ];
+
+// v3.0: 登录后导航
+const loggedInNavItems = [
+  { href: '/', label: '首页' },
+  { href: '/about', label: '关于我们' },
+  { href: '/courses', label: '课程介绍' },
+  { href: '/about#stores', label: '门店信息' },
+  { href: '/about#contact', label: '联系我们' },
+  { href: '/profile', label: '我的' },
+];
+
+// v3.0: 商城入口暂隐藏，代码保留，随时可恢复
+// const mallNavItems = [
+//   { href: '/mall', label: '商城' },
+// ];
 
 const adminLinks = [
   { href: '/ai', label: 'AI 中台' },
@@ -23,6 +37,7 @@ const adminLinks = [
 export default function FrontendLayout({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const pathname = usePathname();
   const isLogin = pathname === '/login';
 
@@ -36,11 +51,20 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
     setMenuOpen(false);
   }, [pathname]);
 
+  // v3.0: 检查登录状态（从 localStorage 读取）
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, [pathname]);
+
   // Lock body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
+
+  // v3.0: 根据登录状态选择导航项
+  const currentNavItems = isLoggedIn ? loggedInNavItems : publicNavItems;
 
   if (isLogin) {
     return <>{children}</>;
@@ -71,7 +95,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-8">
-              {navItems.slice(0, 5).map((item) => (
+              {currentNavItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -88,12 +112,22 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
 
             {/* Right side */}
             <div className="flex items-center gap-3">
-              <Link
-                href="/login"
-                className="hidden md:inline-flex btn-primary px-5 h-10 text-[14px] font-medium items-center"
-              >
-                登录
-              </Link>
+              {/* v3.0: 根据登录状态显示不同按钮 */}
+              {!isLoggedIn ? (
+                <Link
+                  href="/login"
+                  className="hidden md:inline-flex btn-primary px-5 h-10 text-[14px] font-medium items-center"
+                >
+                  登录/注册
+                </Link>
+              ) : (
+                <Link
+                  href="/profile"
+                  className="hidden md:inline-flex btn-primary px-5 h-10 text-[14px] font-medium items-center"
+                >
+                  我的
+                </Link>
+              )}
 
               {/* Hamburger Menu Button */}
               <button
@@ -133,7 +167,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
         </div>
 
         <nav className="py-4">
-          {navItems.map((item) => (
+          {currentNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}

@@ -1,33 +1,39 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowDown, ArrowRight, Star } from 'lucide-react';
+import { ArrowDown, ArrowRight, Crown, Star, Award, MapPin, Phone, Quote } from 'lucide-react';
 import { Reveal } from '@/components/Reveal';
 import { useEffect, useState } from 'react';
 
-const courses = [
-  { name: '普拉提核心床', desc: '精准控制，深层塑形', img: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80' },
-  { name: '瑜伽系列', desc: '身心合一，柔韧力量', img: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80' },
-  { name: '女性力量训练', desc: '科学增肌，自信绽放', img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80' },
+// 发展历程
+const timeline = [
+  { year: '2022', title: '品牌创立', desc: '270 运动馆于福州成立，创始人徐宁，立志打造女性专属健身空间' },
+  { year: '2023', title: '首家门店落地', desc: '鼓楼区晓康苑店开业，积累首批 500 名会员' },
+  { year: '2024', title: '课程体系迭代', desc: '完善女性专属训练体系，会员突破 1000 人' },
+  { year: '2025', title: '品牌荣誉', desc: '创始人徐宁获「年度女性影响力人物」，品牌获「最具投资价值项目奖」' },
+  { year: '2026', title: '种子轮融资', desc: '完成种子轮融资，投后估值 500 万，开启规模化发展' },
 ];
 
-const coaches = [
-  { name: '林悦', title: '普拉提导师', exp: '8年教学经验', img: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400&q=80' },
-  { name: '陈雨桐', title: '瑜伽导师', exp: '6年教学经验', img: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=400&q=80' },
-  { name: '王思琪', title: '力量训练专家', exp: '5年教学经验', img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80' },
+// 核心价值
+const values = [
+  { icon: '🔒', title: '安全私密', desc: '纯女性空间，无评判环境，让每位女性安心运动' },
+  { icon: '💪', title: '专业适配', desc: '女性专属训练体系，科学适配不同阶段需求' },
+  { icon: '👥', title: '高粘性社群', desc: '1000+ 核心会员，68% 续费率，温暖互助' },
 ];
 
-const testimonials = [
-  { name: '张女士', age: 32, text: '在270的半年，不仅瘦了15斤，更重要的是找到了自信。这里的教练真的懂女性身体。', rating: 5 },
-  { name: '李女士', age: 28, text: '产后修复选了270，专业度和私密性让我很安心。现在体态比怀孕前还好。', rating: 5 },
-  { name: '陈女士', age: 35, text: '从零基础到现在能完成高难度动作，270让我相信年龄只是数字。', rating: 5 },
-];
-
+// 核心数据
 const stats = [
+  { value: '10W+', label: '累计服务女性' },
   { value: '1000+', label: '核心会员' },
   { value: '68%', label: '月度续费率' },
-  { value: '10W+', label: '服务人次' },
-  { value: '2022', label: '创立至今' },
+  { value: '2022', label: '品牌创立' },
+];
+
+// 媒体报道
+const news = [
+  { source: '凤凰网', title: '深耕"她力量"健身赛道', desc: '270 运动馆以女性专属定位，开创健身行业新蓝海' },
+  { source: '华商创新论坛', title: '2025 最具投资价值项目', desc: '第 36 届华商创新论坛官方评选，270 运动馆脱颖而出' },
+  { source: 'ABEC', title: '亚洲影响力创新奖', desc: '表彰在亚洲健身行业具有创新影响力的品牌' },
 ];
 
 export default function HomePage() {
@@ -41,46 +47,39 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* ===== Section 1: Hero ===== */}
-      <section className="relative h-screen min-h-[600px] overflow-hidden">
-        {/* Background Image with Parallax */}
-        <div
-          className="absolute inset-0 parallax-hero"
-          style={{ transform: `translateY(${scrollY * 0.3}px)` }}
-        >
-          <img
-            src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1920&q=80"
-            alt="270运动馆"
-            className="w-full h-[120%] object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/60" />
+      {/* ===== Section 1: Hero 主视觉 ===== */}
+      <section className="relative h-screen min-h-[600px] overflow-hidden bg-white">
+        {/* 极简背景 */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 right-20 w-96 h-96 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, #C45A2C 0%, transparent 70%)' }} />
+          <div className="absolute bottom-40 left-20 w-64 h-64 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #C45A2C 0%, transparent 70%)' }} />
         </div>
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col justify-end h-full pb-24 md:pb-32 px-5 md:px-10">
+        <div className="relative z-10 flex flex-col justify-center h-full px-5 md:px-10">
           <div className="mx-auto max-w-[1240px] w-full">
-            <div className="max-w-2xl">
-              <p className="text-white/70 text-[13px] font-medium tracking-[0.2em] uppercase mb-4">
+            <div className="max-w-3xl">
+              <p className="text-[12px] font-semibold tracking-[0.3em] uppercase mb-6" style={{ color: '#C45A2C' }}>
                 Beauty Cycle 270
               </p>
               <h1
-                className="text-white text-[44px] md:text-[80px] font-black leading-[0.95] tracking-[-0.025em] mb-6"
-                style={{ fontFamily: 'Inter, sans-serif' }}
+                className="text-[44px] md:text-[80px] font-black leading-[0.95] tracking-[-0.025em] mb-6"
+                style={{ fontFamily: 'Inter, sans-serif', color: '#181817' }}
               >
-                270
+                270 运动馆
               </h1>
-              <p className="text-white/90 text-[20px] md:text-[28px] font-medium leading-tight mb-3">
-                她的运动美学
+              <p className="text-[20px] md:text-[28px] font-medium leading-tight mb-3" style={{ color: '#403E3B' }}>
+                让每位女性，平等享有运动健身的权利
               </p>
-              <p className="text-white/60 text-[15px] md:text-[17px] mb-8 max-w-md">
+              <p className="text-[15px] md:text-[17px] mb-8 max-w-md" style={{ color: '#73716D' }}>
                 安全 · 私密 · 无评判 · 高适配
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link href="/courses" className="btn-primary inline-flex items-center justify-center h-[52px] px-7 text-[16px] font-medium">
-                  预约体验课
+                <Link href="/about" className="inline-flex items-center justify-center h-[52px] px-7 text-[16px] font-medium text-white rounded-lg transition-all" style={{ background: 'linear-gradient(180deg, #D97A4A, #C45A2C, #A84A22)' }}>
+                  了解品牌
                 </Link>
-                <Link href="/about" className="inline-flex items-center justify-center h-[52px] px-7 text-[16px] font-medium text-white border border-white/30 rounded-lg hover:bg-white/10 transition-colors">
-                  了解更多
+                <Link href="/login" className="inline-flex items-center justify-center h-[52px] px-7 text-[16px] font-medium rounded-lg transition-colors" style={{ color: '#1D1D1F', border: '1px solid #E5E5E7' }}>
+                  预约体验
                 </Link>
               </div>
             </div>
@@ -89,236 +88,312 @@ export default function HomePage() {
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce">
-          <ArrowDown size={20} className="text-white/50" />
+          <ArrowDown size={20} style={{ color: '#73716D' }} />
         </div>
       </section>
 
-      {/* ===== Section 2: Brand Story ===== */}
-      <section className="py-32 md:py-40 px-5 md:px-10 bg-cream">
+      {/* ===== Section 2: 品牌使命与价值观 ===== */}
+      <section className="py-32 md:py-40 px-5 md:px-10" style={{ backgroundColor: '#FAF8F5' }}>
         <div className="mx-auto max-w-[1240px]">
-          <Reveal>
-            <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">
-              Our Story
-            </p>
-            <h2 className="text-[30px] md:text-[56px] font-bold text-gray-900 leading-[1.05] tracking-[-0.02em] mb-8 max-w-3xl">
-              关于270运动馆
-            </h2>
-          </Reveal>
+          <div className="grid md:grid-cols-2 gap-16 items-start">
+            {/* 左：使命宣言 */}
+            <Reveal>
+              <div>
+                <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+                  Our Mission
+                </p>
+                <h2 className="text-[36px] md:text-[56px] font-bold leading-tight mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+                  让每位女性<br />
+                  平等享有运动<br />
+                  健身的权利
+                </h2>
+                <p className="text-[17px] leading-relaxed" style={{ color: '#73716D' }}>
+                  270 运动馆创立于 2022 年，由创始人徐宁在福州发起。我们相信，运动不应有性别偏见，
+                  每位女性都值得拥有一个安全、私密、无评判的运动空间。
+                </p>
+              </div>
+            </Reveal>
 
-          <Reveal delay={1}>
-            <p className="text-[17px] md:text-[19px] text-gray-600 leading-[1.7] max-w-2xl mb-16">
-              270运动馆由徐宁于2022年在福州创立，专注于为女性提供安全、私密、无评判的运动空间。
-              我们相信，每一位女性都值得拥有属于自己的运动美学——不是追求极致的肌肉线条，
-              而是找到身体与心灵的平衡。2026年初完成种子轮融资，投后估值500万。
-            </p>
-          </Reveal>
-
-          {/* Stats */}
-          <Reveal delay={2}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-              {stats.map((stat) => (
-                <div key={stat.label} className="text-center md:text-left">
-                  <p
-                    className="text-[36px] md:text-[48px] font-bold text-gray-900 leading-none mb-2"
-                    style={{ fontFamily: 'Inter, sans-serif' }}
-                  >
-                    {stat.value}
-                  </p>
-                  <p className="text-[14px] text-gray-500">{stat.label}</p>
-                </div>
+            {/* 右：核心价值 */}
+            <div className="space-y-4">
+              {values.map((value, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className="p-6 rounded-xl transition-all" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E7E5E1' }}>
+                    <div className="flex items-start gap-4">
+                      <span className="text-3xl">{value.icon}</span>
+                      <div>
+                        <h3 className="text-lg font-semibold mb-1" style={{ color: '#181817' }}>{value.title}</h3>
+                        <p className="text-sm" style={{ color: '#73716D' }}>{value.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ===== Section 3: Courses ===== */}
-      <section className="py-32 md:py-40 px-5 md:px-10 bg-white">
-        <div className="mx-auto max-w-[1240px]">
-          <Reveal>
-            <div className="flex items-end justify-between mb-12">
-              <div>
-                <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">
-                  Courses
-                </p>
-                <h2 className="text-[30px] md:text-[40px] font-bold text-gray-900 leading-[1.1] tracking-[-0.02em]">
-                  我们的课程
-                </h2>
-              </div>
-              <Link href="/courses" className="hidden md:inline-flex items-center gap-1 text-[15px] text-gray-600 hover:text-gray-900 transition-colors">
-                查看全部 <ArrowRight size={16} />
-              </Link>
-            </div>
-          </Reveal>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {courses.map((course, i) => (
-              <Reveal key={course.name} delay={i + 1}>
-                <Link href="/courses" className="card group block overflow-hidden">
-                  <div className="aspect-[4/3] overflow-hidden">
-                    <img
-                      src={course.img}
-                      alt={course.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-[20px] font-semibold text-gray-900 mb-2">{course.name}</h3>
-                    <p className="text-[15px] text-gray-500">{course.desc}</p>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-
-          <div className="mt-8 md:hidden">
-            <Link href="/courses" className="btn-secondary flex items-center justify-center h-12 text-[15px] font-medium">
-              查看全部课程
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* ===== Section 4: Coaches ===== */}
-      <section className="py-32 md:py-40 px-5 md:px-10 bg-cream">
+      {/* ===== Section 3: 核心数据 ===== */}
+      <section className="py-32 px-5 md:px-10 bg-white">
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
-            <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">
-              Our Coaches
-            </p>
-            <h2 className="text-[30px] md:text-[40px] font-bold text-gray-900 leading-[1.1] tracking-[-0.02em] mb-12">
-              专业教练团队
-            </h2>
-          </Reveal>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {coaches.map((coach, i) => (
-              <Reveal key={coach.name} delay={i + 1}>
-                <div className="text-center">
-                  <div className="w-32 h-32 mx-auto mb-5 rounded-full overflow-hidden border-2 border-gray-100">
-                    <img src={coach.img} alt={coach.name} className="w-full h-full object-cover" />
-                  </div>
-                  <h3 className="text-[18px] font-semibold text-gray-900 mb-1">{coach.name}</h3>
-                  <p className="text-[14px] text-gray-500 mb-1">{coach.title}</p>
-                  <p className="text-[13px] text-gray-400">{coach.exp}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Section 5: Testimonials ===== */}
-      <section className="py-32 md:py-40 px-5 md:px-10 bg-white">
-        <div className="mx-auto max-w-[1240px]">
-          <Reveal>
-            <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">
-              Testimonials
-            </p>
-            <h2 className="text-[30px] md:text-[40px] font-bold text-gray-900 leading-[1.1] tracking-[-0.02em] mb-12">
-              她们的改变
-            </h2>
-          </Reveal>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.name} delay={i + 1}>
-                <div className="card p-8">
-                  <div className="flex gap-1 mb-4">
-                    {Array.from({ length: t.rating }).map((_, j) => (
-                      <Star key={j} size={14} className="fill-gray-800 text-gray-800" />
-                    ))}
-                  </div>
-                  <p className="text-[16px] text-gray-700 leading-[1.7] mb-6">
-                    &ldquo;{t.text}&rdquo;
-                  </p>
-                  <div>
-                    <p className="text-[15px] font-medium text-gray-900">{t.name}</p>
-                    <p className="text-[13px] text-gray-400">{t.age}岁</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Section 6: CTA ===== */}
-      <section className="relative py-32 md:py-40 px-5 md:px-10 noise-overlay overflow-hidden"
-        style={{ background: 'linear-gradient(180deg, #1F1E1C 0%, #181817 100%)' }}
-      >
-        {/* Orange glow */}
-        <div
-          className="absolute top-0 left-[20%] w-[600px] h-[400px] opacity-30 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse at center, rgba(196,90,44,0.2), transparent 60%)' }}
-        />
-
-        <div className="relative z-10 mx-auto max-w-[1240px] text-center">
-          <Reveal>
-            <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4">
-              Join Us
-            </p>
-            <h2 className="text-[30px] md:text-[56px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-6">
-              开启你的运动美学之旅
-            </h2>
-            <p className="text-[17px] text-gray-400 mb-10 max-w-lg mx-auto">
-              加入270运动馆，与1000+女性一起，找到属于自己的运动节奏
-            </p>
-            <Link href="/vip" className="btn-primary inline-flex items-center justify-center h-[52px] px-8 text-[16px] font-medium">
-              立即加入会员
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ===== Footer ===== */}
-      <footer className="bg-gray-900 border-t border-gray-800 px-5 md:px-10 py-16">
-        <div className="mx-auto max-w-[1240px]">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-            <div className="col-span-2 md:col-span-1">
-              <p className="text-xl font-black text-white mb-2" style={{ fontFamily: 'Inter, sans-serif' }}>
-                270
+            <div className="text-center mb-16">
+              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+                Brand Strength
               </p>
-              <p className="text-[13px] text-gray-500 mb-4">BEAUTY CYCLE 270</p>
-              <p className="text-[13px] text-gray-500">福州坤成体育发展有限公司</p>
+              <h2 className="text-[36px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+                品牌实力证明
+              </h2>
             </div>
-            <div>
-              <p className="text-[13px] font-semibold text-gray-400 uppercase tracking-wider mb-4">导航</p>
-              <div className="space-y-2.5">
-                {['首页', '课程', '商城', '关于我们'].map((item) => (
-                  <Link key={item} href={item === '首页' ? '/' : `/${item === '关于我们' ? 'about' : item.toLowerCase()}`} className="block text-[14px] text-gray-500 hover:text-white transition-colors">
-                    {item}
-                  </Link>
-                ))}
-              </div>
+          </Reveal>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="text-center p-8 rounded-xl" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
+                  <div className="text-[48px] md:text-[64px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>
+                    {stat.value}
+                  </div>
+                  <div className="text-sm" style={{ color: '#73716D' }}>{stat.label}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Section 4: 发展历程 ===== */}
+      <section className="py-32 md:py-40 px-5 md:px-10" style={{ backgroundColor: '#FAF8F5' }}>
+        <div className="mx-auto max-w-[1240px]">
+          <Reveal>
+            <div className="text-center mb-16">
+              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+                Our Journey
+              </p>
+              <h2 className="text-[36px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+                发展历程
+              </h2>
             </div>
-            <div>
-              <p className="text-[13px] font-semibold text-gray-400 uppercase tracking-wider mb-4">服务</p>
-              <div className="space-y-2.5">
-                {['会员中心', '健康生活', '登录注册'].map((item) => (
-                  <Link key={item} href={item === '会员中心' ? '/vip' : item === '健康生活' ? '/lifestyle' : '/login'} className="block text-[14px] text-gray-500 hover:text-white transition-colors">
-                    {item}
-                  </Link>
-                ))}
-              </div>
+          </Reveal>
+
+          {/* 时间线 */}
+          <div className="relative">
+            {/* 时间线 */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-px" style={{ backgroundColor: '#E7E5E1' }} />
+
+            <div className="space-y-12">
+              {timeline.map((item, i) => (
+                <Reveal key={i} delay={i * 0.1}>
+                  <div className={`flex items-center gap-8 ${i % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+                    <div className="flex-1 text-right">
+                      {i % 2 === 0 && (
+                        <>
+                          <div className="text-[32px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
+                          <h3 className="text-xl font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
+                          <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
+                        </>
+                      )}
+                    </div>
+                    <div className="w-4 h-4 rounded-full border-4 z-10" style={{ borderColor: '#C45A2C', backgroundColor: '#FAF8F5' }} />
+                    <div className="flex-1 text-left">
+                      {i % 2 !== 0 && (
+                        <>
+                          <div className="text-[32px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
+                          <h3 className="text-xl font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
+                          <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-            <div>
-              <p className="text-[13px] font-semibold text-gray-400 uppercase tracking-wider mb-4">联系</p>
-              <div className="space-y-2.5 text-[14px] text-gray-500">
-                <p>福州市鼓楼区</p>
-                <p>contact@270fitness.com</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Section 5: 创始人介绍 ===== */}
+      <section className="py-32 md:py-40 px-5 md:px-10 bg-white">
+        <div className="mx-auto max-w-[1240px]">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            {/* 照片位 */}
+            <Reveal>
+              <div className="aspect-[3/4] rounded-2xl overflow-hidden" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
+                <div className="w-full h-full flex items-center justify-center text-[120px]" style={{ color: '#C45A2C' }}>
+                  徐
+                </div>
               </div>
+            </Reveal>
+
+            {/* 简介 */}
+            <Reveal>
+              <div>
+                <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+                  Founder
+                </p>
+                <h2 className="text-[36px] md:text-[48px] font-bold mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+                  徐宁
+                </h2>
+                <p className="text-[17px] leading-relaxed mb-6" style={{ color: '#73716D' }}>
+                  270 运动馆创始人，2022 年于福州创立品牌。致力于打造一个让每位女性都能安心运动的空间，
+                  让运动成为女性生活方式的一部分。
+                </p>
+                <div className="flex items-center gap-3 mb-8">
+                  <Award size={20} style={{ color: '#C45A2C' }} />
+                  <span className="text-sm font-medium" style={{ color: '#181817' }}>2025 年度女性影响力人物</span>
+                </div>
+                <blockquote className="pl-6 border-l-2" style={{ borderColor: '#C45A2C' }}>
+                  <Quote size={24} className="mb-2" style={{ color: '#C45A2C' }} />
+                  <p className="text-lg italic" style={{ color: '#403E3B' }}>
+                    让每位女性，平等享有运动健身的权利
+                  </p>
+                </blockquote>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Section 6: 门店信息 ===== */}
+      <section className="py-32 px-5 md:px-10" style={{ backgroundColor: '#FAF8F5' }}>
+        <div className="mx-auto max-w-[1240px]">
+          <Reveal>
+            <div className="text-center mb-16">
+              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+                Our Store
+              </p>
+              <h2 className="text-[36px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+                门店信息
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="max-w-2xl mx-auto">
+            <Reveal>
+              <div className="p-8 rounded-xl bg-white" style={{ border: '1px solid #E7E5E1' }}>
+                <h3 className="text-xl font-bold mb-6" style={{ color: '#181817' }}>
+                  Beauty Cycle 女子运动美学馆（晓康苑店）
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4">
+                    <MapPin size={20} className="mt-1 flex-shrink-0" style={{ color: '#C45A2C' }} />
+                    <div>
+                      <div className="text-sm font-medium mb-1" style={{ color: '#181817' }}>地址</div>
+                      <div className="text-sm" style={{ color: '#73716D' }}>福建福州鼓楼区湖东路 208 号晓康苑南楼 1303</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <Phone size={20} className="mt-1 flex-shrink-0" style={{ color: '#C45A2C' }} />
+                    <div>
+                      <div className="text-sm font-medium mb-1" style={{ color: '#181817' }}>联系电话</div>
+                      <div className="text-sm" style={{ color: '#73716D' }}>13950306600</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-6 pt-6" style={{ borderTop: '1px solid #E7E5E1' }}>
+                  <p className="text-sm" style={{ color: '#73716D' }}>
+                    女性专属空间，安全私密舒适。欢迎预约参观体验。
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Section 7: 媒体报道 ===== */}
+      <section className="py-32 md:py-40 px-5 md:px-10 bg-white">
+        <div className="mx-auto max-w-[1240px]">
+          <Reveal>
+            <div className="text-center mb-16">
+              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+                Media Coverage
+              </p>
+              <h2 className="text-[36px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+                媒体报道与荣誉
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {news.map((item, i) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <div className="p-6 rounded-xl transition-all" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
+                  <div className="text-xs font-semibold mb-3" style={{ color: '#C45A2C' }}>{item.source}</div>
+                  <h3 className="text-lg font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
+                  <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Section 8: CTA 行动召唤 ===== */}
+      <section className="py-32 px-5 md:px-10" style={{ backgroundColor: '#181817' }}>
+        <div className="mx-auto max-w-[1240px] text-center">
+          <Reveal>
+            <h2 className="text-[36px] md:text-[56px] font-bold mb-6 text-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+              开启你的女性专属<br />健身之旅
+            </h2>
+            <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              首次体验免费咨询 + 身体评估
+            </p>
+            <Link href="/login" className="inline-flex items-center gap-2 h-[52px] px-8 text-[16px] font-medium text-white rounded-lg transition-all" style={{ background: 'linear-gradient(180deg, #D97A4A, #C45A2C, #A84A22)' }}>
+              立即预约体验
+              <ArrowRight size={18} />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== Section 9: Footer ===== */}
+      <footer className="py-16 px-5 md:px-10 bg-white" style={{ borderTop: '1px solid #E7E5E1' }}>
+        <div className="mx-auto max-w-[1240px]">
+          <div className="grid md:grid-cols-4 gap-8 mb-12">
+            {/* 品牌信息 */}
+            <div className="md:col-span-2">
+              <h3 className="text-2xl font-black mb-4" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+                270 运动馆
+              </h3>
+              <p className="text-sm mb-4" style={{ color: '#73716D' }}>
+                BEAUTY CYCLE 270 - 让每位女性，平等享有运动健身的权利
+              </p>
+              <p className="text-xs" style={{ color: '#A1A1A6' }}>
+                福州坤成体育发展有限公司
+              </p>
+            </div>
+
+            {/* 导航链接 */}
+            <div>
+              <h4 className="text-sm font-semibold mb-4" style={{ color: '#181817' }}>导航</h4>
+              <ul className="space-y-2">
+                <li><Link href="/" className="text-sm hover:underline" style={{ color: '#73716D' }}>首页</Link></li>
+                <li><Link href="/about" className="text-sm hover:underline" style={{ color: '#73716D' }}>关于我们</Link></li>
+                <li><Link href="/courses" className="text-sm hover:underline" style={{ color: '#73716D' }}>课程介绍</Link></li>
+                <li><Link href="/contact" className="text-sm hover:underline" style={{ color: '#73716D' }}>联系我们</Link></li>
+              </ul>
+            </div>
+
+            {/* 联系方式 */}
+            <div>
+              <h4 className="text-sm font-semibold mb-4" style={{ color: '#181817' }}>联系</h4>
+              <ul className="space-y-2 text-sm" style={{ color: '#73716D' }}>
+                <li>13950306600</li>
+                <li>福州鼓楼区湖东路 208 号</li>
+                <li>晓康苑南楼 1303</li>
+              </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-[12px] text-gray-600">
-              &copy; 2024 270运动馆 BEAUTY CYCLE 270. All rights reserved.
+          <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid #E7E5E1' }}>
+            <p className="text-xs" style={{ color: '#A1A1A6' }}>
+              © 2025 270 运动馆。保留所有权利。
             </p>
-            <div className="flex gap-6">
-              <Link href="/ai" className="text-[12px] text-gray-600 hover:text-gray-400 transition-colors">AI 中台</Link>
-              <Link href="/admin" className="text-[12px] text-gray-600 hover:text-gray-400 transition-colors">管理后台</Link>
-            </div>
+            <Link href="/admin" className="text-xs" style={{ color: '#A1A1A6' }}>
+              管理后台
+            </Link>
           </div>
         </div>
       </footer>

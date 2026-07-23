@@ -72,8 +72,16 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
       {/* Top Navigation Bar - Glass Morphism */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'glass-nav shadow-sm' : 'bg-transparent'
+          scrolled ? 'glass-nav' : ''
         }`}
+        style={scrolled ? {
+          background: 'rgba(255, 255, 255, 0.82)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          borderBottom: '0.5px solid rgba(0, 0, 0, 0.08)',
+        } : {
+          background: 'transparent',
+        }}
       >
         <div className="mx-auto max-w-[1240px] px-5 md:px-10">
           <div className="flex h-16 items-center justify-between">

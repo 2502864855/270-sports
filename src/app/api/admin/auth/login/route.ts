@@ -60,7 +60,8 @@ export async function POST(request: NextRequest) {
     });
 
     // 更新最后登录信息
-    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+    const rawIp = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+    const ip = rawIp.split(',')[0].trim().slice(0, 45);
     const { error: updateError } = await client
       .from('admin_users')
       .update({ last_login_at: new Date().toISOString(), last_login_ip: ip })

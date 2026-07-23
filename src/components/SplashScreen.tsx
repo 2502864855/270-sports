@@ -75,7 +75,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
       ref={containerRef}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
       style={{
-        background: 'linear-gradient(180deg, #0a0a0a 0%, #1a1816 50%, #0a0a0a 100%)',
+        background: '#0a0a0a',
       }}
     >
       {/* Subtle radial glow */}

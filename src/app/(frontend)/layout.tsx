@@ -3,23 +3,25 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronRight } from 'lucide-react';
+import { Menu, X, ChevronRight, User } from 'lucide-react';
 import SplashScreen from '@/components/SplashScreen';
 
-// v3.0: 公开状态导航（课程已移入个人中心）
+// v3.0: 公开状态导航
 const publicNavItems = [
   { href: '/', label: '首页' },
   { href: '/about', label: '关于我们' },
-  { href: '/about#stores', label: '门店信息' },
-  { href: '/about#contact', label: '联系我们' },
+  { href: '/stores', label: '门店信息' },
+  { href: '/coaches', label: '教练团队' },
+  { href: '/news', label: '媒体报道' },
 ];
 
-// v3.0: 登录后导航（课程入口在个人中心内）
+// v3.0: 登录后导航
 const loggedInNavItems = [
   { href: '/', label: '首页' },
   { href: '/about', label: '关于我们' },
-  { href: '/about#stores', label: '门店信息' },
-  { href: '/about#contact', label: '联系我们' },
+  { href: '/stores', label: '门店信息' },
+  { href: '/coaches', label: '教练团队' },
+  { href: '/news', label: '媒体报道' },
   { href: '/profile', label: '我的' },
 ];
 
@@ -34,7 +36,13 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
+  // Initialize splash state immediately from sessionStorage (no flash)
+  const [showSplash, setShowSplash] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return !sessionStorage.getItem('splash_seen');
+    }
+    return true;
+  });
   const pathname = usePathname();
   const isLogin = pathname === '/login';
 
@@ -42,14 +50,6 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
     setShowSplash(false);
     // Mark as seen for this session
     sessionStorage.setItem('splash_seen', '1');
-  }, []);
-
-  useEffect(() => {
-    // Check if splash was already shown in this session
-    const splashSeen = sessionStorage.getItem('splash_seen');
-    if (splashSeen) {
-      setShowSplash(false);
-    }
   }, []);
 
   useEffect(() => {
@@ -135,20 +135,22 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
 
             {/* Right side */}
             <div className="flex items-center gap-3">
-              {/* v3.0: 根据登录状态显示不同按钮 */}
+              {/* v3.0: 根据登录状态显示头像图标 */}
               {!isLoggedIn ? (
                 <Link
                   href="/login"
-                  className="hidden md:inline-flex btn-primary px-5 h-10 text-[14px] font-medium items-center"
+                  className="hidden md:flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-gray-500 hover:border-gray-400 hover:text-gray-700 transition-colors"
+                  aria-label="登录"
                 >
-                  登录/注册
+                  <User size={18} />
                 </Link>
               ) : (
                 <Link
                   href="/profile"
-                  className="hidden md:inline-flex btn-primary px-5 h-10 text-[14px] font-medium items-center"
+                  className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 border border-orange-200 text-orange-600 hover:border-orange-300 transition-colors"
+                  aria-label="个人中心"
                 >
-                  我的
+                  <User size={18} />
                 </Link>
               )}
 

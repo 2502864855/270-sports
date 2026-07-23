@@ -180,17 +180,27 @@ export default function HomePage() {
           });
         }
 
-        // 板块间滚动阻尼吸附（轻量 snap）
-        const sections = document.querySelectorAll('section');
+        // 板块间滚动阻尼吸附 - 对齐每个section顶部
+        const sections = document.querySelectorAll('section[id]');
         if (sections.length > 0) {
+          const navHeight = 68;
+          const docHeight = document.documentElement.scrollHeight;
+          const viewHeight = window.innerHeight;
+
+          // 计算每个section的滚动吸附位置（百分比）
+          const snapPositions = Array.from(sections).map((section) => {
+            const top = (section as HTMLElement).offsetTop;
+            return top / (docHeight - viewHeight);
+          }).filter(p => p >= 0 && p <= 1);
+
           ScrollTrigger.create({
             trigger: document.querySelector('.min-h-screen'),
             start: 'top top',
             end: 'bottom bottom',
             snap: {
-              snapTo: 1 / (sections.length - 1),
-              duration: { min: 0.2, max: 0.6 },
-              delay: 0.1,
+              snapTo: snapPositions.length > 0 ? snapPositions : 1 / (sections.length - 1),
+              duration: { min: 0.2, max: 0.5 },
+              delay: 0.05,
               ease: 'power1.inOut',
             },
           });
@@ -213,7 +223,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* ===== Section 1: Hero 主视觉 ===== */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden px-5 md:px-10">
+      <section id="hero" ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden px-5 md:px-10">
         {/* 背景层 - 慢速视差 */}
         <div 
           ref={heroBgRef}
@@ -334,7 +344,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== Section 3: 核心数据 ===== */}
-      <section ref={statsRef} className="py-32 px-5 md:px-10 bg-white">
+      <section id="stats" ref={statsRef} className="py-32 px-5 md:px-10 bg-white">
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
@@ -370,7 +380,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== Section 4: 发展历程 ===== */}
-      <section ref={timelineRef} className="py-32 md:py-40 px-5 md:px-10" style={{ backgroundColor: '#FAF8F5' }}>
+      <section id="timeline" ref={timelineRef} className="py-32 md:py-40 px-5 md:px-10" style={{ backgroundColor: '#FAF8F5' }}>
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
@@ -433,7 +443,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== Section 5: 创始人介绍 ===== */}
-      <section ref={founderRef} className="py-32 md:py-40 px-5 md:px-10 bg-white">
+      <section id="founder" ref={founderRef} className="py-32 md:py-40 px-5 md:px-10 bg-white">
         <div className="mx-auto max-w-[1240px]">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             {/* 照片位 - 反向视差 */}
@@ -481,7 +491,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== Section 6: 门店信息 ===== */}
-      <section className="py-32 px-5 md:px-10" style={{ backgroundColor: '#FAF8F5' }}>
+      <section id="team" className="py-32 px-5 md:px-10" style={{ backgroundColor: '#FAF8F5' }}>
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
@@ -528,7 +538,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== Section 7: 媒体报道 ===== */}
-      <section className="py-32 md:py-40 px-5 md:px-10 bg-white">
+      <section id="media" className="py-32 md:py-40 px-5 md:px-10 bg-white">
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
@@ -558,7 +568,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== Section 8: CTA 行动召唤 ===== */}
-      <section ref={ctaRef} className="py-32 px-5 md:px-10" style={{ backgroundColor: '#181817' }}>
+      <section id="cta" ref={ctaRef} className="py-32 px-5 md:px-10" style={{ backgroundColor: '#181817' }}>
         <div className="mx-auto max-w-[1240px] text-center">
           <Reveal>
             <h2 className="text-[28px] md:text-[56px] font-bold mb-6 text-white" style={{ fontFamily: 'Inter, sans-serif' }}>

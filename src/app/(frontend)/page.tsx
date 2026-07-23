@@ -38,6 +38,13 @@ const news = [
 ];
 
 export default function HomePage() {
+  // DOM refs for GSAP animations
+  const heroRef = useRef<HTMLElement>(null);
+  const statsRef = useRef<HTMLElement>(null);
+  const timelineRef = useRef<HTMLElement>(null);
+  const founderRef = useRef<HTMLElement>(null);
+  const ctaRef = useRef<HTMLElement>(null);
+
   // Hero 三层视差
   const heroBgRef = useParallax({ speed: 0.4, direction: 'down', yPercent: 30, scrub: 1 });
   const heroMidRef = useParallax({ speed: 0.7, direction: 'up', yPercent: -15, scrub: 0.8 });
@@ -48,12 +55,6 @@ export default function HomePage() {
 
   // CTA 光晕视差
   const ctaOrbRef = useParallax({ speed: 0.3, direction: 'up', yPercent: -20, scale: 1.1, scrub: 1 });
-
-  // 统计数据视差
-  const statsParallax = useParallax(statsRef, { speed: 0.1, enabled: true });
-
-  // 创始人反向视差
-  const founderParallax = useParallax(founderRef, { speed: -0.15, enabled: true });
 
   useEffect(() => {
     // 动态导入 GSAP
@@ -73,7 +74,7 @@ export default function HomePage() {
         // 数据卡片依次入场
         if (statsRef.current) {
           const cards = statsRef.current.querySelectorAll('[data-stat-card]');
-          cards.forEach((card, i) => {
+          cards.forEach((card: Element, i: number) => {
             gsap.from(card, {
               scrollTrigger: {
                 trigger: card,
@@ -92,7 +93,7 @@ export default function HomePage() {
         // 时间线节点左右滑入
         if (timelineRef.current) {
           const items = timelineRef.current.querySelectorAll('[data-timeline-item]');
-          items.forEach((item, i) => {
+          items.forEach((item: Element, i: number) => {
             const isLeft = i % 2 === 0;
             gsap.from(item, {
               scrollTrigger: {
@@ -152,7 +153,7 @@ export default function HomePage() {
 
     return () => {
       if (ScrollTrigger) {
-        ScrollTrigger.getAll().forEach(t => t.kill());
+        ScrollTrigger.getAll().forEach((t: { kill: () => void }) => t.kill());
       }
     };
   }, []);
@@ -163,8 +164,8 @@ export default function HomePage() {
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden px-5 md:px-10">
         {/* 背景层 - 慢速视差 */}
         <div 
+          ref={heroBgRef}
           className="absolute inset-0 z-0"
-          style={{ transform: `translateY(${heroParallax}px)` }}
         >
           <div className="absolute inset-0" style={{ backgroundColor: '#FAF8F5' }} />
           {/* 装饰几何图形 */}
@@ -174,8 +175,8 @@ export default function HomePage() {
 
         {/* 文字层 - 正常速度视差 */}
         <div 
+          ref={heroTextRef}
           className="relative z-10 text-center max-w-4xl mx-auto"
-          style={{ transform: `translateY(${heroTextParallax}px)` }}
         >
           <Reveal>
             <p className="text-[12px] font-semibold tracking-[0.3em] uppercase mb-6" style={{ color: '#C45A2C' }}>
@@ -281,7 +282,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== Section 3: 核心数据 ===== */}
-      <section ref={statsRef} className="py-32 px-5 md:px-10 bg-white" style={{ transform: `translateY(${statsParallax}px)` }}>
+      <section ref={statsRef} className="py-32 px-5 md:px-10 bg-white">
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
@@ -370,7 +371,6 @@ export default function HomePage() {
                 style={{ 
                   backgroundColor: '#FAF8F5', 
                   border: '1px solid #E7E5E1',
-                  transform: `translateY(${founderParallax}px)`
                 }}
               >
                 <div className="w-full h-full flex items-center justify-center text-[120px]" style={{ color: '#C45A2C' }}>

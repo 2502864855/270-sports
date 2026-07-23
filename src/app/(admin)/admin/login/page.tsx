@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Lock, User, Eye, EyeOff } from 'lucide-react';
 
 export default function AdminLoginPage() {
@@ -108,9 +109,9 @@ export default function AdminLoginPage() {
 
         {/* 返回前台 */}
         <div className="mt-6 text-center">
-          <a href="/" className="text-xs text-white/30 hover:text-white/60 transition-colors">
+          <Link href="/" className="text-xs text-white/30 hover:text-white/60 transition-colors">
             ← 返回前台网站
-          </a>
+          </Link>
         </div>
       </div>
     </div>

@@ -15,6 +15,12 @@
 - Tailwind CSS 4
 - shadcn/ui 组件库
 - lucide-react 图标库
+- Supabase PostgreSQL（数据库）
+- Supabase SDK（数据操作）
+- Drizzle ORM（Schema 定义 & 迁移）
+- jose（JWT 鉴权）
+- bcryptjs（密码哈希）
+- GSAP + ScrollTrigger（滚动视差动效）
 
 ## 目录结构
 
@@ -51,7 +57,14 @@ src/app/
 | `/vip` | 前端 | 会员中心 - 等级权益对比、月/季/年卡购买、积分兑换 |
 | `/login` | 前端 | 登录注册 - 手机号+验证码、密码登录、微信入口 |
 | `/ai` | AI中台 | AI 数据总览 - 会员分析、收入趋势、智能洞察、用户分层 |
-| `/admin` | 后台 | 管理后台 - 用户/课程/教练/订单管理 |
+| `/admin` | 后台 | 管理后台首页 |
+| `/admin/login` | 后台 | 管理员登录 |
+| `/admin/content` | 后台 | 内容管理 |
+| `/admin/courses` | 后台 | 课程管理 |
+| `/admin/members` | 后台 | 会员管理 |
+| `/admin/orders` | 后台 | 订单管理 |
+| `/admin/settings` | 后台 | 系统设置 |
+| `/admin/api` | 后台 | API 接口管理 |
 
 ## 设计规范
 
@@ -80,13 +93,62 @@ pnpm dev           # 开发环境
 pnpm build         # 生产构建
 pnpm ts-check      # TypeScript 检查
 pnpm lint          # ESLint 检查
+pnpm db:seed       # 填充种子数据
 ```
+
+## 后端系统
+
+### 数据库
+- 使用 Supabase PostgreSQL，通过 Supabase SDK 进行 CRUD 操作
+- Schema 定义在 `src/storage/database/shared/schema.ts`（Drizzle ORM 语法）
+- 迁移命令：`coze-coding-ai db upgrade`
+- 模型同步：`coze-coding-ai db generate-models`
+- Supabase 客户端：`src/storage/database/supabase-client.ts`
+
+### API 接口
+
+| 方法 | 路径 | 说明 | 鉴权 |
+|------|------|------|------|
+| POST | `/api/admin/auth/login` | 管理员登录 | 无 |
+| GET | `/api/admin/auth/profile` | 获取当前管理员信息 | JWT |
+| PUT | `/api/admin/auth/password` | 修改密码 | JWT |
+
+### 鉴权机制
+- 管理员登录：JWT（jose 库），7天有效期
+- API Key：用于第三方数据接口（待实现）
+- 密码哈希：bcryptjs，10轮盐
+- 中间件：`src/lib/auth/middleware.ts`
+
+### 数据表
+- `admin_users` - 管理员
+- `api_keys` - API 密钥
+- `site_settings` - 网站设置
+- `brand_info` - 品牌信息
+- `home_sections` - 首页板块
+- `timeline_events` - 品牌时间线
+- `news` - 媒体报道
+- `stores` - 门店
+- `coaches` - 教练
+- `course_categories` - 课程分类
+- `courses` - 课程
+- `users` - 用户
+- `member_levels` - 会员等级
+- `memberships` - 会员记录
+- `user_body_data` - 体测数据
+- `orders` - 订单
+- `order_items` - 订单明细
+- `bookings` - 预约
+- `content_images` - 图片库
+
+### 测试账号
+- 管理员：admin / admin123
 
 ## 注意事项
 
 - 三端通过右上角切换按钮互相跳转
 - 所有页面使用 `use client` 客户端渲染
 - 使用 CSS 变量和 Tailwind 实现品牌主题
-- 数据目前为 Mock 数据，后续可对接 API
-- 登录页隐藏底部 Tab 导航
-- 客户端底部导航为4个Tab：首页、课程、商城、我的
+- 管理后台路由在 `/admin/*` 路径下
+- 数据库操作使用 Supabase SDK（`client.from()`），不用 Drizzle ORM 查询语法
+- 字段名统一 snake_case
+- 所有 Supabase 操作必须检查 `{ data, error }` 并 throw error

@@ -10,10 +10,31 @@ export interface ParallaxOptions {
   speed?: number;
   direction?: "up" | "down";
   enabled?: boolean;
+  scrub?: number | boolean;
+  yPercent?: number;
+  scale?: number;
+  opacity?: number;
+  x?: number;
+  rotation?: number;
+  start?: string;
+  end?: string;
 }
 
 export function useParallax(options: ParallaxOptions = {}) {
-  const { speed = 0.5, direction = "up", enabled = true } = options;
+  const {
+    speed = 0.5,
+    direction = "up",
+    enabled = true,
+    scrub = 1,
+    yPercent,
+    scale,
+    opacity,
+    x,
+    rotation,
+    start = "top bottom",
+    end = "bottom top",
+  } = options;
+
   const ref = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -40,21 +61,47 @@ export function useParallax(options: ParallaxOptions = {}) {
     const element = ref.current;
     const directionFactor = direction === "up" ? -1 : 1;
 
-    const tween = gsap.to(element, {
-      y: () => ScrollTrigger.maxScroll(window) * speed * 0.1 * directionFactor,
+    const vars: any = {
       ease: "none",
       scrollTrigger: {
         trigger: element,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
+        start,
+        end,
+        scrub,
       },
-    });
+    };
+
+    if (yPercent !== undefined) {
+      vars.yPercent = yPercent * directionFactor;
+    } else {
+      vars.y = () =>
+        ScrollTrigger.maxScroll(window) * speed * 0.1 * directionFactor;
+    }
+
+    if (scale !== undefined) vars.scale = scale;
+    if (opacity !== undefined) vars.opacity = opacity;
+    if (x !== undefined) vars.x = x;
+    if (rotation !== undefined) vars.rotation = rotation;
+
+    const tween = gsap.to(element, vars);
 
     return () => {
       tween.kill();
     };
-  }, [speed, direction, enabled, isMobile]);
+  }, [
+    speed,
+    direction,
+    enabled,
+    isMobile,
+    scrub,
+    yPercent,
+    scale,
+    opacity,
+    x,
+    rotation,
+    start,
+    end,
+  ]);
 
   return ref;
 }
@@ -100,48 +147,51 @@ export function useScrollReveal(options: { delay?: number } = {}) {
   return ref;
 }
 
-export function useCountUp(
-  endValue: number,
-  duration: number = 2,
-  enabled: boolean = true
-) {
+export function useCountUp(target: number, duration = 1.2) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [displayValue, setDisplayValue] = useState(0);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    if (!enabled || !ref.current) return;
+    if (!ref.current || started) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [started]);
+
+  useEffect(() => {
+    if (!started || !ref.current) return;
 
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+
     if (prefersReducedMotion) {
-      setDisplayValue(endValue);
+      ref.current.textContent = target.toLocaleString();
       return;
     }
 
-    const element = ref.current;
-    const obj = { value: 0 };
-
-    ScrollTrigger.create({
-      trigger: element,
-      start: "top 80%",
-      onEnter: () => {
-        gsap.to(obj, {
-          value: endValue,
-          duration,
-          ease: "power2.out",
-          onUpdate: () => {
-            setDisplayValue(Math.round(obj.value));
-          },
-        });
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: target,
+      duration,
+      ease: "power2.out",
+      onUpdate: () => {
+        if (ref.current) {
+          ref.current.textContent = Math.ceil(obj.val).toLocaleString();
+        }
       },
-      once: true,
     });
+  }, [started, target, duration]);
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
-  }, [endValue, duration, enabled]);
-
-  return { ref, displayValue };
+  return ref;
 }

@@ -38,15 +38,16 @@ const news = [
 ];
 
 export default function HomePage() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
-  const founderRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
+  // Hero 三层视差
+  const heroBgRef = useParallax({ speed: 0.4, direction: 'down', yPercent: 30, scrub: 1 });
+  const heroMidRef = useParallax({ speed: 0.7, direction: 'up', yPercent: -15, scrub: 0.8 });
+  const heroTextRef = useParallax({ speed: 1.0, direction: 'up', yPercent: -20, scrub: 0.5 });
 
-  // Hero 视差
-  const heroParallax = useParallax(heroRef, { speed: 0.2, enabled: true });
-  const heroTextParallax = useParallax(heroRef, { speed: 0.8, enabled: true });
+  // 数据区视差
+  const statsBgRef = useParallax({ speed: 0.1, direction: 'up', yPercent: -10, scrub: 1 });
+
+  // CTA 光晕视差
+  const ctaOrbRef = useParallax({ speed: 0.3, direction: 'up', yPercent: -20, scale: 1.1, scrub: 1 });
 
   // 统计数据视差
   const statsParallax = useParallax(statsRef, { speed: 0.1, enabled: true });

@@ -75,15 +75,15 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
       ref={containerRef}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
       style={{
-        background: '#0a0a0a',
+        background: '#FFFFFF',
       }}
     >
-      {/* Subtle radial glow */}
+      {/* Subtle radial glow - orange tint on white */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(196,90,44,0.08) 0%, transparent 70%)',
+            'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(196,90,44,0.06) 0%, transparent 70%)',
         }}
       />
 
@@ -94,7 +94,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
           style={{
             fontFamily: 'Inter, sans-serif',
             color: '#C45A2C',
-            textShadow: '0 0 60px rgba(196,90,44,0.3), 0 0 120px rgba(196,90,44,0.1)',
+            textShadow: '0 0 40px rgba(196,90,44,0.15), 0 0 80px rgba(196,90,44,0.05)',
           }}
         >
           270
@@ -106,7 +106,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
         ref={lineRef}
         className="h-[1px] w-[60px] sm:w-[80px] my-4 sm:my-5 origin-center"
         style={{
-          background: 'linear-gradient(90deg, transparent, rgba(196,90,44,0.6), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(196,90,44,0.4), transparent)',
         }}
       />
 
@@ -115,7 +115,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
         ref={textRef}
         className="text-[11px] sm:text-[13px] font-medium tracking-[0.35em] uppercase"
         style={{
-          color: 'rgba(255,255,255,0.5)',
+          color: 'rgba(29,29,31,0.6)',
           fontFamily: 'Inter, sans-serif',
         }}
       >
@@ -126,7 +126,7 @@ export default function SplashScreen({ onFinish }: { onFinish: () => void }) {
       <p
         className="absolute bottom-8 sm:bottom-12 text-[10px] sm:text-[11px] tracking-[0.2em]"
         style={{
-          color: 'rgba(255,255,255,0.2)',
+          color: 'rgba(29,29,31,0.3)',
           fontFamily: 'Inter, sans-serif',
         }}
       >

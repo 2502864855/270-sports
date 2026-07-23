@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Reveal } from '@/components/Reveal';
 import { MapPin, Phone, Clock } from 'lucide-react';
 
@@ -10,13 +11,29 @@ const stats = [
   { value: '2022', label: '创立至今' },
 ];
 
-const team = [
-  { name: '徐宁', role: '创始人 / 总教练', img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&q=80', desc: '10年健身行业经验，2022年创立270运动馆' },
-  { name: '李婷', role: '普拉提主教练', img: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&q=80', desc: '国际普拉提认证教练，擅长核心床训练' },
-  { name: '王悦', role: '瑜伽主教练', img: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400&q=80', desc: 'RYT-500认证，专注女性瑜伽教学' },
+interface TeamMember {
+  id: number;
+  name: string;
+  role: string;
+  avatar: string;
+  bio: string;
+}
+
+const defaultTeam: TeamMember[] = [
+  { id: 1, name: '徐宁', role: '创始人 / 总教练', avatar: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&q=80', bio: '10年健身行业经验，2022年创立270运动馆' },
+  { id: 2, name: '林悦', role: '普拉提总监', avatar: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?w=400&q=80', bio: '国际普拉提认证教练，专注核心床训练' },
+  { id: 3, name: '陈雨桐', role: '瑜伽教学总监', avatar: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&q=80', bio: 'RYT-500认证，8年女性瑜伽教学经验' },
 ];
 
 export default function AboutPage() {
+  const [team, setTeam] = useState<TeamMember[]>(defaultTeam);
+
+  useEffect(() => {
+    fetch('/api/public/team')
+      .then(r => r.json())
+      .then(res => { if (res.code === 200 && res.data?.length) setTeam(res.data); })
+      .catch(() => {});
+  }, []);
   return (
     <div className="pt-24 pb-20">
       {/* Hero */}
@@ -100,12 +117,12 @@ export default function AboutPage() {
               <Reveal key={member.name} delay={i + 1}>
                 <div className="card overflow-hidden">
                   <div className="aspect-[3/4] overflow-hidden">
-                    <img src={member.img} alt={member.name} className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" />
+                    <img src={member.avatar} alt={member.name} className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" />
                   </div>
                   <div className="p-5">
                     <h3 className="text-[18px] font-semibold text-gray-900 truncate">{member.name}</h3>
                     <p className="text-[13px] font-medium mt-1 truncate" style={{ color: '#403E3B' }}>{member.role}</p>
-                    <p className="text-[14px] text-gray-500 mt-2 line-clamp-2">{member.desc}</p>
+                    <p className="text-[14px] text-gray-500 mt-2 line-clamp-2">{member.bio}</p>
                   </div>
                 </div>
               </Reveal>

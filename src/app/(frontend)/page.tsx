@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Shield, Heart, Users, Award, Quote, MapPin, Phone } from 'lucide-react';
 import { Reveal } from '@/components/Reveal';
@@ -38,6 +38,15 @@ const news = [
 ];
 
 export default function HomePage() {
+  const [footer, setFooter] = useState<any>(null);
+
+  // v3.0: 加载页脚设置
+  useEffect(() => {
+    fetch('/api/public/footer')
+      .then(r => r.json())
+      .then(res => { if (res.code === 200 && res.data) setFooter(res.data); })
+      .catch(() => {});
+  }, []);
   // DOM refs for GSAP animations
   const heroRef = useRef<HTMLElement>(null);
   const statsRef = useRef<HTMLElement>(null);
@@ -537,10 +546,10 @@ export default function HomePage() {
                 270 运动馆
               </h3>
               <p className="text-sm mb-4" style={{ color: '#73716D' }}>
-                BEAUTY CYCLE 270 - 让每位女性，平等享有运动健身的权利
+                {footer?.company_desc || 'BEAUTY CYCLE 270 - 让每位女性，平等享有运动健身的权利'}
               </p>
               <p className="text-xs" style={{ color: '#A1A1A6' }}>
-                福州坤成体育发展有限公司
+                {footer?.company_name || '福州坤成体育发展有限公司'}
               </p>
             </div>
 
@@ -548,10 +557,15 @@ export default function HomePage() {
             <div>
               <h4 className="text-sm font-semibold mb-4" style={{ color: '#181817' }}>导航</h4>
               <ul className="space-y-2">
-                <li><Link href="/" className="text-sm hover:underline" style={{ color: '#73716D' }}>首页</Link></li>
-                <li><Link href="/about" className="text-sm hover:underline" style={{ color: '#73716D' }}>关于我们</Link></li>
-                <li><Link href="/courses" className="text-sm hover:underline" style={{ color: '#73716D' }}>课程介绍</Link></li>
-                <li><Link href="/about#contact" className="text-sm hover:underline" style={{ color: '#73716D' }}>联系我们</Link></li>
+                {(footer?.nav_links?.length ? footer.nav_links : [
+                  { label: '首页', href: '/' },
+                  { label: '关于我们', href: '/about' },
+                  { label: '联系我们', href: '/about#contact' },
+                ]).map((link: { label: string; href: string }) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-sm hover:underline" style={{ color: '#73716D' }}>{link.label}</Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -559,9 +573,9 @@ export default function HomePage() {
             <div>
               <h4 className="text-sm font-semibold mb-4" style={{ color: '#181817' }}>联系</h4>
               <ul className="space-y-2 text-sm" style={{ color: '#73716D' }}>
-                <li>13950306600</li>
-                <li>福州鼓楼区湖东路 208 号</li>
-                <li>晓康苑南楼 1303</li>
+                <li>{footer?.contact_phone || '400-270-2022'}</li>
+                <li>{footer?.contact_email || 'hello@beautycycle270.com'}</li>
+                <li>{footer?.contact_address || '福建省福州市鼓楼区'}</li>
               </ul>
             </div>
           </div>
@@ -571,7 +585,7 @@ export default function HomePage() {
               © 2025 270 运动馆。保留所有权利。
             </p>
             <p className="text-xs" style={{ color: '#A1A1A6' }}>
-              福州坤成体育发展有限公司
+              {footer?.company_name || '福州坤成体育发展有限公司'} {footer?.icp || ''}
             </p>
           </div>
         </div>

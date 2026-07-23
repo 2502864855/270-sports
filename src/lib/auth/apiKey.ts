@@ -1,75 +1,62 @@
-import { randomBytes } from 'crypto';
 import { getSupabaseClient } from '@/storage/database/supabase-client';
+import bcrypt from 'bcryptjs';
+import type { NextRequest } from 'next/server';
 
-// API Key 类型
-export interface ApiKeyScope {
-  resource: string;
-  actions: string[]; // ['read', 'write', 'delete']
+// 从请求头获取 API Key
+export function getApiKeyFromRequest(request: NextRequest): string | null {
+  const apiKey = request.headers.get('X-API-Key');
+  if (apiKey && apiKey.startsWith('sk_')) {
+    return apiKey;
+  }
+  return null;
 }
 
-// 生成 API Key
-export async function generateApiKey(name: string, scopes: ApiKeyScope[], createdBy: number, expiresAt?: Date): Promise<string> {
-  const key = `sk_${randomBytes(32).toString('hex')}`;
-  const client = getSupabaseClient();
-
-  const { error } = await client.from('api_keys').insert({
-    key,
-    name,
-    scopes: scopes.map(s => `${s.resource}:${s.actions.join(',')}`),
-    expires_at: expiresAt?.toISOString() || null,
-    status: 'ACTIVE',
-    created_by: createdBy,
-  });
-
-  if (error) throw new Error(`创建 API Key 失败: ${error.message}`);
-
-  return key;
-}
-
-// 验证 API Key
-export async function verifyApiKey(key: string, requiredScope?: string): Promise<boolean> {
+// 验证 API Key（支持 bcrypt 哈希比对）
+export async function verifyApiKey(plainKey: string, requiredScope?: string): Promise<boolean> {
   const client = getSupabaseClient();
   const now = new Date().toISOString();
 
-  const { data, error } = await client
+  // 获取所有 ACTIVE 且未过期的 key
+  const { data: keys, error } = await client
     .from('api_keys')
-    .select('id, scopes')
-    .eq('key', key)
+    .select('id, key, scopes')
     .eq('status', 'ACTIVE')
-    .or(`expires_at.is.null,expires_at.gt.${now}`)
-    .maybeSingle();
+    .or(`expires_at.is.null,expires_at.gt.${now}`);
 
   if (error) throw new Error(`验证 API Key 失败: ${error.message}`);
-  if (!data) return false;
+  if (!keys || keys.length === 0) return false;
+
+  // 逐个比对 bcrypt 哈希
+  let matchedKey: { id: number; scopes: string[] | null } | null = null;
+  for (const k of keys) {
+    const isMatch = await bcrypt.compare(plainKey, k.key);
+    if (isMatch) {
+      matchedKey = { id: k.id, scopes: k.scopes as string[] | null };
+      break;
+    }
+  }
+
+  if (!matchedKey) return false;
 
   // 更新最后使用时间
   await client
     .from('api_keys')
     .update({ last_used_at: now })
-    .eq('id', data.id);
+    .eq('id', matchedKey.id);
 
   // 验证权限范围
-  if (requiredScope && data.scopes) {
-    const scopes = data.scopes as string[];
+  if (requiredScope && matchedKey.scopes) {
+    const scopes = matchedKey.scopes;
+    const [requiredResource, requiredAction] = requiredScope.split(':');
     const hasScope = scopes.some((scope: string) => {
       const [resource, actions] = scope.split(':');
-      return requiredScope.startsWith(resource) && actions.includes('read');
+      // 'all' 是通配符，匹配所有资源
+      const resourceMatch = resource === 'all' || resource === requiredResource;
+      const actionMatch = actions === 'all' || actions.includes(requiredAction);
+      return resourceMatch && actionMatch;
     });
     return hasScope;
   }
 
   return true;
-}
-
-// 从请求中获取 API Key
-export function getApiKeyFromRequest(request: Request): string | null {
-  const apiKeyHeader = request.headers.get('x-api-key');
-  if (apiKeyHeader) return apiKeyHeader;
-
-  const authHeader = request.headers.get('authorization');
-  if (authHeader?.startsWith('Bearer ')) {
-    return authHeader.slice(7);
-  }
-
-  return null;
 }

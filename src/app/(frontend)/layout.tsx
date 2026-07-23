@@ -6,20 +6,18 @@ import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import SplashScreen from '@/components/SplashScreen';
 
-// v3.0: 公开状态导航
+// v3.0: 公开状态导航（课程已移入个人中心）
 const publicNavItems = [
   { href: '/', label: '首页' },
   { href: '/about', label: '关于我们' },
-  { href: '/courses', label: '课程介绍' },
   { href: '/about#stores', label: '门店信息' },
   { href: '/about#contact', label: '联系我们' },
 ];
 
-// v3.0: 登录后导航
+// v3.0: 登录后导航（课程入口在个人中心内）
 const loggedInNavItems = [
   { href: '/', label: '首页' },
   { href: '/about', label: '关于我们' },
-  { href: '/courses', label: '课程介绍' },
   { href: '/about#stores', label: '门店信息' },
   { href: '/about#contact', label: '联系我们' },
   { href: '/profile', label: '我的' },

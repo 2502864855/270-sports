@@ -7,13 +7,13 @@ import { useState } from 'react';
 
 // 功能入口
 const menuItems = [
-  { icon: Calendar, label: '我的课程', desc: '已购课程、预约记录', color: '#C45A2C' },
-  { icon: Crown, label: '我的会员', desc: 'VIP 状态、会员权益', color: '#C45A2C' },
-  { icon: ShoppingBag, label: '我的订单', desc: '全部订单记录', color: '#403E3B' },
-  { icon: Heart, label: '我的收藏', desc: '收藏的课程/文章', color: '#403E3B' },
-  { icon: Activity, label: '身体数据', desc: '体测记录、数据趋势', color: '#403E3B' },
-  { icon: Calendar, label: '预约管理', desc: '私教、团课预约', color: '#403E3B' },
-  { icon: Settings, label: '设置', desc: '个人信息、密码', color: '#73716D' },
+  { icon: Calendar, label: '我的课程', desc: '已购课程、预约记录', color: '#C45A2C', href: '/courses' },
+  { icon: Crown, label: '我的会员', desc: 'VIP 状态、会员权益', color: '#C45A2C', href: '/vip' },
+  { icon: ShoppingBag, label: '我的订单', desc: '全部订单记录', color: '#403E3B', href: '#' },
+  { icon: Heart, label: '我的收藏', desc: '收藏的课程/文章', color: '#403E3B', href: '#' },
+  { icon: Activity, label: '身体数据', desc: '体测记录、数据趋势', color: '#403E3B', href: '#' },
+  { icon: Calendar, label: '预约管理', desc: '私教、团课预约', color: '#403E3B', href: '#' },
+  { icon: Settings, label: '设置', desc: '个人信息、密码', color: '#73716D', href: '#' },
 ];
 
 // 数据概览
@@ -74,7 +74,7 @@ export default function ProfilePage() {
             {menuItems.map((item, i) => (
               <Reveal key={i} delay={i * 0.05}>
                 <Link
-                  href="#"
+                  href={item.href || '#'}
                   className="flex items-center gap-4 p-4 rounded-xl transition-all"
                   style={{ backgroundColor: '#FFFFFF', border: '1px solid #E7E5E1' }}
                   onMouseEnter={(e) => {

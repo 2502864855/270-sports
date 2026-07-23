@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Clock, MapPin, Users, ArrowRight } from 'lucide-react';
+import { Clock, MapPin, Users, ArrowRight, Lock } from 'lucide-react';
 import { Reveal } from '@/components/Reveal';
 
 const categories = ['全部', '普拉提', '瑜伽', '女性力量', '孕产修复', '体态管理'];
@@ -17,11 +18,37 @@ const coursesData = [
 ];
 
 export default function CoursesPage() {
+  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState('全部');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checking, setChecking] = useState(true);
+
+  // 检查登录状态，未登录则重定向
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.replace('/login?redirect=/courses');
+    } else {
+      setIsLoggedIn(true);
+    }
+    setChecking(false);
+  }, [router]);
 
   const filtered = activeCategory === '全部'
     ? coursesData
     : coursesData.filter(c => c.category === activeCategory);
+
+  // 加载中或未登录（正在跳转）
+  if (checking || !isLoggedIn) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FAF8F5' }}>
+        <div className="text-center">
+          <div className="w-12 h-12 border-2 rounded-full animate-spin mx-auto mb-4" style={{ borderColor: '#E7E5E1', borderTopColor: '#C45A2C' }} />
+          <p className="text-sm" style={{ color: '#73716D' }}>正在跳转...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-24 pb-20 px-5 md:px-10">

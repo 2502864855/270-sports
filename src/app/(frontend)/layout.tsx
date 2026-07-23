@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronRight } from 'lucide-react';
+import SplashScreen from '@/components/SplashScreen';
 
 // v3.0: 公开状态导航
 const publicNavItems = [
@@ -35,8 +36,23 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   const pathname = usePathname();
   const isLogin = pathname === '/login';
+
+  const handleSplashFinish = useCallback(() => {
+    setShowSplash(false);
+    // Mark as seen for this session
+    sessionStorage.setItem('splash_seen', '1');
+  }, []);
+
+  useEffect(() => {
+    // Check if splash was already shown in this session
+    const splashSeen = sessionStorage.getItem('splash_seen');
+    if (splashSeen) {
+      setShowSplash(false);
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -68,7 +84,11 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
   }
 
   return (
-    <div className="min-h-screen bg-cream">
+    <>
+      {/* Splash Screen - Logo Animation */}
+      {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
+
+      <div className="min-h-screen bg-cream">
       {/* Top Navigation Bar - Glass Morphism */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -205,5 +225,6 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
       {/* Main Content */}
       <main>{children}</main>
     </div>
+    </>
   );
 }

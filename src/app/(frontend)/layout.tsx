@@ -102,7 +102,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
         }}
       >
         <div className="mx-auto max-w-[1240px] px-5 md:px-10">
-          <div className="flex h-16 items-center justify-between">
+          <div className="flex h-[68px] items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
               <span
@@ -117,7 +117,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-9">
               {currentNavItems.map((item) => (
                 <Link
                   key={item.href}

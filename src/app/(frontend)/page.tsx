@@ -153,6 +153,49 @@ export default function HomePage() {
           }
         }
 
+        // 数据区 count-up 动效
+        if (statsRef.current) {
+          const statValues = statsRef.current.querySelectorAll('[data-stat-value]');
+          statValues.forEach((el) => {
+            const finalText = el.getAttribute('data-value') || '';
+            const numMatch = finalText.match(/^(\d+)/);
+            if (numMatch) {
+              const finalNum = parseInt(numMatch[1]);
+              const suffix = finalText.replace(/^\d+/, '');
+              const obj = { val: 0 };
+              gsap.to(obj, {
+                val: finalNum,
+                duration: 1.5,
+                ease: 'power2.out',
+                scrollTrigger: {
+                  trigger: el,
+                  start: 'top 85%',
+                  toggleActions: 'play none none none',
+                },
+                onUpdate: () => {
+                  (el as HTMLElement).textContent = Math.round(obj.val) + suffix;
+                },
+              });
+            }
+          });
+        }
+
+        // 板块间滚动阻尼吸附（轻量 snap）
+        const sections = document.querySelectorAll('section');
+        if (sections.length > 0) {
+          ScrollTrigger.create({
+            trigger: document.querySelector('.min-h-screen'),
+            start: 'top top',
+            end: 'bottom bottom',
+            snap: {
+              snapTo: 1 / (sections.length - 1),
+              duration: { min: 0.2, max: 0.6 },
+              delay: 0.1,
+              ease: 'power1.inOut',
+            },
+          });
+        }
+
       } catch (e) {
         console.log('GSAP 加载失败，使用基础动画');
       }
@@ -309,7 +352,12 @@ export default function HomePage() {
               <div key={i} data-stat-card>
                 <Reveal delay={i * 0.1}>
                   <div className="text-center p-6 md:p-8 rounded-xl" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
-                    <div className="text-[36px] md:text-[64px] font-black mb-2" style={{ color: i < 2 ? '#C45A2C' : '#181817', fontFamily: 'Inter, sans-serif' }}>
+                    <div 
+                      className="text-[36px] md:text-[64px] font-black mb-2" 
+                      style={{ color: i < 2 ? '#C45A2C' : '#181817', fontFamily: 'Inter, sans-serif' }}
+                      data-stat-value
+                      data-value={stat.value}
+                    >
                       {stat.value}
                     </div>
                     <div className="text-sm" style={{ color: '#73716D' }}>{stat.label}</div>
@@ -536,26 +584,35 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== Section 9: Footer ===== */}
-      <footer className="py-16 px-5 md:px-10 bg-white" style={{ borderTop: '1px solid #E7E5E1' }}>
+      {/* ===== Section 9: Footer (深色 4列布局) ===== */}
+      <footer className="py-16 px-5 md:px-10" style={{ backgroundColor: '#181817' }}>
         <div className="mx-auto max-w-[1240px]">
-          <div className="grid md:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {/* 品牌信息 */}
-            <div className="md:col-span-2">
-              <h3 className="text-2xl font-black mb-4" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+            <div className="col-span-2 md:col-span-1">
+              <h3 className="text-2xl font-black mb-4 text-white" style={{ fontFamily: 'Inter, sans-serif' }}>
                 270 运动馆
               </h3>
-              <p className="text-sm mb-4" style={{ color: '#73716D' }}>
+              <p className="text-sm mb-4 leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 {footer?.company_desc || 'BEAUTY CYCLE 270 - 让每位女性，平等享有运动健身的权利'}
               </p>
-              <p className="text-xs" style={{ color: '#A1A1A6' }}>
-                {footer?.company_name || '福州坤成体育发展有限公司'}
-              </p>
+              {/* 社交媒体图标 */}
+              <div className="flex items-center gap-3 mt-4">
+                <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6zm-2-8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                </a>
+                <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-1 14H5c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h14c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1z"/></svg>
+                </a>
+                <a href="#" className="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </a>
+              </div>
             </div>
 
             {/* 导航链接 */}
             <div>
-              <h4 className="text-sm font-semibold mb-4" style={{ color: '#181817' }}>导航</h4>
+              <h4 className="text-sm font-semibold mb-4 text-white">导航</h4>
               <ul className="space-y-2">
                 {(footer?.nav_links?.length ? footer.nav_links : [
                   { label: '首页', href: '/' },
@@ -563,7 +620,7 @@ export default function HomePage() {
                   { label: '联系我们', href: '/about#contact' },
                 ]).map((link: { label: string; href: string }) => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-sm hover:underline" style={{ color: '#73716D' }}>{link.label}</Link>
+                    <Link href={link.href} className="text-sm transition-colors" style={{ color: 'rgba(255,255,255,0.5)' }}>{link.label}</Link>
                   </li>
                 ))}
               </ul>
@@ -571,20 +628,27 @@ export default function HomePage() {
 
             {/* 联系方式 */}
             <div>
-              <h4 className="text-sm font-semibold mb-4" style={{ color: '#181817' }}>联系</h4>
-              <ul className="space-y-2 text-sm" style={{ color: '#73716D' }}>
+              <h4 className="text-sm font-semibold mb-4 text-white">联系</h4>
+              <ul className="space-y-2 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <li>{footer?.contact_phone || '400-270-2022'}</li>
                 <li>{footer?.contact_email || 'hello@beautycycle270.com'}</li>
-                <li>{footer?.contact_address || '福建省福州市鼓楼区'}</li>
               </ul>
+            </div>
+
+            {/* 地址 */}
+            <div>
+              <h4 className="text-sm font-semibold mb-4 text-white">地址</h4>
+              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                {footer?.contact_address || '福建省福州市鼓楼区'}
+              </p>
             </div>
           </div>
 
-          <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid #E7E5E1' }}>
-            <p className="text-xs" style={{ color: '#A1A1A6' }}>
-              © 2025 270 运动馆。保留所有权利。
+          <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+              © 2026 270 运动馆。保留所有权利。
             </p>
-            <p className="text-xs" style={{ color: '#A1A1A6' }}>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
               {footer?.company_name || '福州坤成体育发展有限公司'} {footer?.icp || ''}
             </p>
           </div>

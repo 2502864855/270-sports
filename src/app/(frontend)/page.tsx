@@ -1,101 +1,246 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { ArrowDown, ArrowRight, Crown, Star, Award, MapPin, Phone, Quote } from 'lucide-react';
+import { ArrowRight, Shield, Heart, Users, Award, Quote, MapPin, Phone } from 'lucide-react';
 import { Reveal } from '@/components/Reveal';
-import { useEffect, useState } from 'react';
-
-// 发展历程
-const timeline = [
-  { year: '2022', title: '品牌创立', desc: '270 运动馆于福州成立，创始人徐宁，立志打造女性专属健身空间' },
-  { year: '2023', title: '首家门店落地', desc: '鼓楼区晓康苑店开业，积累首批 500 名会员' },
-  { year: '2024', title: '课程体系迭代', desc: '完善女性专属训练体系，会员突破 1000 人' },
-  { year: '2025', title: '品牌荣誉', desc: '创始人徐宁获「年度女性影响力人物」，品牌获「最具投资价值项目奖」' },
-  { year: '2026', title: '种子轮融资', desc: '完成种子轮融资，投后估值 500 万，开启规模化发展' },
-];
-
-// 核心价值
-const values = [
-  { icon: '🔒', title: '安全私密', desc: '纯女性空间，无评判环境，让每位女性安心运动' },
-  { icon: '💪', title: '专业适配', desc: '女性专属训练体系，科学适配不同阶段需求' },
-  { icon: '👥', title: '高粘性社群', desc: '1000+ 核心会员，68% 续费率，温暖互助' },
-];
+import { useParallax } from '@/hooks/useParallax';
 
 // 核心数据
 const stats = [
   { value: '10W+', label: '累计服务女性' },
   { value: '1000+', label: '核心会员' },
   { value: '68%', label: '月度续费率' },
-  { value: '2022', label: '品牌创立' },
+  { value: '2022', label: '品牌创立年份' },
+];
+
+// 核心价值
+const values = [
+  { icon: <Shield size={32} />, title: '安全私密', desc: '纯女性空间，无评判环境，让每位女性安心运动' },
+  { icon: <Heart size={32} />, title: '专业适配', desc: '女性专属训练体系，科学定制个人计划' },
+  { icon: <Users size={32} />, title: '高粘性社群', desc: '1000+ 核心会员，68% 续费率，温暖陪伴' },
+];
+
+// 发展历程
+const timeline = [
+  { year: '2022', title: '品牌创立', desc: '270 运动馆于福州成立，创始人徐宁发起女性专属健身品牌' },
+  { year: '2023', title: '首家门店落地', desc: '积累首批 500 名会员，建立品牌口碑' },
+  { year: '2024', title: '课程体系迭代', desc: '会员突破 1000 人，形成完整训练体系' },
+  { year: '2025', title: '荣誉加冕', desc: '创始人徐宁获「年度女性影响力人物」，品牌获「最具投资价值项目奖」' },
+  { year: '2026', title: '规模化发展', desc: '完成种子轮融资，投后估值 500 万，开启新征程' },
 ];
 
 // 媒体报道
 const news = [
-  { source: '凤凰网', title: '深耕"她力量"健身赛道', desc: '270 运动馆以女性专属定位，开创健身行业新蓝海' },
-  { source: '华商创新论坛', title: '2025 最具投资价值项目', desc: '第 36 届华商创新论坛官方评选，270 运动馆脱颖而出' },
-  { source: 'ABEC', title: '亚洲影响力创新奖', desc: '表彰在亚洲健身行业具有创新影响力的品牌' },
+  { source: '凤凰网', title: '深耕"她力量"健身赛道', desc: '270 运动馆以女性专属定位，打造差异化健身服务' },
+  { source: '华商创新论坛', title: '2025 最具投资价值项目', desc: '第 36 届华商创新论坛官方评选获奖' },
+  { source: 'ABEC', title: '亚洲影响力创新奖', desc: '表彰品牌在女性健身领域的创新贡献' },
 ];
 
 export default function HomePage() {
-  const [scrollY, setScrollY] = useState(0);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const founderRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  // Hero 视差
+  const heroParallax = useParallax(heroRef, { speed: 0.2, enabled: true });
+  const heroTextParallax = useParallax(heroRef, { speed: 0.8, enabled: true });
+
+  // 统计数据视差
+  const statsParallax = useParallax(statsRef, { speed: 0.1, enabled: true });
+
+  // 创始人反向视差
+  const founderParallax = useParallax(founderRef, { speed: -0.15, enabled: true });
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    // 动态导入 GSAP
+    let gsap: any;
+    let ScrollTrigger: any;
+
+    const initGSAP = async () => {
+      try {
+        const gsapModule = await import('gsap');
+        const scrollTriggerModule = await import('gsap/ScrollTrigger');
+        
+        gsap = gsapModule.default;
+        ScrollTrigger = scrollTriggerModule.default;
+        
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 数据卡片依次入场
+        if (statsRef.current) {
+          const cards = statsRef.current.querySelectorAll('[data-stat-card]');
+          cards.forEach((card, i) => {
+            gsap.from(card, {
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                toggleActions: 'play none none none',
+              },
+              y: 40,
+              opacity: 0,
+              duration: 0.6,
+              delay: i * 0.1,
+              ease: 'power2.out',
+            });
+          });
+        }
+
+        // 时间线节点左右滑入
+        if (timelineRef.current) {
+          const items = timelineRef.current.querySelectorAll('[data-timeline-item]');
+          items.forEach((item, i) => {
+            const isLeft = i % 2 === 0;
+            gsap.from(item, {
+              scrollTrigger: {
+                trigger: item,
+                start: 'top 85%',
+                toggleActions: 'play none none none',
+              },
+              x: isLeft ? -60 : 60,
+              opacity: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+            });
+          });
+        }
+
+        // 媒体报道卡片交错入场
+        const newsCards = document.querySelectorAll('[data-news-card]');
+        newsCards.forEach((card, i) => {
+          gsap.from(card, {
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.6,
+            delay: i * 0.1,
+            ease: 'power2.out',
+          });
+        });
+
+        // CTA 按钮弹性弹入
+        if (ctaRef.current) {
+          const btn = ctaRef.current.querySelector('[data-cta-btn]');
+          if (btn) {
+            gsap.from(btn, {
+              scrollTrigger: {
+                trigger: btn,
+                start: 'top 90%',
+                toggleActions: 'play none none none',
+              },
+              scale: 0.8,
+              opacity: 0,
+              duration: 0.8,
+              ease: 'back.out(1.7)',
+            });
+          }
+        }
+
+      } catch (e) {
+        console.log('GSAP 加载失败，使用基础动画');
+      }
+    };
+
+    initGSAP();
+
+    return () => {
+      if (ScrollTrigger) {
+        ScrollTrigger.getAll().forEach(t => t.kill());
+      }
+    };
   }, []);
 
   return (
-    <div>
+    <div className="min-h-screen bg-white">
       {/* ===== Section 1: Hero 主视觉 ===== */}
-      <section className="relative h-screen min-h-[600px] overflow-hidden bg-white">
-        {/* 极简背景 */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-96 h-96 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, #C45A2C 0%, transparent 70%)' }} />
-          <div className="absolute bottom-40 left-20 w-64 h-64 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #C45A2C 0%, transparent 70%)' }} />
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden px-5 md:px-10">
+        {/* 背景层 - 慢速视差 */}
+        <div 
+          className="absolute inset-0 z-0"
+          style={{ transform: `translateY(${heroParallax}px)` }}
+        >
+          <div className="absolute inset-0" style={{ backgroundColor: '#FAF8F5' }} />
+          {/* 装饰几何图形 */}
+          <div className="absolute top-20 right-10 w-64 h-64 rounded-full opacity-20" style={{ backgroundColor: '#C45A2C', filter: 'blur(60px)' }} />
+          <div className="absolute bottom-20 left-10 w-48 h-48 rounded-full opacity-15" style={{ backgroundColor: '#D97A4A', filter: 'blur(50px)' }} />
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 flex flex-col justify-center h-full px-5 md:px-10">
-          <div className="mx-auto max-w-[1240px] w-full">
-            <div className="max-w-3xl">
-              <p className="text-[12px] font-semibold tracking-[0.3em] uppercase mb-6" style={{ color: '#C45A2C' }}>
-                Beauty Cycle 270
-              </p>
-              <h1
-                className="text-[44px] md:text-[80px] font-black leading-[0.95] tracking-[-0.025em] mb-6"
-                style={{ fontFamily: 'Inter, sans-serif', color: '#181817' }}
+        {/* 文字层 - 正常速度视差 */}
+        <div 
+          className="relative z-10 text-center max-w-4xl mx-auto"
+          style={{ transform: `translateY(${heroTextParallax}px)` }}
+        >
+          <Reveal>
+            <p className="text-[12px] font-semibold tracking-[0.3em] uppercase mb-6" style={{ color: '#C45A2C' }}>
+              BEAUTY CYCLE 270
+            </p>
+          </Reveal>
+          
+          <Reveal delay={0.1}>
+            <h1 className="text-[48px] md:text-[80px] font-black leading-[1.1] mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif', letterSpacing: '-0.025em' }}>
+              270 运动馆
+            </h1>
+          </Reveal>
+
+          <Reveal delay={0.2}>
+            <p className="text-[20px] md:text-[24px] mb-4" style={{ color: '#403E3B' }}>
+              让每位女性，平等享有运动健身的权利
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.3}>
+            <p className="text-[16px] mb-12" style={{ color: '#73716D' }}>
+              女性专属健身服务品牌 · 福州 · 2022 年创立
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.4}>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link 
+                href="#brand-story" 
+                className="h-[52px] px-8 text-[16px] font-medium text-white rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.97]"
+                style={{ 
+                  background: 'linear-gradient(90deg, #C45A2C, #B54A1C)',
+                  boxShadow: '0 1px 6px rgba(196, 90, 44, 0.15), inset 0 1px 0 rgba(255,255,255,0.2)',
+                  letterSpacing: '0.3px'
+                }}
               >
-                270 运动馆
-              </h1>
-              <p className="text-[20px] md:text-[28px] font-medium leading-tight mb-3" style={{ color: '#403E3B' }}>
-                让每位女性，平等享有运动健身的权利
-              </p>
-              <p className="text-[15px] md:text-[17px] mb-8 max-w-md" style={{ color: '#73716D' }}>
-                安全 · 私密 · 无评判 · 高适配
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link href="/about" className="inline-flex items-center justify-center h-[52px] px-7 text-[16px] font-medium text-white rounded-lg transition-all" style={{ background: 'linear-gradient(180deg, #D97A4A, #C45A2C, #A84A22)' }}>
-                  了解品牌
-                </Link>
-                <Link href="/login" className="inline-flex items-center justify-center h-[52px] px-7 text-[16px] font-medium rounded-lg transition-colors" style={{ color: '#1D1D1F', border: '1px solid #E5E5E7' }}>
-                  预约体验
-                </Link>
-              </div>
+                了解品牌
+              </Link>
+              <Link 
+                href="/login" 
+                className="h-[52px] px-8 text-[16px] font-medium rounded-lg transition-all duration-200 hover:border-[#D1D1D6] hover:bg-[#FAFAFA]"
+                style={{ 
+                  border: '1px solid #E5E5E7',
+                  backgroundColor: '#FFFFFF',
+                  color: '#1D1D1F',
+                  fontWeight: 400
+                }}
+              >
+                预约体验
+              </Link>
             </div>
-          </div>
+          </Reveal>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce">
-          <ArrowDown size={20} style={{ color: '#73716D' }} />
+        {/* 滚动提示 */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 rounded-full border-2 flex items-start justify-center p-2" style={{ borderColor: '#C45A2C' }}>
+            <div className="w-1 h-2 rounded-full" style={{ backgroundColor: '#C45A2C' }} />
+          </div>
         </div>
       </section>
 
       {/* ===== Section 2: 品牌使命与价值观 ===== */}
-      <section className="py-32 md:py-40 px-5 md:px-10" style={{ backgroundColor: '#FAF8F5' }}>
+      <section id="brand-story" className="py-32 md:py-40 px-5 md:px-10 bg-white">
         <div className="mx-auto max-w-[1240px]">
-          <div className="grid md:grid-cols-2 gap-16 items-start">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
             {/* 左：使命宣言 */}
             <Reveal>
               <div>
@@ -118,7 +263,7 @@ export default function HomePage() {
             <div className="space-y-4">
               {values.map((value, i) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className="p-6 rounded-xl transition-all" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E7E5E1' }}>
+                  <div className="p-6 rounded-xl transition-all duration-200 hover:scale-[1.01]" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E7E5E1' }}>
                     <div className="flex items-start gap-4">
                       <span className="text-3xl">{value.icon}</span>
                       <div>
@@ -135,7 +280,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== Section 3: 核心数据 ===== */}
-      <section className="py-32 px-5 md:px-10 bg-white">
+      <section ref={statsRef} className="py-32 px-5 md:px-10 bg-white" style={{ transform: `translateY(${statsParallax}px)` }}>
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
@@ -150,21 +295,23 @@ export default function HomePage() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="text-center p-8 rounded-xl" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
-                  <div className="text-[48px] md:text-[64px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>
-                    {stat.value}
+              <div key={i} data-stat-card>
+                <Reveal delay={i * 0.1}>
+                  <div className="text-center p-8 rounded-xl" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
+                    <div className="text-[48px] md:text-[64px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>
+                      {stat.value}
+                    </div>
+                    <div className="text-sm" style={{ color: '#73716D' }}>{stat.label}</div>
                   </div>
-                  <div className="text-sm" style={{ color: '#73716D' }}>{stat.label}</div>
-                </div>
-              </Reveal>
+                </Reveal>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* ===== Section 4: 发展历程 ===== */}
-      <section className="py-32 md:py-40 px-5 md:px-10" style={{ backgroundColor: '#FAF8F5' }}>
+      <section ref={timelineRef} className="py-32 md:py-40 px-5 md:px-10" style={{ backgroundColor: '#FAF8F5' }}>
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
@@ -179,34 +326,32 @@ export default function HomePage() {
 
           {/* 时间线 */}
           <div className="relative">
-            {/* 时间线 */}
+            {/* 时间线中轴线 */}
             <div className="absolute left-1/2 top-0 bottom-0 w-px" style={{ backgroundColor: '#E7E5E1' }} />
 
             <div className="space-y-12">
               {timeline.map((item, i) => (
-                <Reveal key={i} delay={i * 0.1}>
-                  <div className={`flex items-center gap-8 ${i % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
-                    <div className="flex-1 text-right">
-                      {i % 2 === 0 && (
-                        <>
-                          <div className="text-[32px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
-                          <h3 className="text-xl font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
-                          <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
-                        </>
-                      )}
-                    </div>
-                    <div className="w-4 h-4 rounded-full border-4 z-10" style={{ borderColor: '#C45A2C', backgroundColor: '#FAF8F5' }} />
-                    <div className="flex-1 text-left">
-                      {i % 2 !== 0 && (
-                        <>
-                          <div className="text-[32px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
-                          <h3 className="text-xl font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
-                          <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
-                        </>
-                      )}
-                    </div>
+                <div key={i} data-timeline-item className={`flex items-center gap-8 ${i % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+                  <div className="flex-1 text-right">
+                    {i % 2 === 0 && (
+                      <>
+                        <div className="text-[32px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
+                        <h3 className="text-xl font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
+                        <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
+                      </>
+                    )}
                   </div>
-                </Reveal>
+                  <div className="w-4 h-4 rounded-full border-4 z-10 transition-all duration-300" style={{ borderColor: '#C45A2C', backgroundColor: '#FAF8F5' }} />
+                  <div className="flex-1 text-left">
+                    {i % 2 !== 0 && (
+                      <>
+                        <div className="text-[32px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
+                        <h3 className="text-xl font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
+                        <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
+                      </>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -214,12 +359,19 @@ export default function HomePage() {
       </section>
 
       {/* ===== Section 5: 创始人介绍 ===== */}
-      <section className="py-32 md:py-40 px-5 md:px-10 bg-white">
+      <section ref={founderRef} className="py-32 md:py-40 px-5 md:px-10 bg-white">
         <div className="mx-auto max-w-[1240px]">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            {/* 照片位 */}
+            {/* 照片位 - 反向视差 */}
             <Reveal>
-              <div className="aspect-[3/4] rounded-2xl overflow-hidden" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
+              <div 
+                className="aspect-[3/4] rounded-2xl overflow-hidden" 
+                style={{ 
+                  backgroundColor: '#FAF8F5', 
+                  border: '1px solid #E7E5E1',
+                  transform: `translateY(${founderParallax}px)`
+                }}
+              >
                 <div className="w-full h-full flex items-center justify-center text-[120px]" style={{ color: '#C45A2C' }}>
                   徐
                 </div>
@@ -318,20 +470,22 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {news.map((item, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="p-6 rounded-xl transition-all" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
-                  <div className="text-xs font-semibold mb-3" style={{ color: '#C45A2C' }}>{item.source}</div>
-                  <h3 className="text-lg font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
-                  <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
-                </div>
-              </Reveal>
+              <div key={i} data-news-card>
+                <Reveal delay={i * 0.1}>
+                  <div className="p-6 rounded-xl transition-all duration-200 hover:-translate-y-1" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
+                    <div className="text-xs font-semibold mb-3" style={{ color: '#C45A2C' }}>{item.source}</div>
+                    <h3 className="text-lg font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
+                    <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
+                  </div>
+                </Reveal>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* ===== Section 8: CTA 行动召唤 ===== */}
-      <section className="py-32 px-5 md:px-10" style={{ backgroundColor: '#181817' }}>
+      <section ref={ctaRef} className="py-32 px-5 md:px-10" style={{ backgroundColor: '#181817' }}>
         <div className="mx-auto max-w-[1240px] text-center">
           <Reveal>
             <h2 className="text-[36px] md:text-[56px] font-bold mb-6 text-white" style={{ fontFamily: 'Inter, sans-serif' }}>
@@ -340,7 +494,16 @@ export default function HomePage() {
             <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.6)' }}>
               首次体验免费咨询 + 身体评估
             </p>
-            <Link href="/login" className="inline-flex items-center gap-2 h-[52px] px-8 text-[16px] font-medium text-white rounded-lg transition-all" style={{ background: 'linear-gradient(180deg, #D97A4A, #C45A2C, #A84A22)' }}>
+            <Link 
+              href="/login" 
+              data-cta-btn
+              className="inline-flex items-center gap-2 h-[52px] px-8 text-[16px] font-medium text-white rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.97]"
+              style={{ 
+                background: 'linear-gradient(90deg, #C45A2C, #B54A1C)',
+                boxShadow: '0 1px 6px rgba(196, 90, 44, 0.15), inset 0 1px 0 rgba(255,255,255,0.2)',
+                letterSpacing: '0.3px'
+              }}
+            >
               立即预约体验
               <ArrowRight size={18} />
             </Link>

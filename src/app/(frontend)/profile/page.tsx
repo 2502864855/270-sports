@@ -43,20 +43,20 @@ export default function ProfilePage() {
                 <span className="text-sm" style={{ color: '#C45A2C' }}>金卡会员</span>
               </div>
             </div>
-            <Link href="/vip" className="text-sm px-4 py-2 rounded-lg text-white" style={{ background: 'linear-gradient(180deg, #D97A4A, #C45A2C, #A84A22)' }}>
+            <Link href="/vip" className="inline-flex items-center justify-center text-sm px-4 py-2 rounded-lg text-white whitespace-nowrap flex-shrink-0" style={{ background: 'linear-gradient(180deg, #D97A4A, #C45A2C, #A84A22)' }}>
               续费会员
             </Link>
           </div>
 
           {/* 数据概览 */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-3">
             {stats.map((stat, i) => (
-              <div key={i} className="p-4 rounded-xl" style={{ backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div key={i} className="p-3 md:p-4 rounded-xl" style={{ backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <stat.icon size={18} className="mb-2" style={{ color: '#C45A2C' }} />
-                <div className="text-2xl font-bold text-white mb-1">
-                  {stat.value}<span className="text-xs font-normal ml-1" style={{ color: 'rgba(255,255,255,0.5)' }}>{stat.unit}</span>
+                <div className="text-xl md:text-2xl font-bold text-white mb-1 truncate">
+                  {stat.value}<span className="text-xs font-normal ml-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{stat.unit}</span>
                 </div>
-                <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{stat.label}</div>
+                <div className="text-xs truncate" style={{ color: 'rgba(255,255,255,0.5)' }}>{stat.label}</div>
               </div>
             ))}
           </div>

@@ -128,12 +128,30 @@ async function seed() {
     if (levelsError) throw new Error(`会员等级创建失败: ${levelsError.message}`);
     console.log('✅ 会员等级创建完成 (4级)');
 
+    // 9. 前台测试用户
+    console.log('📝 创建前台测试用户...');
+    const userPasswordHash = await hashPassword('270sport888');
+    const { error: userError } = await client.from('users').upsert({
+      username: 'user270',
+      password_hash: userPasswordHash,
+      phone: '13800138000',
+      nickname: '周女士',
+      gender: 'FEMALE',
+      status: 'ACTIVE',
+      avatar: null,
+      total_training_count: 128,
+      total_training_minutes: 3840,
+      consecutive_days: 21,
+    }, { onConflict: 'username' });
+    if (userError) throw new Error(`测试用户创建失败: ${userError.message}`);
+    console.log('✅ 前台测试用户创建完成 (user270 / 270sport888)');
+
     console.log('');
     console.log('🎉 种子数据填充完成！');
     console.log('');
     console.log('📋 测试账号：');
-    console.log('   用户名: admin');
-    console.log('   密码: admin123');
+    console.log('   管理后台 - 用户名: admin / 密码: admin123');
+    console.log('   前台用户 - 用户名: user270 / 密码: 270sport888');
   } catch (error) {
     console.error('❌ 种子数据填充失败:', error);
     throw error;

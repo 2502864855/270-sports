@@ -16,16 +16,33 @@ export default function AdminLoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (!username.trim() || !password.trim()) {
+      setError('请输入用户名和密码');
+      return;
+    }
+
     setLoading(true);
 
-    // 模拟管理员登录验证
-    if (username === 'admin' && password === 'admin123') {
-      // 登录成功，跳转到管理后台
-      setTimeout(() => {
+    try {
+      const res = await fetch('/api/admin/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username.trim(), password }),
+      });
+
+      const result = await res.json();
+
+      if (result.code === 200 && result.data?.token) {
+        localStorage.setItem('adminToken', result.data.token);
+        localStorage.setItem('adminInfo', JSON.stringify(result.data.admin));
         router.push('/admin');
-      }, 500);
-    } else {
-      setError('用户名或密码错误');
+      } else {
+        setError(result.message || '用户名或密码错误');
+      }
+    } catch {
+      setError('网络错误，请稍后重试');
+    } finally {
       setLoading(false);
     }
   };
@@ -42,7 +59,7 @@ export default function AdminLoginPage() {
           <p className="text-sm text-white/40">270 运动馆 · BEAUTY CYCLE 270</p>
         </div>
 
-        {/* 登录表单 */}
+        {/* Login Form */}
         <form onSubmit={handleLogin} className="space-y-4">
           {error && (
             <div className="p-3 rounded-lg text-sm text-red-400" style={{ backgroundColor: 'rgba(239,68,68,0.1)' }}>
@@ -62,6 +79,7 @@ export default function AdminLoginPage() {
                 backgroundColor: 'rgba(255,255,255,0.05)',
                 border: '1px solid rgba(255,255,255,0.1)',
               }}
+              autoComplete="username"
             />
           </div>
 
@@ -77,6 +95,7 @@ export default function AdminLoginPage() {
                 backgroundColor: 'rgba(255,255,255,0.05)',
                 border: '1px solid rgba(255,255,255,0.1)',
               }}
+              autoComplete="current-password"
             />
             <button
               type="button"
@@ -90,7 +109,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-lg text-sm font-medium text-white transition-all disabled:opacity-50"
+            className="w-full flex items-center justify-center py-3 rounded-lg text-sm font-medium text-white transition-all disabled:opacity-50"
             style={{
               background: 'linear-gradient(180deg, #D97A4A, #C45A2C, #A84A22)',
               boxShadow: '0 1px 6px rgba(196,90,44,0.3)',
@@ -100,14 +119,14 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        {/* 测试账号提示 */}
+        {/* Test account hint */}
         <div className="mt-6 p-4 rounded-lg text-xs" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
           <p className="text-white/40 mb-2">测试账号：</p>
           <p className="text-white/60">账号：<code className="text-[#C45A2C]">admin</code></p>
           <p className="text-white/60">密码：<code className="text-[#C45A2C]">admin123</code></p>
         </div>
 
-        {/* 返回前台 */}
+        {/* Back to frontend */}
         <div className="mt-6 text-center">
           <Link href="/" className="text-xs text-white/30 hover:text-white/60 transition-colors">
             ← 返回前台网站

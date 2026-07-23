@@ -1,13 +1,52 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, User, Lock, Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  const [phone, setPhone] = useState('');
-  const [code, setCode] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (!username.trim() || !password.trim()) {
+      setError('请输入用户名和密码');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username.trim(), password }),
+      });
+
+      const result = await res.json();
+
+      if (result.code === 200 && result.data?.token) {
+        localStorage.setItem('token', result.data.token);
+        localStorage.setItem('userInfo', JSON.stringify(result.data.user));
+        router.push('/profile');
+      } else {
+        setError(result.message || '用户名或密码错误');
+      }
+    } catch {
+      setError('网络错误，请稍后重试');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -41,48 +80,77 @@ export default function LoginPage() {
             {mode === 'login' ? '登录你的270账户' : '加入270运动馆'}
           </p>
 
-          <div className="space-y-4">
-            <div>
-              <label className="block text-[13px] font-medium text-gray-700 mb-1.5">手机号</label>
-              <input
-                type="tel"
-                value={phone}
-                onChange={e => setPhone(e.target.value)}
-                placeholder="请输入手机号"
-                className="w-full h-12 px-4 bg-white border border-gray-200 rounded-lg text-[15px] text-gray-900 placeholder:text-gray-400 focus:border-gray-800 transition-colors"
-              />
-            </div>
-            <div>
-              <label className="block text-[13px] font-medium text-gray-700 mb-1.5">验证码</label>
-              <div className="flex gap-3">
-                <input
-                  type="text"
-                  value={code}
-                  onChange={e => setCode(e.target.value)}
-                  placeholder="请输入验证码"
-                  className="flex-1 h-12 px-4 bg-white border border-gray-200 rounded-lg text-[15px] text-gray-900 placeholder:text-gray-400 focus:border-gray-800 transition-colors"
-                />
-                <button className="btn-secondary h-12 px-4 text-[13px] font-medium whitespace-nowrap">
-                  获取验证码
-                </button>
+          <form onSubmit={handleLogin}>
+            {error && (
+              <div className="mb-4 p-3 rounded-lg text-[14px] text-red-600" style={{ backgroundColor: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}>
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-[13px] font-medium text-gray-700 mb-1.5">用户名</label>
+                <div className="relative">
+                  <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={e => setUsername(e.target.value)}
+                    placeholder="请输入用户名"
+                    className="w-full h-12 pl-10 pr-4 bg-white border border-gray-200 rounded-lg text-[15px] text-gray-900 placeholder:text-gray-400 focus:border-gray-800 transition-colors"
+                    autoComplete="username"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[13px] font-medium text-gray-700 mb-1.5">密码</label>
+                <div className="relative">
+                  <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    placeholder="请输入密码"
+                    className="w-full h-12 pl-10 pr-10 bg-white border border-gray-200 rounded-lg text-[15px] text-gray-900 placeholder:text-gray-400 focus:border-gray-800 transition-colors"
+                    autoComplete="current-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <button className="btn-primary w-full h-[52px] mt-8 text-[16px] font-medium">
-            {mode === 'login' ? '登录' : '注册'}
-          </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary flex items-center justify-center w-full h-[52px] mt-8 text-[16px] font-medium disabled:opacity-50"
+            >
+              {loading ? '登录中...' : (mode === 'login' ? '登录' : '注册')}
+            </button>
+          </form>
 
           <div className="mt-6 text-center">
             <button
-              onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+              onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }}
               className="text-[14px] text-gray-500 hover:text-gray-800 transition-colors"
             >
               {mode === 'login' ? '没有账户？立即注册' : '已有账户？立即登录'}
             </button>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-gray-200">
+          {/* Test account hint */}
+          <div className="mt-6 p-4 rounded-lg" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E7E5E1' }}>
+            <p className="text-[12px] text-gray-400 mb-2">测试账号：</p>
+            <p className="text-[13px] text-gray-600">用户名：<code className="font-medium" style={{ color: '#C45A2C' }}>user270</code></p>
+            <p className="text-[13px] text-gray-600">密码：<code className="font-medium" style={{ color: '#C45A2C' }}>270sport888</code></p>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-[12px] text-gray-400 text-center">
               登录即表示同意 <Link href="#" className="text-gray-600 underline">用户协议</Link> 和 <Link href="#" className="text-gray-600 underline">隐私政策</Link>
             </p>

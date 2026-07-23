@@ -30,7 +30,7 @@ export default function VipPage() {
         <div className="relative z-10 mx-auto max-w-[1240px]">
           <Reveal>
             <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4">Membership</p>
-            <h1 className="text-[36px] md:text-[56px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-4">会员中心</h1>
+            <h1 className="text-[30px] md:text-[56px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-4">会员中心</h1>
             <p className="text-[17px] text-gray-400 max-w-lg">加入270会员，解锁专属权益与尊享服务。</p>
           </Reveal>
         </div>
@@ -40,12 +40,12 @@ export default function VipPage() {
       <section className="px-5 md:px-10 py-20 md:py-28 bg-cream">
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
-            <h2 className="text-[24px] md:text-[32px] font-bold text-gray-900 text-center mb-12">选择适合你的会员方案</h2>
+            <h2 className="text-[22px] md:text-[32px] font-bold text-gray-900 text-center mb-12">选择适合你的会员方案</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {plans.map((plan, i) => (
               <Reveal key={plan.name} delay={i + 1}>
-                <div className={`card p-8 relative ${plan.popular ? 'border-gray-900 border-2' : ''}`}>
+                <div className={`card p-6 md:p-8 relative ${plan.popular ? 'border-gray-900 border-2' : ''}`}>
                   {plan.popular && (
                     <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[11px] font-semibold text-white px-3 py-1 rounded" style={{ backgroundColor: '#C45A2C' }}>
                       推荐
@@ -53,7 +53,7 @@ export default function VipPage() {
                   )}
                   <h3 className="text-[18px] font-semibold text-gray-900 mb-2">{plan.name}</h3>
                   <div className="flex items-baseline gap-2 mb-1">
-                    <span className="text-[36px] font-bold text-gray-900" style={{ fontFamily: 'Inter' }}>¥{plan.price}</span>
+                    <span className="text-[28px] md:text-[36px] font-bold text-gray-900" style={{ fontFamily: 'Inter' }}>¥{plan.price}</span>
                     <span className="text-[14px] text-gray-400">/{plan.period}</span>
                   </div>
                   <p className="text-[13px] text-gray-400 line-through mb-6">原价 ¥{plan.original}</p>
@@ -64,7 +64,7 @@ export default function VipPage() {
                       </li>
                     ))}
                   </ul>
-                  <button className={`w-full h-12 text-[15px] font-medium rounded-lg ${plan.popular ? 'btn-primary' : 'btn-secondary'}`}>
+                  <button className={`w-full flex items-center justify-center h-12 text-[15px] font-medium rounded-lg ${plan.popular ? 'btn-primary' : 'btn-secondary'}`}>
                     立即开通
                   </button>
                 </div>
@@ -78,7 +78,7 @@ export default function VipPage() {
       <section className="px-5 md:px-10 py-20 md:py-28 bg-white">
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
-            <h2 className="text-[24px] md:text-[32px] font-bold text-gray-900 text-center mb-12">会员等级体系</h2>
+            <h2 className="text-[22px] md:text-[32px] font-bold text-gray-900 text-center mb-12">会员等级体系</h2>
           </Reveal>
           <div className="grid md:grid-cols-4 gap-6">
             {levels.map((level, i) => (
@@ -87,10 +87,10 @@ export default function VipPage() {
                   <div className="w-14 h-14 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: `${level.color}10` }}>
                     <level.icon size={24} style={{ color: level.color }} />
                   </div>
-                  <h3 className="text-[16px] font-semibold text-gray-900 mb-3">{level.name}</h3>
+                  <h3 className="text-[16px] font-semibold text-gray-900 mb-3 truncate">{level.name}</h3>
                   <ul className="space-y-2">
                     {level.benefits.map(b => (
-                      <li key={b} className="text-[13px] text-gray-500">{b}</li>
+                      <li key={b} className="text-[13px] text-gray-500 truncate">{b}</li>
                     ))}
                   </ul>
                 </div>

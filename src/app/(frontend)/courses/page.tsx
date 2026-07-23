@@ -29,7 +29,7 @@ export default function CoursesPage() {
         {/* Header */}
         <Reveal>
           <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Courses</p>
-          <h1 className="text-[36px] md:text-[56px] font-bold text-gray-900 leading-[1.05] tracking-[-0.02em] mb-4">课程预约</h1>
+          <h1 className="text-[30px] md:text-[56px] font-bold text-gray-900 leading-[1.05] tracking-[-0.02em] mb-4">课程预约</h1>
           <p className="text-[17px] text-gray-500 max-w-lg mb-10">专为女性设计的课程体系，从入门到进阶，找到适合你的运动节奏。</p>
         </Reveal>
 
@@ -63,27 +63,27 @@ export default function CoursesPage() {
                 </div>
                 <div className="p-5">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[11px] font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded">{course.difficulty}</span>
-                    <span className="text-[11px] text-gray-400">{course.category}</span>
+                    <span className="text-[11px] font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded flex-shrink-0">{course.difficulty}</span>
+                    <span className="text-[11px] text-gray-400 truncate">{course.category}</span>
                   </div>
-                  <h3 className="text-[17px] font-semibold text-gray-900 mb-2">{course.name}</h3>
+                  <h3 className="text-[17px] font-semibold text-gray-900 mb-2 truncate">{course.name}</h3>
                   <div className="space-y-1.5 mb-4">
                     <p className="flex items-center gap-1.5 text-[13px] text-gray-500">
-                      <Clock size={13} /> {course.time}
+                      <Clock size={13} className="flex-shrink-0" /> <span className="truncate">{course.time}</span>
                     </p>
                     <p className="flex items-center gap-1.5 text-[13px] text-gray-500">
-                      <MapPin size={13} /> {course.location}
+                      <MapPin size={13} className="flex-shrink-0" /> <span className="truncate">{course.location}</span>
                     </p>
                     <p className="flex items-center gap-1.5 text-[13px] text-gray-500">
-                      <Users size={13} /> {course.coach}
+                      <Users size={13} className="flex-shrink-0" /> <span className="truncate">{course.coach}</span>
                     </p>
                   </div>
-                  <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-[13px] text-gray-400 line-through">¥{course.price}</span>
-                      <span className="text-[18px] font-bold" style={{ color: '#C45A2C', fontFamily: 'Inter' }}>¥{course.memberPrice}</span>
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-100 gap-2">
+                    <div className="flex items-baseline gap-2 min-w-0">
+                      <span className="text-[13px] text-gray-400 line-through flex-shrink-0">¥{course.price}</span>
+                      <span className="text-[18px] font-bold flex-shrink-0" style={{ color: '#C45A2C', fontFamily: 'Inter' }}>¥{course.memberPrice}</span>
                     </div>
-                    <button className="btn-primary h-9 px-4 text-[13px] font-medium">预约</button>
+                    <button className="btn-primary h-9 px-4 text-[13px] font-medium flex-shrink-0">预约</button>
                   </div>
                 </div>
               </div>

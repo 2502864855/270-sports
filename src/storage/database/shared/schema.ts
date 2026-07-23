@@ -268,6 +268,8 @@ export const users = pgTable(
   "users",
   {
     id: serial().primaryKey(),
+    username: varchar("username", { length: 100 }).unique(),
+    password_hash: varchar("password_hash", { length: 255 }),
     phone: varchar("phone", { length: 20 }).notNull().unique(),
     nickname: varchar("nickname", { length: 100 }),
     avatar: varchar("avatar", { length: 500 }),
@@ -284,6 +286,7 @@ export const users = pgTable(
     updated_at: timestamp("updated_at", { withTimezone: true }),
   },
   (table) => [
+    index("users_username_idx").on(table.username),
     index("users_phone_idx").on(table.phone),
     index("users_status_idx").on(table.status),
   ]

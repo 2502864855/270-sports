@@ -146,12 +146,20 @@
    Buttons v3.0 - iOS 弹簧动效质感
    ============================================ */
 .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(180deg, #D97A4A 0%, #C45A2C 55%, #A84A22 100%);
   color: #FFFFFF;
   border: none;
   border-radius: 8px;
   font-weight: 500;
   letter-spacing: 0.3px;
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   box-shadow: 
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
     inset 0 -1px 0 rgba(0, 0, 0, 0.12);
@@ -185,11 +193,19 @@
 }
 
 .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: #FFFFFF;
   color: #272624;
   border: 1px solid #E7E5E1;
   border-radius: 8px;
   font-weight: 400;
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
   transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;

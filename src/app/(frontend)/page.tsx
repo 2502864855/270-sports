@@ -185,13 +185,13 @@ export default function HomePage() {
           </Reveal>
           
           <Reveal delay={0.1}>
-            <h1 className="text-[48px] md:text-[80px] font-black leading-[1.1] mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif', letterSpacing: '-0.025em' }}>
+            <h1 className="text-[40px] md:text-[80px] font-black leading-[1.1] mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif', letterSpacing: '-0.025em' }}>
               270 运动馆
             </h1>
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-[20px] md:text-[24px] mb-4" style={{ color: '#403E3B' }}>
+            <p className="text-[18px] md:text-[24px] mb-4" style={{ color: '#403E3B' }}>
               让每位女性，平等享有运动健身的权利
             </p>
           </Reveal>
@@ -203,10 +203,10 @@ export default function HomePage() {
           </Reveal>
 
           <Reveal delay={0.4}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
               <Link 
                 href="#brand-story" 
-                className="h-[52px] px-8 text-[16px] font-medium text-white rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.97]"
+                className="flex items-center justify-center h-[52px] w-full sm:w-auto px-8 text-[16px] font-medium text-white rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.97]"
                 style={{ 
                   background: 'linear-gradient(90deg, #C45A2C, #B54A1C)',
                   boxShadow: '0 1px 6px rgba(196, 90, 44, 0.15), inset 0 1px 0 rgba(255,255,255,0.2)',
@@ -217,7 +217,7 @@ export default function HomePage() {
               </Link>
               <Link 
                 href="/login" 
-                className="h-[52px] px-8 text-[16px] font-medium rounded-lg transition-all duration-200 hover:border-[#D1D1D6] hover:bg-[#FAFAFA]"
+                className="flex items-center justify-center h-[52px] w-full sm:w-auto px-8 text-[16px] font-medium rounded-lg transition-all duration-200 hover:border-[#D1D1D6] hover:bg-[#FAFAFA]"
                 style={{ 
                   border: '1px solid #E5E5E7',
                   backgroundColor: '#FFFFFF',
@@ -249,7 +249,7 @@ export default function HomePage() {
                 <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
                   Our Mission
                 </p>
-                <h2 className="text-[36px] md:text-[56px] font-bold leading-tight mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+                <h2 className="text-[30px] md:text-[56px] font-bold leading-tight mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
                   让每位女性<br />
                   平等享有运动<br />
                   健身的权利
@@ -289,18 +289,18 @@ export default function HomePage() {
               <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
                 Brand Strength
               </p>
-              <h2 className="text-[36px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+              <h2 className="text-[28px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
                 品牌实力证明
               </h2>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {stats.map((stat, i) => (
               <div key={i} data-stat-card>
                 <Reveal delay={i * 0.1}>
-                  <div className="text-center p-8 rounded-xl" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
-                    <div className="text-[48px] md:text-[64px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>
+                  <div className="text-center p-6 md:p-8 rounded-xl" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
+                    <div className="text-[36px] md:text-[64px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>
                       {stat.value}
                     </div>
                     <div className="text-sm" style={{ color: '#73716D' }}>{stat.label}</div>
@@ -320,7 +320,7 @@ export default function HomePage() {
               <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
                 Our Journey
               </p>
-              <h2 className="text-[36px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+              <h2 className="text-[28px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
                 发展历程
               </h2>
             </div>
@@ -329,9 +329,12 @@ export default function HomePage() {
           {/* 时间线 */}
           <div className="relative">
             {/* 时间线中轴线 */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-px" style={{ backgroundColor: '#E7E5E1' }} />
+            <div className="absolute left-1/2 top-0 bottom-0 w-px hidden md:block" style={{ backgroundColor: '#E7E5E1' }} />
+            {/* 移动端中轴线靠左 */}
+            <div className="absolute left-[7px] top-0 bottom-0 w-px md:hidden" style={{ backgroundColor: '#E7E5E1' }} />
 
-            <div className="space-y-12">
+            {/* 桌面端：左右交替 */}
+            <div className="hidden md:block space-y-12">
               {timeline.map((item, i) => (
                 <div key={i} data-timeline-item className={`flex items-center gap-8 ${i % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
                   <div className="flex-1 text-right">
@@ -343,7 +346,7 @@ export default function HomePage() {
                       </>
                     )}
                   </div>
-                  <div className="w-4 h-4 rounded-full border-4 z-10 transition-all duration-300" style={{ borderColor: '#C45A2C', backgroundColor: '#FAF8F5' }} />
+                  <div className="w-4 h-4 rounded-full border-4 z-10 flex-shrink-0 transition-all duration-300" style={{ borderColor: '#C45A2C', backgroundColor: '#FAF8F5' }} />
                   <div className="flex-1 text-left">
                     {i % 2 !== 0 && (
                       <>
@@ -353,6 +356,18 @@ export default function HomePage() {
                       </>
                     )}
                   </div>
+                </div>
+              ))}
+            </div>
+
+            {/* 移动端：全部靠左线性排列 */}
+            <div className="md:hidden space-y-8 pl-8">
+              {timeline.map((item, i) => (
+                <div key={i} data-timeline-item className="relative">
+                  <div className="absolute -left-8 top-1 w-4 h-4 rounded-full border-4 z-10" style={{ borderColor: '#C45A2C', backgroundColor: '#FAF8F5' }} />
+                  <div className="text-[24px] font-black mb-1" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
+                  <h3 className="text-lg font-bold mb-1" style={{ color: '#181817' }}>{item.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: '#73716D' }}>{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -385,7 +400,7 @@ export default function HomePage() {
                 <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
                   Founder
                 </p>
-                <h2 className="text-[36px] md:text-[48px] font-bold mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+                <h2 className="text-[30px] md:text-[48px] font-bold mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
                   徐宁
                 </h2>
                 <p className="text-[17px] leading-relaxed mb-6" style={{ color: '#73716D' }}>
@@ -416,7 +431,7 @@ export default function HomePage() {
               <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
                 Our Store
               </p>
-              <h2 className="text-[36px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+              <h2 className="text-[28px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
                 门店信息
               </h2>
             </div>
@@ -463,7 +478,7 @@ export default function HomePage() {
               <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
                 Media Coverage
               </p>
-              <h2 className="text-[36px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
+              <h2 className="text-[28px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
                 媒体报道与荣誉
               </h2>
             </div>
@@ -489,7 +504,7 @@ export default function HomePage() {
       <section ref={ctaRef} className="py-32 px-5 md:px-10" style={{ backgroundColor: '#181817' }}>
         <div className="mx-auto max-w-[1240px] text-center">
           <Reveal>
-            <h2 className="text-[36px] md:text-[56px] font-bold mb-6 text-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+            <h2 className="text-[28px] md:text-[56px] font-bold mb-6 text-white" style={{ fontFamily: 'Inter, sans-serif' }}>
               开启你的女性专属<br />健身之旅
             </h2>
             <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.6)' }}>
@@ -498,7 +513,7 @@ export default function HomePage() {
             <Link 
               href="/login" 
               data-cta-btn
-              className="inline-flex items-center gap-2 h-[52px] px-8 text-[16px] font-medium text-white rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.97]"
+              className="inline-flex items-center justify-center gap-2 h-[52px] px-8 text-[16px] font-medium text-white rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.97]"
               style={{ 
                 background: 'linear-gradient(90deg, #C45A2C, #B54A1C)',
                 boxShadow: '0 1px 6px rgba(196, 90, 44, 0.15), inset 0 1px 0 rgba(255,255,255,0.2)',

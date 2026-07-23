@@ -28,7 +28,7 @@ export default function AboutPage() {
         <div className="relative z-10 mx-auto max-w-[1240px]">
           <Reveal>
             <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4">About Us</p>
-            <h1 className="text-[36px] md:text-[56px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-6">关于270运动馆</h1>
+            <h1 className="text-[30px] md:text-[56px] font-bold text-white leading-[1.05] tracking-[-0.02em] mb-6">关于270运动馆</h1>
             <p className="text-[17px] text-gray-400 max-w-2xl leading-[1.7]">
               270运动馆（BEAUTY CYCLE 270）由徐宁于2022年在福州创立，是一家专注于女性健身服务的品牌。
               我们相信，每一位女性都值得拥有一个安全、私密、无评判的运动空间。
@@ -43,7 +43,7 @@ export default function AboutPage() {
           <Reveal>
             <div>
               <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Our Story</p>
-              <h2 className="text-[28px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-6">
+              <h2 className="text-[24px] md:text-[40px] font-bold text-gray-900 leading-[1.15] mb-6">
                 她的运动美学
               </h2>
               <div className="space-y-4 text-[17px] text-gray-600 leading-[1.75]">
@@ -73,10 +73,10 @@ export default function AboutPage() {
       <section className="px-5 md:px-10 py-20 md:py-28 bg-white">
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
               {stats.map(stat => (
                 <div key={stat.label} className="text-center">
-                  <p className="text-[36px] md:text-[48px] font-bold text-gray-900" style={{ fontFamily: 'Inter' }}>
+                  <p className="text-[28px] md:text-[48px] font-bold text-gray-900" style={{ fontFamily: 'Inter' }}>
                     {stat.value}
                   </p>
                   <p className="text-[13px] text-gray-500 mt-2">{stat.label}</p>
@@ -92,7 +92,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Our Team</p>
-            <h2 className="text-[28px] md:text-[40px] font-bold text-gray-900 mb-12">专业教练团队</h2>
+            <h2 className="text-[24px] md:text-[40px] font-bold text-gray-900 mb-12">专业教练团队</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {team.map((member, i) => (
@@ -102,9 +102,9 @@ export default function AboutPage() {
                     <img src={member.img} alt={member.name} className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-700" />
                   </div>
                   <div className="p-5">
-                    <h3 className="text-[18px] font-semibold text-gray-900">{member.name}</h3>
-                    <p className="text-[13px] font-medium mt-1" style={{ color: '#C45A2C' }}>{member.role}</p>
-                    <p className="text-[14px] text-gray-500 mt-2">{member.desc}</p>
+                    <h3 className="text-[18px] font-semibold text-gray-900 truncate">{member.name}</h3>
+                    <p className="text-[13px] font-medium mt-1 truncate" style={{ color: '#C45A2C' }}>{member.role}</p>
+                    <p className="text-[14px] text-gray-500 mt-2 line-clamp-2">{member.desc}</p>
                   </div>
                 </div>
               </Reveal>

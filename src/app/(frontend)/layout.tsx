@@ -29,10 +29,7 @@ const loggedInNavItems = [
 //   { href: '/mall', label: '商城' },
 // ];
 
-const adminLinks = [
-  { href: '/ai', label: 'AI 中台' },
-  { href: '/admin', label: '管理后台' },
-];
+// P1-1: 前台用户不显示后台入口
 
 export default function FrontendLayout({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -183,19 +180,7 @@ export default function FrontendLayout({ children }: { children: React.ReactNode
             </Link>
           ))}
 
-          <div className="mx-5 my-4 border-t border-gray-100" />
-
-          {adminLinks.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex items-center justify-between px-5 py-3.5 text-[14px] text-gray-500 hover:text-gray-800 transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              {item.label}
-              <ChevronRight size={14} className="text-gray-300" />
-            </Link>
-          ))}
+          {/* P1-1: 已移除后台入口 */}
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 p-5 border-t border-gray-100">

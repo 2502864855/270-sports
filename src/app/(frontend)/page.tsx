@@ -246,7 +246,7 @@ export default function HomePage() {
             {/* 左：使命宣言 */}
             <Reveal>
               <div>
-                <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+                <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#73716D' }}>
                   Our Mission
                 </p>
                 <h2 className="text-[30px] md:text-[56px] font-bold leading-tight mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
@@ -286,7 +286,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
-              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#73716D' }}>
                 Brand Strength
               </p>
               <h2 className="text-[28px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
@@ -300,7 +300,7 @@ export default function HomePage() {
               <div key={i} data-stat-card>
                 <Reveal delay={i * 0.1}>
                   <div className="text-center p-6 md:p-8 rounded-xl" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
-                    <div className="text-[36px] md:text-[64px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>
+                    <div className="text-[36px] md:text-[64px] font-black mb-2" style={{ color: i < 2 ? '#C45A2C' : '#181817', fontFamily: 'Inter, sans-serif' }}>
                       {stat.value}
                     </div>
                     <div className="text-sm" style={{ color: '#73716D' }}>{stat.label}</div>
@@ -317,7 +317,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
-              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#73716D' }}>
                 Our Journey
               </p>
               <h2 className="text-[28px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
@@ -340,17 +340,17 @@ export default function HomePage() {
                   <div className="flex-1 text-right">
                     {i % 2 === 0 && (
                       <>
-                        <div className="text-[32px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
+                        <div className="text-[32px] font-black mb-2" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
                         <h3 className="text-xl font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
                         <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
                       </>
                     )}
                   </div>
-                  <div className="w-4 h-4 rounded-full border-4 z-10 flex-shrink-0 transition-all duration-300" style={{ borderColor: '#C45A2C', backgroundColor: '#FAF8F5' }} />
+                  <div className="w-4 h-4 rounded-full border-4 z-10 flex-shrink-0 transition-all duration-300" style={{ borderColor: '#73716D', backgroundColor: '#FAF8F5' }} />
                   <div className="flex-1 text-left">
                     {i % 2 !== 0 && (
                       <>
-                        <div className="text-[32px] font-black mb-2" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
+                        <div className="text-[32px] font-black mb-2" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
                         <h3 className="text-xl font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
                         <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
                       </>
@@ -364,8 +364,8 @@ export default function HomePage() {
             <div className="md:hidden space-y-8 pl-8">
               {timeline.map((item, i) => (
                 <div key={i} data-timeline-item className="relative">
-                  <div className="absolute -left-8 top-1 w-4 h-4 rounded-full border-4 z-10" style={{ borderColor: '#C45A2C', backgroundColor: '#FAF8F5' }} />
-                  <div className="text-[24px] font-black mb-1" style={{ color: '#C45A2C', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
+                  <div className="absolute -left-8 top-1 w-4 h-4 rounded-full border-4 z-10" style={{ borderColor: '#73716D', backgroundColor: '#FAF8F5' }} />
+                  <div className="text-[24px] font-black mb-1" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>{item.year}</div>
                   <h3 className="text-lg font-bold mb-1" style={{ color: '#181817' }}>{item.title}</h3>
                   <p className="text-sm leading-relaxed" style={{ color: '#73716D' }}>{item.desc}</p>
                 </div>
@@ -388,7 +388,7 @@ export default function HomePage() {
                   border: '1px solid #E7E5E1',
                 }}
               >
-                <div className="w-full h-full flex items-center justify-center text-[120px]" style={{ color: '#C45A2C' }}>
+                <div className="w-full h-full flex items-center justify-center text-[120px] font-bold" style={{ color: '#D1D1D6' }}>
                   徐
                 </div>
               </div>
@@ -397,7 +397,7 @@ export default function HomePage() {
             {/* 简介 */}
             <Reveal>
               <div>
-                <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+                <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#73716D' }}>
                   Founder
                 </p>
                 <h2 className="text-[30px] md:text-[48px] font-bold mb-6" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
@@ -408,11 +408,11 @@ export default function HomePage() {
                   让运动成为女性生活方式的一部分。
                 </p>
                 <div className="flex items-center gap-3 mb-8">
-                  <Award size={20} style={{ color: '#C45A2C' }} />
+                  <Award size={20} style={{ color: '#403E3B' }} />
                   <span className="text-sm font-medium" style={{ color: '#181817' }}>2025 年度女性影响力人物</span>
                 </div>
-                <blockquote className="pl-6 border-l-2" style={{ borderColor: '#C45A2C' }}>
-                  <Quote size={24} className="mb-2" style={{ color: '#C45A2C' }} />
+                <blockquote className="pl-6 border-l-2" style={{ borderColor: '#D1D1D6' }}>
+                  <Quote size={24} className="mb-2" style={{ color: '#73716D' }} />
                   <p className="text-lg italic" style={{ color: '#403E3B' }}>
                     让每位女性，平等享有运动健身的权利
                   </p>
@@ -428,7 +428,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
-              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#73716D' }}>
                 Our Store
               </p>
               <h2 className="text-[28px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
@@ -445,14 +445,14 @@ export default function HomePage() {
                 </h3>
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
-                    <MapPin size={20} className="mt-1 flex-shrink-0" style={{ color: '#C45A2C' }} />
+                    <MapPin size={20} className="mt-1 flex-shrink-0" style={{ color: '#403E3B' }} />
                     <div>
                       <div className="text-sm font-medium mb-1" style={{ color: '#181817' }}>地址</div>
                       <div className="text-sm" style={{ color: '#73716D' }}>福建福州鼓楼区湖东路 208 号晓康苑南楼 1303</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <Phone size={20} className="mt-1 flex-shrink-0" style={{ color: '#C45A2C' }} />
+                    <Phone size={20} className="mt-1 flex-shrink-0" style={{ color: '#403E3B' }} />
                     <div>
                       <div className="text-sm font-medium mb-1" style={{ color: '#181817' }}>联系电话</div>
                       <div className="text-sm" style={{ color: '#73716D' }}>13950306600</div>
@@ -475,7 +475,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="text-center mb-16">
-              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#C45A2C' }}>
+              <p className="text-[12px] font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#73716D' }}>
                 Media Coverage
               </p>
               <h2 className="text-[28px] md:text-[48px] font-bold" style={{ color: '#181817', fontFamily: 'Inter, sans-serif' }}>
@@ -488,8 +488,8 @@ export default function HomePage() {
             {news.map((item, i) => (
               <div key={i} data-news-card>
                 <Reveal delay={i * 0.1}>
-                  <div className="p-6 rounded-xl transition-all duration-200 hover:-translate-y-1" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
-                    <div className="text-xs font-semibold mb-3" style={{ color: '#C45A2C' }}>{item.source}</div>
+                  <div className="p-6 rounded-xl transition-all duration-200 hover:scale-[1.01]" style={{ backgroundColor: '#FAF8F5', border: '1px solid #E7E5E1' }}>
+                    <div className="text-xs font-semibold mb-3" style={{ color: '#403E3B' }}>{item.source}</div>
                     <h3 className="text-lg font-bold mb-2" style={{ color: '#181817' }}>{item.title}</h3>
                     <p className="text-sm" style={{ color: '#73716D' }}>{item.desc}</p>
                   </div>
@@ -551,7 +551,7 @@ export default function HomePage() {
                 <li><Link href="/" className="text-sm hover:underline" style={{ color: '#73716D' }}>首页</Link></li>
                 <li><Link href="/about" className="text-sm hover:underline" style={{ color: '#73716D' }}>关于我们</Link></li>
                 <li><Link href="/courses" className="text-sm hover:underline" style={{ color: '#73716D' }}>课程介绍</Link></li>
-                <li><Link href="/contact" className="text-sm hover:underline" style={{ color: '#73716D' }}>联系我们</Link></li>
+                <li><Link href="/about#contact" className="text-sm hover:underline" style={{ color: '#73716D' }}>联系我们</Link></li>
               </ul>
             </div>
 
@@ -570,9 +570,9 @@ export default function HomePage() {
             <p className="text-xs" style={{ color: '#A1A1A6' }}>
               © 2025 270 运动馆。保留所有权利。
             </p>
-            <Link href="/admin" className="text-xs" style={{ color: '#A1A1A6' }}>
-              管理后台
-            </Link>
+            <p className="text-xs" style={{ color: '#A1A1A6' }}>
+              福州坤成体育发展有限公司
+            </p>
           </div>
         </div>
       </footer>

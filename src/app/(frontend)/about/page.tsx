@@ -1,6 +1,7 @@
 'use client';
 
 import { Reveal } from '@/components/Reveal';
+import { MapPin, Phone, Clock } from 'lucide-react';
 
 const stats = [
   { value: '1000+', label: '核心会员' },
@@ -103,13 +104,86 @@ export default function AboutPage() {
                   </div>
                   <div className="p-5">
                     <h3 className="text-[18px] font-semibold text-gray-900 truncate">{member.name}</h3>
-                    <p className="text-[13px] font-medium mt-1 truncate" style={{ color: '#C45A2C' }}>{member.role}</p>
+                    <p className="text-[13px] font-medium mt-1 truncate" style={{ color: '#403E3B' }}>{member.role}</p>
                     <p className="text-[14px] text-gray-500 mt-2 line-clamp-2">{member.desc}</p>
                   </div>
                 </div>
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Stores */}
+      <section id="stores" className="px-5 md:px-10 py-20 md:py-28 bg-white">
+        <div className="mx-auto max-w-[1240px]">
+          <Reveal>
+            <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-4">Our Store</p>
+            <h2 className="text-[24px] md:text-[40px] font-bold text-gray-900 mb-12">门店信息</h2>
+          </Reveal>
+          <div className="max-w-2xl">
+            <Reveal>
+              <div className="card p-8">
+                <h3 className="text-[20px] font-bold text-gray-900 mb-6">Beauty Cycle 女子运动美学馆（晓康苑店）</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4">
+                    <MapPin size={20} className="mt-0.5 flex-shrink-0 text-gray-500" />
+                    <div>
+                      <p className="text-[14px] font-medium text-gray-900 mb-1">地址</p>
+                      <p className="text-[14px] text-gray-500">福建福州鼓楼区湖东路 208 号晓康苑南楼 1303</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <Phone size={20} className="mt-0.5 flex-shrink-0 text-gray-500" />
+                    <div>
+                      <p className="text-[14px] font-medium text-gray-900 mb-1">联系电话</p>
+                      <p className="text-[14px] text-gray-500">13950306600</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <Clock size={20} className="mt-0.5 flex-shrink-0 text-gray-500" />
+                    <div>
+                      <p className="text-[14px] font-medium text-gray-900 mb-1">营业时间</p>
+                      <p className="text-[14px] text-gray-500">周一至周六 09:00 - 21:00 / 周日 10:00 - 18:00</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-6 pt-6 border-t border-gray-100">
+                  <p className="text-[14px] text-gray-500">女性专属空间，安全私密舒适。欢迎预约参观体验。</p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="px-5 md:px-10 py-20 md:py-28" style={{ backgroundColor: '#181817' }}>
+        <div className="mx-auto max-w-[1240px] text-center">
+          <Reveal>
+            <p className="text-[12px] font-semibold tracking-[0.2em] uppercase text-gray-500 mb-4">Contact Us</p>
+            <h2 className="text-[24px] md:text-[40px] font-bold text-white mb-6">联系我们</h2>
+            <p className="text-[17px] text-gray-400 max-w-lg mx-auto mb-10">
+              欢迎咨询预约，我们期待为您服务
+            </p>
+            <div className="grid sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
+              <div className="p-6 rounded-xl" style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <Phone size={24} className="mx-auto mb-3 text-gray-400" />
+                <p className="text-[14px] font-medium text-white mb-1">电话</p>
+                <p className="text-[14px] text-gray-400">13950306600</p>
+              </div>
+              <div className="p-6 rounded-xl" style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <MapPin size={24} className="mx-auto mb-3 text-gray-400" />
+                <p className="text-[14px] font-medium text-white mb-1">地址</p>
+                <p className="text-[13px] text-gray-400">福州鼓楼区湖东路 208 号</p>
+              </div>
+              <div className="p-6 rounded-xl" style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <Clock size={24} className="mx-auto mb-3 text-gray-400" />
+                <p className="text-[14px] font-medium text-white mb-1">营业时间</p>
+                <p className="text-[13px] text-gray-400">周一至六 09:00-21:00</p>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
     </div>

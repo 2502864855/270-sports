@@ -180,31 +180,8 @@ export default function HomePage() {
           });
         }
 
-        // 板块间滚动阻尼吸附 - 对齐每个section顶部
-        const sections = document.querySelectorAll('section[id]');
-        if (sections.length > 0) {
-          const navHeight = 68;
-          const docHeight = document.documentElement.scrollHeight;
-          const viewHeight = window.innerHeight;
-
-          // 计算每个section的滚动吸附位置（百分比）
-          const snapPositions = Array.from(sections).map((section) => {
-            const top = (section as HTMLElement).offsetTop;
-            return top / (docHeight - viewHeight);
-          }).filter(p => p >= 0 && p <= 1);
-
-          ScrollTrigger.create({
-            trigger: document.querySelector('.min-h-screen'),
-            start: 'top top',
-            end: 'bottom bottom',
-            snap: {
-              snapTo: snapPositions.length > 0 ? snapPositions : 1 / (sections.length - 1),
-              duration: { min: 0.2, max: 0.5 },
-              delay: 0.05,
-              ease: 'power1.inOut',
-            },
-          });
-        }
+        // 移除强制吸附，让用户自由浏览内容
+        // 只在用户快速滚动结束时提供轻微的阻尼感（通过CSS实现）
 
       } catch (e) {
         console.log('GSAP 加载失败，使用基础动画');

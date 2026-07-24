@@ -180,8 +180,40 @@ export default function HomePage() {
           });
         }
 
-        // 移除强制吸附，让用户自由浏览内容
-        // 只在用户快速滚动结束时提供轻微的阻尼感（通过CSS实现）
+        // Proximity 轻吸附：只有停在板块边界附近（±20%）才轻轻吸过去
+        // 用户可以自由停在板块中间看内容，不会被强制吸走
+        const NAV_HEIGHT = 68;
+        const sections = document.querySelectorAll('section[id]');
+        if (sections.length > 1) {
+          const snapPoints = Array.from(sections).map((s) => s.getBoundingClientRect().top + window.scrollY - NAV_HEIGHT);
+          const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const threshold = totalHeight / sections.length * 0.2; // 20% 板块高度
+
+          ScrollTrigger.create({
+            snap: {
+              snapTo: (progress: number) => {
+                const currentPos = progress * totalHeight;
+                // 找最近的吸附点
+                let closest = snapPoints[0];
+                let minDist = Math.abs(currentPos - closest);
+                for (let i = 1; i < snapPoints.length; i++) {
+                  const dist = Math.abs(currentPos - snapPoints[i]);
+                  if (dist < minDist) {
+                    minDist = dist;
+                    closest = snapPoints[i];
+                  }
+                }
+                // 只有距离在阈值内才吸附，否则停在当前位置
+                if (minDist <= threshold) {
+                  return closest / totalHeight;
+                }
+                return progress; // 不吸附，停在原地
+              },
+              duration: 0.3,
+              ease: 'power1.out',
+            },
+          });
+        }
 
       } catch (e) {
         console.log('GSAP 加载失败，使用基础动画');
